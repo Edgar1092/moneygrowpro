@@ -27,7 +27,7 @@ export class SidebarComponent implements OnInit, AfterViewInit {
   activeTitles: string[] = [];
   expanded: boolean;
   nav_collapsed_open = false;
-  logoUrl = 'assets/img/logos/travesias.png';
+  logoUrl = 'assets/img/logos/MGP_SINFONDO.png';
   public config: any = {};
 
   constructor(
@@ -58,9 +58,9 @@ export class SidebarComponent implements OnInit, AfterViewInit {
     }
 
     if (this.config.layout.sidebar.backgroundColor === 'white') {
-      this.logoUrl = 'assets/img/logos/travesias.png';
+      this.logoUrl = 'assets/img/logos/MGP_SINFONDO.png';
     } else {
-      this.logoUrl = 'assets/img/logos/travesias.png';
+      this.logoUrl = 'assets/img/logos/MGP_SINFONDO.png';
     }
   }
 

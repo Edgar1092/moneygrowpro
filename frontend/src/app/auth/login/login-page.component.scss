@@ -26,6 +26,25 @@
     }
   }
 
+  .btn-primary.disabled, .btn-primary:disabled {
+    color: #fff;
+    background-color: #efa118;
+    border-color: #fcbb49;
+}
+
+.btn-outline-primary:hover {
+  background-color: #f4c269 !important;
+  color: #FFF !important;
+}
+
+.btn-outline-primary {
+  border: 1px solid;
+  border-color: #f4c269;
+  background-color: transparent;
+  color: #f4c269;
+  box-shadow: none !important;
+}
+
   .forgot-password-option,
   .remember-me {
     a.text-decoration-none,
