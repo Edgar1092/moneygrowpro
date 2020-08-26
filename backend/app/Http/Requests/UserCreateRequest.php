@@ -32,10 +32,7 @@ class UserCreateRequest extends FormRequest
             'password'      =>  'required|string|min:6',
             'first_name'    =>  'required|string|max:50',
             'last_name'     =>  'required|string|max:50',
-            'roles'         =>  'required|array',
-            'roles.*'       =>  'required|exists:roles,id',
-            'offices'       =>  'required|array',
-            'offices.*'     =>  'required|exists:offices,id'
+
         ];
     }
 }

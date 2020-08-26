@@ -18,6 +18,11 @@ const routes: Routes = [
     canActivate: [NoAuthGuard]
   },
   {
+    path: 'register/:id',
+    component: RegisterPageComponent,
+    canActivate: [NoAuthGuard]
+  },
+  {
     path: 'error',
     component: ErrorPageComponent
   },

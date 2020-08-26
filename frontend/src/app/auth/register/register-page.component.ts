@@ -3,6 +3,8 @@ import { NgForm, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AuthService } from 'app/shared/auth/auth.service';
 import { ToastrService } from 'ngx-toastr';
+import { switchMap } from 'rxjs/operators';
+
 
 @Component({
     selector: 'app-register-page',
@@ -12,6 +14,7 @@ import { ToastrService } from 'ngx-toastr';
 
 export class RegisterPageComponent implements OnInit  {
     registerForm: FormGroup;
+  activatedRoute: any;
   constructor(private router: Router,
     private route: ActivatedRoute,
     private fb: FormBuilder,
@@ -21,15 +24,24 @@ export class RegisterPageComponent implements OnInit  {
         first_name: ['', Validators.required],
         last_name: ['', Validators.required],
         email: ['', Validators.required],
-        password: ['', Validators.required]
+        n_documento: ['', Validators.required],
+        password: ['', Validators.required],
+        link2: ['']
       });
     }
     ngOnInit() {
+
+  
+          if (this.route.snapshot.params) {
+            this.registerForm.controls['link2'].setValue(this.route.snapshot.params.id);
+            
+          } 
+       
         
     }
     register(){
         if (this.registerForm.valid) {
-            console.log('aqui');
+           console.log('aqui');
           this.auth.register(this.registerForm.value).subscribe(response =>{
             this.registerForm.reset();
             this.toast.success(response['message']);

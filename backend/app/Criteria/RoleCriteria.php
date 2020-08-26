@@ -27,11 +27,11 @@ class RoleCriteria implements CriteriaInterface
     public function apply($model, RepositoryInterface $repository)
     {
         $search = request()->get(config('repository.criteria.params.search', 'search'), null);
-        $office_id = request()->get(config('repository.criteria.params.office_id', 'office_id'), null);
-        if( !empty($office_id) )
-        {
-            $model = $model->where('office_id', $office_id);
-        }
+        // $office_id = request()->get(config('repository.criteria.params.office_id', 'office_id'), null);
+        // if( !empty($office_id) )
+        // {
+        //     $model = $model->where('office_id', $office_id);
+        // }
 
         return $model;
     }

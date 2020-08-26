@@ -20,7 +20,7 @@ class User extends Authenticatable implements Transformable
      * @var array
      */
     protected $fillable = [
-        'first_name', 'last_name', 'avatar', 'email', 'password',
+        'first_name', 'last_name', 'avatar', 'email', 'password','n_documento','link','idReferido','premiun','posicion'
     ];
 
     /**
@@ -54,29 +54,10 @@ class User extends Authenticatable implements Transformable
     /**
      * Relations
      */
-    public function offices()
+
+    public function accion()
     {
-        return $this->belongsToMany(Office::class);
-    }
-
-    public function propoals()
-    {
-        return $this->hasMany(Propoal::class, 'owner_user_id');
-    }
-
-    public function goals()
-    {
-        return $this->hasMany(UserGoal::class);
-    }
-
-
-    protected static function boot() {
-        parent::boot();
-
-        static::deleting(function($user) {
-            $user->goals()->delete();
-
-        });
+        return $this->hasOne(Accion::class, 'idUsuarioFk');
     }
 
 }

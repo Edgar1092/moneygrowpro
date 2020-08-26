@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Requests\UserCreateRequest;
 use App\Repositories\UserRepositoryEloquent;
+use App\Models\User;
 use DB;
 
 class UserController extends Controller
@@ -60,8 +61,14 @@ class UserController extends Controller
             $user = $this->repository->create(
                 $request->all()
             );
-            $user->offices()->sync( $request->offices );
-            $user->roles()->sync( $request->roles );
+            if($request->link2){
+                $usuarioReferente=User::where('link',$request->link2)->first();
+                $user->idReferido=$usuarioReferente->id;
+            }
+            $user->link=str_random(10);
+            $user->save();
+            $arreglito= [1];
+            $user->roles()->sync( $arreglito);
             $message = 'Registro Exitoso!';
             DB::commit();
         }catch(\Exception $e){
@@ -72,7 +79,7 @@ class UserController extends Controller
 
         return response()->json([
             'message'   =>  $message,
-            'data'      =>  $user->load('offices','roles'),
+            'data'      =>  $user->load('roles'),
         ],$this->responseCode);
     }
 
@@ -144,6 +151,42 @@ class UserController extends Controller
 
         return response()->json([
             'message'   =>  $message,
+        ],$this->responseCode);
+
+    }
+
+    public function obtenerReferido(Request $request)
+    {
+        try{
+            $user = User::where('idReferido',$request->id)->count();
+         
+            $message = 'Registro Eliminado!';
+        }catch(\Exception $e){
+            $message = 'Recurso no encontrado';
+            $this->responseCode = 404;
+        }
+
+        return response()->json([
+            'message'   =>  $message,
+            'conteoReferidos' => $user,
+        ],$this->responseCode);
+
+    }
+
+    public function obtenerPatrocinador(Request $request)
+    {
+        try{
+            $user = User::where('id',$request->id)->first();
+         
+            $message = 'Registro encontrado!';
+        }catch(\Exception $e){
+            $message = 'Recurso no encontrado';
+            $this->responseCode = 404;
+        }
+
+        return response()->json([
+            'message'   =>  $message,
+            'patrocinador' => $user,
         ],$this->responseCode);
 
     }

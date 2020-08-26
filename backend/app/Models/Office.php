@@ -41,51 +41,6 @@ class Office extends Model implements Transformable
         'responsible_id',
     ];
 
-    public function clients()
-    {
-        return $this->hasMany(Client::class);
-    }
-
-    public function services()
-    {
-        return $this->hasMany(Service::class);
-    }
-
-    public function tasks()
-    {
-        return $this->hasMany(Task::class);
-    }
-
-    public function users()
-    {
-        return $this->belongsToMany(User::class);
-    }
-
-    public function propoals()
-    {
-        return $this->hasMany(Propoal::class);
-    }
-
-    public function collaborators()
-    {
-        return $this->hasMany(Collaborator::class);
-    }
-
-    public function goals()
-    {
-        return $this->hasMany(UserGoal::class);
-    }
-
-
-    protected static function boot() {
-        parent::boot();
-
-        static::deleting(function($office) {
-            $office->collaborators()->delete();
-            $office->propoals()->delete();
-            $office->tasks()->delete();
-            $office->services()->delete();
-            $office->goals()->delete();
-        });
-    }
+ 
+    
 }

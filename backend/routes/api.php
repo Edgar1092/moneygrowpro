@@ -27,14 +27,26 @@ Route::group([
 ], function(){
     Route::post('login', 'LoginController@login');
     Route::get('logout', 'LoginController@logout');
-    Route::post('register', 'LoginController@signup');
+   
     Route::group(['middleware' => 'auth:api'], function()
     {
 
     });
 });
 
+Route::post('auth/register', 'UserController@store');
+Route::post('referidos', 'UserController@obtenerReferido');
+Route::post('patrocinador', 'UserController@obtenerPatrocinador');
 
+Route::group([
+    'prefix'        => 'accion',
+], function () {
+    Route::get('get','AccionController@getAll');
+    Route::post('getAccion','AccionController@getAccion');
+    Route::post('create','AccionController@create');
+    Route::post('aprobar','AccionController@update');
+    Route::post('delete','AccionController@delete');
+});
     /** File routes */
 
 Route::group([

@@ -51,4 +51,14 @@ export class UsersService {
   delete(id: number) {
     return this.http.delete(`users/${id}`);
   }
+  countReferidos(id: number) {
+    let param
+    param={id:id};
+    return this.http.post(`referidos`,param);
+  }
+  obtenerPatrocinador(id: number) {
+    let param
+    param={id:id};
+    return this.http.post(`patrocinador`,param);
+  }
 }
