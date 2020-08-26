@@ -75,13 +75,9 @@ class AccionController extends Controller
     function verificar(Request $request){
         try{
             $users = Accion::
-              where('ids','=',$request->id)
+              where('idUsuarioFk','=',$request->id)->where('estatus','aprobado')
              ->count();
-            if($users->isEmpty()){
-                return response()->json([
-                    'msj' => 'No se encontraron registros.',
-                ], 200); 
-            }
+      
             return response()->json($users);
         }catch (\Exception $e) {
             Log::error('Ha ocurrido un error en '.$this->NAME_CONTROLLER.': '.$e->getMessage().', Linea: '.$e->getLine());

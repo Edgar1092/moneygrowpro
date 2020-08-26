@@ -19,6 +19,7 @@ export class AccionListComponent implements OnInit {
   p=1;
   itemsPerPage = 5;
   formBlog: FormGroup;
+  contadorAccion
   constructor(private AccionService: AccionService, private toast: ToastrService, 
     private fb: FormBuilder,
     private activatedRoute: ActivatedRoute,
@@ -82,7 +83,10 @@ export class AccionListComponent implements OnInit {
 
   verificarAcciones(params){
     console.log('entre a esta mierda');
-    this.AccionService.verificar(params);
+    this.AccionService.verificar(params).subscribe(response => {
+      this.contadorAccion=response;
+    });
+  
   }
 
   onFilter(filterParams) {
