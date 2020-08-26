@@ -46,6 +46,7 @@ Route::group([
     Route::post('create','AccionController@create');
     Route::post('aprobar','AccionController@update');
     Route::post('delete','AccionController@delete');
+    Route::post('verificar','AccionController@verificar');
 });
     /** File routes */
 

@@ -72,6 +72,25 @@ class AccionController extends Controller
         }
     }
 
+    function verificar(Request $request){
+        try{
+            $users = Accion::
+              where('ids','=',$request->id)
+             ->count();
+            if($users->isEmpty()){
+                return response()->json([
+                    'msj' => 'No se encontraron registros.',
+                ], 200); 
+            }
+            return response()->json($users);
+        }catch (\Exception $e) {
+            Log::error('Ha ocurrido un error en '.$this->NAME_CONTROLLER.': '.$e->getMessage().', Linea: '.$e->getLine());
+            return response()->json([
+                'message' => 'Ha ocurrido un error al tratar de guardar los datos.',
+            ], 500);
+        }
+    }
+
     function create(Request $request){
         try{
 
@@ -80,6 +99,7 @@ class AccionController extends Controller
           
             $user = Accion::create([
                 'referenciaPago'    => $request->referenciaPago,
+                'idFaseFk'    => 1,
                 'idUsuarioFk'     => $request->idUsuarioFk
                
          

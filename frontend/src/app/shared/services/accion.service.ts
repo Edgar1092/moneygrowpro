@@ -34,6 +34,11 @@ export class AccionService {
     return this.http.post(`accion/getAccion`, params);
   }
 
+  verificar(index: number) {
+    let params = {id : index}
+    return this.http.post(`accion/verificar`, params);
+  }
+
   add(params) {
     return this.http.post(`accion/create`, params);
   }

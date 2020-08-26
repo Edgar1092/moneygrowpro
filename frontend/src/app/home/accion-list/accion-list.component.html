@@ -4,13 +4,21 @@
       <div class="card">
         <div class="card-header">
           <div class="card-title">
-            <h2>Pagos de accion</h2>
+            <h2>Mis acciones</h2>
           </div>
         </div>
         <div class="card-body">
           <div class="row">
             <div class="col-12">
-           
+              <button
+                        ngbTooltip="Agregar accion"
+                          type="button"
+                          class="btn btn-success"
+                          [routerLink]="['/home/accion/add']"
+                          
+                        >
+                          <a class="ft-plus" style="color:white"></a>
+                        </button>
             </div>
             <div class="col-12 table-responsive">
               <table

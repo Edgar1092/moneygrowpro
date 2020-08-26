@@ -20,6 +20,7 @@ class Accion extends Model
         'id',
         'referenciaPago',
         'idUsuarioFk',
+        'idFaseFk',
         'estatus'
     ];
 

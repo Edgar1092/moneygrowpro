@@ -85,16 +85,16 @@ export const ADMIN_ROUTES: RouteInfo[] = [
     badge: '',
     badgeClass: '',
     submenu: [
-      {
-        path: '/home/accion/list',
-        title: 'Solicitudes',
-        icon: 'ft-list',
-        isExternalLink: false,
-        class: '',
-        badge: '',
-        badgeClass: '',
-        submenu: []
-      },
+      // {
+      //   path: '/home/accion/list',
+      //   title: 'Solicitudes',
+      //   icon: 'ft-list',
+      //   isExternalLink: false,
+      //   class: '',
+      //   badge: '',
+      //   badgeClass: '',
+      //   submenu: []
+      // },
       // {
       //   path: '/home/accion/add',
       //   title: 'Reportar pago',
@@ -151,16 +151,16 @@ export const CLIENTE_ROUTES: RouteInfo[] = [
     badge: '',
     badgeClass: '',
     submenu: [
-      // {
-      //   path: '/home/accion/list',
-      //   title: 'Solicitudes',
-      //   icon: 'ft-list',
-      //   isExternalLink: false,
-      //   class: '',
-      //   badge: '',
-      //   badgeClass: '',
-      //   submenu: []
-      // },
+      {
+        path: '/home/accion/list',
+        title: 'Mis acciones',
+        icon: 'ft-list',
+        isExternalLink: false,
+        class: '',
+        badge: '',
+        badgeClass: '',
+        submenu: []
+      },
       // {
       //   path: '/home/accion/add',
       //   title: 'Reportar pago',

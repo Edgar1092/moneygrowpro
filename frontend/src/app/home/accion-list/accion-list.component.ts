@@ -35,13 +35,15 @@ export class AccionListComponent implements OnInit {
 
   ngOnInit() {
     let param;
+
     if(this.p)
       { 
-        param={page:this.p,per_page:this.itemsPerPage};
+        param={id:JSON.parse(localStorage.getItem('user')).id,page:this.p,per_page:this.itemsPerPage};
       }else{
-        param={page:1,per_page:this.itemsPerPage};
+        param={id:JSON.parse(localStorage.getItem('user')).id,page:1,per_page:this.itemsPerPage};
       }
       this.loadInitialData(param);
+      this.verificarAcciones(JSON.parse(localStorage.getItem('user')).id);
   }
 
   delete(user: any) {
@@ -76,6 +78,11 @@ export class AccionListComponent implements OnInit {
 
   loadInitialData(params){
     this.AccionService.get(params);
+  }
+
+  verificarAcciones(params){
+    console.log('entre a esta mierda');
+    this.AccionService.verificar(params);
   }
 
   onFilter(filterParams) {
