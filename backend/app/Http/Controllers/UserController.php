@@ -67,7 +67,7 @@ class UserController extends Controller
             }
             $user->link=str_random(10);
             $user->save();
-            $arreglito= [1];
+            $arreglito= [2];
             $user->roles()->sync( $arreglito);
             $message = 'Registro Exitoso!';
             DB::commit();

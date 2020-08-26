@@ -7,7 +7,7 @@ import {
   AfterViewInit
 } from '@angular/core';
 
-import { ROUTES, ADMIN_ROUTES } from './sidebar-routes.config';
+import { ROUTES, ADMIN_ROUTES, CLIENTE_ROUTES } from './sidebar-routes.config';
 import { Router, ActivatedRoute } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { customAnimations } from '../animations/custom-animations';
@@ -55,6 +55,9 @@ export class SidebarComponent implements OnInit, AfterViewInit {
     // this.menuItems = this.auth.isAdmin() ? ADMIN_ROUTES : ROUTES;
     if(this.auth.isAdmin()){
       this.menuItems =ADMIN_ROUTES;
+    }
+    if(this.auth.isCliente()){
+      this.menuItems =CLIENTE_ROUTES;
     }
 
     if (this.config.layout.sidebar.backgroundColor === 'white') {

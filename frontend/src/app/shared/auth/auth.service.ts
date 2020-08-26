@@ -88,4 +88,14 @@ export class AuthService {
     }
     return false;
   }
+  isCliente(): boolean {
+    const roles = JSON.parse(localStorage.getItem('roles'));
+    if (roles) {
+      const cliente = roles.find(rol => rol['name'] === 'Cliente');
+      if (cliente) {
+        return true;
+      }
+    }
+    return false;
+  }
 }
