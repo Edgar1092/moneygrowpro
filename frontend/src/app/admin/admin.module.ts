@@ -8,12 +8,14 @@ import { UsersListComponent } from './users-list/users-list.component';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { UserComponent } from './user/user.component';
 import { SharedModule } from 'app/shared/shared.module';
+import { ProcesarAccionesComponent } from './procesar-acciones/procesar-acciones.component';
 
 @NgModule({
   declarations: [
     UsersComponent,
     UsersListComponent,
-    UserComponent
+    UserComponent,
+    ProcesarAccionesComponent
   ],
   imports: [
     CommonModule,
