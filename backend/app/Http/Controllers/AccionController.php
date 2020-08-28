@@ -146,39 +146,49 @@ class AccionController extends Controller
     
                     foreach($acciones as $accion){
                      
-                        
-                        $referidoporAccion1=Referido::where('idAccionReferidoFk',$accion->id)->count();
                        
+                        $referidoporAccion1=Referido::where('idAccionReferidoFk',$accion->id)->count();
+                        // var_dump($referidoporAccion1);
+                        // return 'esta es las accion'.$accion;
                         if($referidoporAccion1<4){
 
                             $premio=Referido::create([
                                 'idAccionFk'    => $user->id,
                                 'idUserReferidoFk'    => $accion->idUsuarioFk,
                                 'idUsuarioDuenoFk'     => $datosUser->id,
-                                'idAccionReferidoFk'     => $accion->idAccionFk,
+                                'idAccionReferidoFk'     => $accion->id,
                             
                         
                             ]); 
 
                         }else{
                             $referidoporAccion=Referido::where('idAccionReferidoFk',$accion->id)->get();
-                            array_push($accionesConseguidas,$referidoporAccion);
+                            if(count($referidoporAccion)>0){
+                               
+                                foreach($referidoporAccion as $referidoporAccion2){
+
+                                    array_push($accionesConseguidas,$referidoporAccion2);
+                                }
+                            }
+        
+                           
                         }
                         
                  
                     }
                     // var_dump('entro aqui'.$accionesConseguidas);
                   
-                    if($accionesConseguidas>0){
-                        
-                        $resultadoMultimatrix=self::multimatrix($accionesConseguidas);
-
+                    if(count($accionesConseguidas)>0){
+                       
+                         $resultadoMultimatrix=self::multimatrix($accionesConseguidas);
+                        //   return 'entro en la amtrix'.$resultadoMultimatrix; 
+                        // return 'entro en el segundo foreach'.$resultadoMultimatrix; 
                        
                         $premio=Referido::create([
                             'idAccionFk'    => $user->id,
-                            'idUserReferidoFk'    => $resultadoMultimatrix[0]->idUsuarioFk,
+                            'idUserReferidoFk'    => $resultadoMultimatrix->idUsuarioDuenoFk,
                             'idUsuarioDuenoFk'     => $datosUser->id,
-                            'idAccionReferidoFk'     => $resultadoMultimatrix[0]->idAccionFk,
+                            'idAccionReferidoFk'     => $resultadoMultimatrix->idAccionFk,
                         
                     
                         ]); 
