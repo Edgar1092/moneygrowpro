@@ -146,6 +146,7 @@ class AccionController extends Controller
     
                     foreach($acciones as $accion){
                      
+                        return 'esta es acciones'.$acciones;
                        
                         $referidoporAccion1=Referido::where('idAccionReferidoFk',$accion->id)->count();
                         // var_dump($referidoporAccion1);
@@ -160,6 +161,11 @@ class AccionController extends Controller
                             
                         
                             ]); 
+
+                            $user->save();
+                            DB::commit(); // Guardamos la transaccion
+                 
+                            return response()->json($premio,200);
 
                         }else{
                             $referidoporAccion=Referido::where('idAccionReferidoFk',$accion->id)->get();
@@ -192,6 +198,10 @@ class AccionController extends Controller
                         
                     
                         ]); 
+                        $user->save();
+                        DB::commit(); // Guardamos la transaccion
+             
+                        return response()->json($premio,200);
                     }
                 }else{
                         $usuerio=User::find($request->idUsuarioFk);
@@ -223,6 +233,12 @@ class AccionController extends Controller
                     
                 
                     ]); 
+
+                    $user->save();
+                    DB::commit(); // Guardamos la transaccion
+         
+                    return response()->json($premio,200);
+
                 }
                
             }
@@ -230,10 +246,7 @@ class AccionController extends Controller
            
          
   
-           $user->save();
-           DB::commit(); // Guardamos la transaccion
 
-           return response()->json($premio,200);
        }catch (\Exception $e) {
            if($e instanceof ValidationException) {
                return response()->json($e->errors(),402);
