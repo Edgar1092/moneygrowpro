@@ -23,6 +23,20 @@ export class AccionService {
         this.blogs$.next(preguntas);
       });
   }
+  getHistorico(params?) {
+    let parseParams = new HttpParams();
+    if (params) {
+      Object.keys(params).forEach(p => {
+        parseParams = parseParams.append(p, params[p]);
+      });
+    }
+    this.http
+      .get<any[]>(`accion/getHistorico`, { params: parseParams })
+      .subscribe(preguntas => {
+        this.blogs$.next(preguntas);
+      });
+  }
+  
   // get(params) {
   //   this.http.post<any[]>(`accion/get`, params ).subscribe(blogs => {
   //     this.blogs$.next(blogs);
@@ -43,6 +57,10 @@ export class AccionService {
     return this.http.post(`accion/create`, params);
   }
 
+  
+  solicitudRetiro(params) {
+    return this.http.post(`accion/solicitudRetiro`, params);
+  }
   aprobar(params) {
     return this.http.post(`accion/aprobar`, params);
   }

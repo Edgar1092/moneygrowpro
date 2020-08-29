@@ -6,6 +6,8 @@ import { ToastrService } from 'ngx-toastr';
 import { ActivatedRoute, Router } from '@angular/router';
 import { switchMap } from 'rxjs/operators';
 import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
+import { registerLocaleData } from '@angular/common';
+import localeEs from '@angular/common/locales/es';
 
 @Component({
   selector: 'app-historico',
@@ -34,6 +36,7 @@ export class HistoricoComponent implements OnInit {
   }
 
   ngOnInit() {
+    registerLocaleData(localeEs, 'es');
     let param;
     let usuario= JSON.parse(localStorage.getItem('user'));
 
@@ -78,7 +81,7 @@ export class HistoricoComponent implements OnInit {
   // }
 
   loadInitialData(params){
-    this.AccionService.get(params);
+    this.AccionService.getHistorico(params);
   }
 
   onFilter(filterParams) {

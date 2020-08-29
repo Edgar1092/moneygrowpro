@@ -20,6 +20,7 @@ USE `moneygrowpro`;
 CREATE TABLE IF NOT EXISTS `accions` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `referenciaPago` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `plataforma` varchar(192) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `idUsuarioFk` int(11) NOT NULL,
   `idFaseFk` int(11) NOT NULL,
   `estatus` varchar(192) COLLATE utf8mb4_unicode_ci DEFAULT 'solicitando',
@@ -27,14 +28,55 @@ CREATE TABLE IF NOT EXISTS `accions` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=241 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Volcando datos para la tabla moneygrowpro.accions: ~1 rows (aproximadamente)
+-- Volcando datos para la tabla moneygrowpro.accions: ~24 rows (aproximadamente)
 DELETE FROM `accions`;
 /*!40000 ALTER TABLE `accions` DISABLE KEYS */;
-INSERT INTO `accions` (`id`, `referenciaPago`, `idUsuarioFk`, `idFaseFk`, `estatus`, `deleted_at`, `created_at`, `updated_at`) VALUES
-	(1, 'abc123', 3, 0, 'rechazado', NULL, '2020-04-18 02:14:30', '2020-04-18 03:07:17');
+INSERT INTO `accions` (`id`, `referenciaPago`, `plataforma`, `idUsuarioFk`, `idFaseFk`, `estatus`, `deleted_at`, `created_at`, `updated_at`) VALUES
+	(29, 'pago 1', NULL, 24, 3, 'aprobado', NULL, '2020-08-28 18:34:55', '2020-08-29 15:31:33'),
+	(30, 'usuario1', NULL, 25, 2, 'aprobado', NULL, '2020-08-28 18:38:43', '2020-08-28 19:50:33'),
+	(31, 'usuario2', NULL, 26, 2, 'aprobado', NULL, '2020-08-28 18:51:17', '2020-08-28 20:14:09'),
+	(32, 'usuario3', NULL, 27, 2, 'aprobado', NULL, '2020-08-28 19:07:30', '2020-08-28 20:23:07'),
+	(33, 'usuario4', NULL, 28, 2, 'aprobado', NULL, '2020-08-28 19:07:30', '2020-08-29 15:31:33'),
+	(34, 'usuario1.1', NULL, 29, 1, 'aprobado', NULL, '2020-08-28 19:34:57', '2020-08-28 19:35:17'),
+	(35, 'usuario1.2', NULL, 30, 1, 'aprobado', NULL, '2020-08-28 19:36:49', '2020-08-28 19:37:01'),
+	(36, 'usuario1.3', NULL, 31, 1, 'aprobado', NULL, '2020-08-28 19:38:36', '2020-08-28 19:38:46'),
+	(39, 'usuario 2.1', NULL, 33, 1, 'aprobado', NULL, '2020-08-28 19:57:28', '2020-08-28 19:58:06'),
+	(40, 'usuario 2.2', NULL, 34, 1, 'aprobado', NULL, '2020-08-28 20:02:28', '2020-08-28 20:02:41'),
+	(41, 'usuario 2.3', NULL, 35, 1, 'aprobado', NULL, '2020-08-28 20:04:15', '2020-08-28 20:04:29'),
+	(43, 'usuario 2.4', NULL, 36, 1, 'aprobado', NULL, '2020-08-28 20:14:01', '2020-08-28 20:14:09'),
+	(44, 'usuario 3.1', NULL, 37, 1, 'aprobado', NULL, '2020-08-28 20:18:16', '2020-08-28 20:18:25'),
+	(45, 'usuario3.2', NULL, 38, 1, 'aprobado', NULL, '2020-08-28 20:20:33', '2020-08-28 20:20:40'),
+	(46, 'usuario 3.3', NULL, 39, 1, 'aprobado', NULL, '2020-08-28 20:21:44', '2020-08-28 20:21:51'),
+	(47, 'usuario3.4', NULL, 40, 1, 'aprobado', NULL, '2020-08-28 20:22:54', '2020-08-28 20:23:07'),
+	(49, 'usuario 4.1', NULL, 42, 1, 'aprobado', NULL, '2020-08-28 20:29:31', '2020-08-28 20:29:39'),
+	(50, 'usuario 4.2', NULL, 43, 1, 'aprobado', NULL, '2020-08-28 20:30:37', '2020-08-28 20:30:47'),
+	(51, 'usuario 4.3', NULL, 44, 1, 'aprobado', NULL, '2020-08-28 20:32:21', '2020-08-28 20:32:35'),
+	(64, 'usuario5.1', NULL, 46, 1, 'aprobado', NULL, '2020-08-29 01:04:14', '2020-08-29 01:04:35'),
+	(153, 'culo pues', NULL, 42, 1, 'aprobado', NULL, '2020-08-29 06:45:35', '2020-08-29 15:31:33'),
+	(237, 'creada por cambio de fase 2', NULL, 28, 1, 'aprobado', NULL, '2020-08-29 15:31:33', '2020-08-29 15:31:33'),
+	(238, 'creada por cambio de fase 3', NULL, 24, 1, 'aprobado', NULL, '2020-08-29 15:31:33', '2020-08-29 15:31:33'),
+	(239, 'tanchiviris', NULL, 47, 1, 'aprobado', NULL, '2020-08-29 16:07:45', '2020-08-29 16:15:27'),
+	(240, 'tostiarepa', 'Payeer', 28, 1, 'solicitando', NULL, '2020-08-29 17:45:16', '2020-08-29 17:45:16');
 /*!40000 ALTER TABLE `accions` ENABLE KEYS */;
+
+-- Volcando estructura para tabla moneygrowpro.corporacion
+CREATE TABLE IF NOT EXISTS `corporacion` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `idAccionEnvioFk` int(11) NOT NULL DEFAULT '0',
+  `entrada` double(8,2) DEFAULT NULL,
+  `salida` double(8,2) DEFAULT NULL,
+  `fecha` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+
+-- Volcando datos para la tabla moneygrowpro.corporacion: ~1 rows (aproximadamente)
+DELETE FROM `corporacion`;
+/*!40000 ALTER TABLE `corporacion` DISABLE KEYS */;
+INSERT INTO `corporacion` (`id`, `idAccionEnvioFk`, `entrada`, `salida`, `fecha`) VALUES
+	(2, 33, 0.00, 0.00, '2020-08-29 11:31:33');
+/*!40000 ALTER TABLE `corporacion` ENABLE KEYS */;
 
 -- Volcando estructura para tabla moneygrowpro.countries
 CREATE TABLE IF NOT EXISTS `countries` (
@@ -301,6 +343,23 @@ DELETE FROM `historico_retiro`;
 /*!40000 ALTER TABLE `historico_retiro` DISABLE KEYS */;
 /*!40000 ALTER TABLE `historico_retiro` ENABLE KEYS */;
 
+-- Volcando estructura para tabla moneygrowpro.intensityfitness
+CREATE TABLE IF NOT EXISTS `intensityfitness` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `idAccionEnvioFk` int(11) NOT NULL DEFAULT '0',
+  `entrada` double(8,2) DEFAULT NULL,
+  `salida` double(8,2) DEFAULT NULL,
+  `fecha` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+
+-- Volcando datos para la tabla moneygrowpro.intensityfitness: ~1 rows (aproximadamente)
+DELETE FROM `intensityfitness`;
+/*!40000 ALTER TABLE `intensityfitness` DISABLE KEYS */;
+INSERT INTO `intensityfitness` (`id`, `idAccionEnvioFk`, `entrada`, `salida`, `fecha`) VALUES
+	(2, 33, 6.00, 0.00, '2020-08-29 11:31:33');
+/*!40000 ALTER TABLE `intensityfitness` ENABLE KEYS */;
+
 -- Volcando estructura para tabla moneygrowpro.migrations
 CREATE TABLE IF NOT EXISTS `migrations` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -356,7 +415,7 @@ CREATE TABLE IF NOT EXISTS `model_has_roles` (
   CONSTRAINT `model_has_roles_role_id_foreign` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Volcando datos para la tabla moneygrowpro.model_has_roles: ~2 rows (aproximadamente)
+-- Volcando datos para la tabla moneygrowpro.model_has_roles: ~38 rows (aproximadamente)
 DELETE FROM `model_has_roles`;
 /*!40000 ALTER TABLE `model_has_roles` DISABLE KEYS */;
 INSERT INTO `model_has_roles` (`role_id`, `model_type`, `model_id`) VALUES
@@ -364,7 +423,45 @@ INSERT INTO `model_has_roles` (`role_id`, `model_type`, `model_id`) VALUES
 	(1, 'App\\Models\\User', 2),
 	(1, 'App\\Models\\User', 3),
 	(1, 'App\\Models\\User', 4),
-	(2, 'App\\Models\\User', 5);
+	(2, 'App\\Models\\User', 5),
+	(2, 'App\\Models\\User', 7),
+	(2, 'App\\Models\\User', 8),
+	(2, 'App\\Models\\User', 12),
+	(2, 'App\\Models\\User', 13),
+	(2, 'App\\Models\\User', 14),
+	(2, 'App\\Models\\User', 15),
+	(2, 'App\\Models\\User', 16),
+	(2, 'App\\Models\\User', 17),
+	(2, 'App\\Models\\User', 18),
+	(2, 'App\\Models\\User', 19),
+	(2, 'App\\Models\\User', 20),
+	(2, 'App\\Models\\User', 21),
+	(2, 'App\\Models\\User', 22),
+	(2, 'App\\Models\\User', 23),
+	(2, 'App\\Models\\User', 24),
+	(2, 'App\\Models\\User', 25),
+	(2, 'App\\Models\\User', 26),
+	(2, 'App\\Models\\User', 27),
+	(2, 'App\\Models\\User', 28),
+	(2, 'App\\Models\\User', 29),
+	(2, 'App\\Models\\User', 30),
+	(2, 'App\\Models\\User', 31),
+	(2, 'App\\Models\\User', 32),
+	(2, 'App\\Models\\User', 33),
+	(2, 'App\\Models\\User', 34),
+	(2, 'App\\Models\\User', 35),
+	(2, 'App\\Models\\User', 36),
+	(2, 'App\\Models\\User', 37),
+	(2, 'App\\Models\\User', 38),
+	(2, 'App\\Models\\User', 39),
+	(2, 'App\\Models\\User', 40),
+	(2, 'App\\Models\\User', 41),
+	(2, 'App\\Models\\User', 42),
+	(2, 'App\\Models\\User', 43),
+	(2, 'App\\Models\\User', 44),
+	(2, 'App\\Models\\User', 45),
+	(2, 'App\\Models\\User', 46),
+	(2, 'App\\Models\\User', 47);
 /*!40000 ALTER TABLE `model_has_roles` ENABLE KEYS */;
 
 -- Volcando estructura para tabla moneygrowpro.notifications
@@ -417,24 +514,72 @@ CREATE TABLE IF NOT EXISTS `oauth_access_tokens` (
   KEY `oauth_access_tokens_user_id_index` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Volcando datos para la tabla moneygrowpro.oauth_access_tokens: ~9 rows (aproximadamente)
+-- Volcando datos para la tabla moneygrowpro.oauth_access_tokens: ~60 rows (aproximadamente)
 DELETE FROM `oauth_access_tokens`;
 /*!40000 ALTER TABLE `oauth_access_tokens` DISABLE KEYS */;
 INSERT INTO `oauth_access_tokens` (`id`, `user_id`, `client_id`, `name`, `scopes`, `revoked`, `created_at`, `updated_at`, `expires_at`) VALUES
+	('012d2c442cd7a20719b7d0d9c3ecb68ba6696279fc398662d64c282ff4dc65be12cf2335232a9ec8', 16, 1, 'Personal Access Token', '[]', 0, '2020-08-28 00:44:31', '2020-08-28 00:44:31', '2021-08-28 00:44:31'),
 	('02ececa4b589111cf7bfaefa37a22797b505ed01be8b75e9cb75a5a266870e8668a8a0bc2315646b', 3, 1, 'Personal Access Token', '[]', 0, '2020-04-18 00:37:48', '2020-04-18 00:37:48', '2021-04-18 00:37:48'),
+	('03b4faf505eaee1f56e076c0a49adbb755e4c045996bf7e8e33568afcc3da214c639d118303f1a20', 41, 1, 'Personal Access Token', '[]', 0, '2020-08-28 20:25:35', '2020-08-28 20:25:35', '2021-08-28 20:25:35'),
+	('077b1ef2a84f2947efca694cefc3611d5c0c503a9905d73375b9b5fb345ad3c26e3f2898ce4cb2f3', 7, 1, 'Personal Access Token', '[]', 0, '2020-08-27 23:36:15', '2020-08-27 23:36:15', '2021-08-27 23:36:15'),
+	('0f364305bb9e431e9ecf4cec0522c49ca65b871c0944e3f268c6e66d47d1886ee38b9f1a455b74cb', 7, 1, 'Personal Access Token', '[]', 0, '2020-08-27 17:20:54', '2020-08-27 17:20:54', '2021-08-27 17:20:54'),
+	('1953175656444b2191a11a252cbc30e089f872bd2b914ae8d66350b4c289c043a19bb18e9b91966b', 3, 1, 'Personal Access Token', '[]', 0, '2020-08-29 18:13:45', '2020-08-29 18:13:45', '2021-08-29 18:13:45'),
+	('1ed982e3ffa980b5207530942054bffa1ae2b3577033c1d4cf29e8cabdb26c12b9657d24a4cc26b9', 46, 1, 'Personal Access Token', '[]', 0, '2020-08-29 01:03:54', '2020-08-29 01:03:54', '2021-08-29 01:03:54'),
+	('279fbcc852d7f9ccab099f9e420120bcef2c04641d3f6f296bfdd7f159e8b5d52b814b0b9d0035c6', 44, 1, 'Personal Access Token', '[]', 0, '2020-08-28 20:31:59', '2020-08-28 20:31:59', '2021-08-28 20:31:59'),
 	('27c759edb348e0564be415c4a6b590cd10d4cab664dbf8ce2f9bce4daa793d5ddc19ca7c77af0571', 3, 1, 'Personal Access Token', '[]', 0, '2020-04-18 03:10:46', '2020-04-18 03:10:46', '2021-04-18 03:10:46'),
 	('2a6d51336be1985530d654aab88361ad8ddb05c0c52523fad820112330d083f728b056df29b2eda5', 3, 1, 'Personal Access Token', '[]', 0, '2020-04-20 14:41:29', '2020-04-20 14:41:29', '2021-04-20 14:41:29'),
+	('350ff182665956219e864bdcccb8bcff56a46e5573df51e88f1d731f65fa067481ec288989328a1b', 23, 1, 'Personal Access Token', '[]', 0, '2020-08-28 16:02:22', '2020-08-28 16:02:22', '2021-08-28 16:02:22'),
+	('3af326fed08f04fffe522de1994cad5ee41fe35f975b996e8197f591877fd291d6f37477c27a4497', 25, 1, 'Personal Access Token', '[]', 0, '2020-08-28 18:38:18', '2020-08-28 18:38:18', '2021-08-28 18:38:18'),
+	('3c2e4d745db0ed0a06b234e1fe77db470608c50b8d09c674b6dc04e79573c17d47d21b4299b87b80', 28, 1, 'Personal Access Token', '[]', 0, '2020-08-29 01:15:54', '2020-08-29 01:15:54', '2021-08-29 01:15:54'),
+	('3df0c0cf44e4dfa76a2deb188441a5bb8cc635324499b78ca698daa089c409f06e9e62b846657629', 43, 1, 'Personal Access Token', '[]', 0, '2020-08-28 20:30:24', '2020-08-28 20:30:24', '2021-08-28 20:30:24'),
+	('40284091cb1e333a901fc0c6617d3afc1f4cfe1baad951fcd635ffab1eae5e03844eae634989cdd9', 14, 1, 'Personal Access Token', '[]', 0, '2020-08-28 00:41:26', '2020-08-28 00:41:26', '2021-08-28 00:41:26'),
+	('447f3c8ee5b1a76639dc0bd55a44eec4a78bd422b28f5f5e04ca67e85263e569b569e3db74d2e599', 28, 1, 'Personal Access Token', '[]', 0, '2020-08-28 19:21:14', '2020-08-28 19:21:14', '2021-08-28 19:21:14'),
+	('460f617e7fa9d9c13a2148347372edce635429a4d0cd6610a0e5f3df64ec8061f9927a45813b1927', 36, 1, 'Personal Access Token', '[]', 0, '2020-08-28 20:08:49', '2020-08-28 20:08:49', '2021-08-28 20:08:49'),
 	('4832d553d14c674df48cf31ba5073850ca96b14b4fd2cdcde652b3fbb7b8415f4a02fa12f11e8859', 3, 1, 'Personal Access Token', '[]', 0, '2020-04-20 14:33:38', '2020-04-20 14:33:38', '2021-04-20 14:33:38'),
 	('4aeae8857198e33cc4014fa1d27945e69fc3e2dbddb261e0a720a0f15211b6aa381a240cf0a6a2e9', 3, 1, 'Personal Access Token', '[]', 0, '2020-04-18 00:35:28', '2020-04-18 00:35:28', '2021-04-18 00:35:28'),
 	('4cf88aff32965d96d5cb2cc6a4ec7e6fb60b19fa82acd86da8c703a96ba97ccb77226c9d1da69829', 2, 1, 'Personal Access Token', '[]', 0, '2020-04-17 23:40:16', '2020-04-17 23:40:16', '2021-04-17 23:40:16'),
 	('4d28117353e9ddec769c9c1646fb592eb39e5918ec7006d929c10731a9e598318db8b45c9ca58b09', 3, 1, 'Personal Access Token', '[]', 0, '2020-04-17 23:41:41', '2020-04-17 23:41:41', '2021-04-17 23:41:41'),
+	('4f376dcb08bbf14369185769212ef6b49b65547ace11041b8546a942256ed291c04a6565391081aa', 12, 1, 'Personal Access Token', '[]', 0, '2020-08-27 23:44:01', '2020-08-27 23:44:01', '2021-08-27 23:44:01'),
+	('52c20832d9a0b36a55accb227c136dc734e45d9ba1d2b0cb9e10373723691c7f2496dd82f9aff25f', 18, 1, 'Personal Access Token', '[]', 0, '2020-08-28 01:03:20', '2020-08-28 01:03:20', '2021-08-28 01:03:20'),
+	('57c17d5db3187a630275756202fcc6b2702cfc4a98cbbeeac800e3aa75186f753f4c5be823c087c5', 42, 1, 'Personal Access Token', '[]', 0, '2020-08-28 20:29:14', '2020-08-28 20:29:14', '2021-08-28 20:29:14'),
+	('5a0cc138535a1e4db3a0165b1f143c6909a5f547b4731c79043b2457ed8ec4ecc61c6789601a4448', 31, 1, 'Personal Access Token', '[]', 0, '2020-08-28 19:37:50', '2020-08-28 19:37:50', '2021-08-28 19:37:50'),
 	('5b36820c9783aa165dcb4fe32055b83c24089c24bb899cfabe173205448ddd21caa3cc9958ef788f', 3, 1, 'Personal Access Token', '[]', 0, '2020-04-18 05:56:49', '2020-04-18 05:56:49', '2021-04-18 05:56:49'),
+	('601734df806aa9a2560d2756586878b8d294270e61c3a8155b7b79b178ca5cfefae17c74b2dda11c', 21, 1, 'Personal Access Token', '[]', 0, '2020-08-28 01:30:02', '2020-08-28 01:30:02', '2021-08-28 01:30:02'),
+	('656016960a626c4bfe5a624264828ebd9647374710929633985f9bec124d483bc2b095209e4518bc', 19, 1, 'Personal Access Token', '[]', 0, '2020-08-28 01:20:11', '2020-08-28 01:20:11', '2021-08-28 01:20:11'),
+	('744d9c2fc4892d173062bfbb67a34ce41e9fc5098c41b415cce41930416eb9c59aeeb4eaf96b8d9f', 45, 1, 'Personal Access Token', '[]', 0, '2020-08-28 20:36:14', '2020-08-28 20:36:14', '2021-08-28 20:36:14'),
+	('79050d6f68ab8a5f5a14671004c0a6448e5105ad424d65e660aac17ac585bf008086704381b58538', 8, 1, 'Personal Access Token', '[]', 0, '2020-08-27 23:35:12', '2020-08-27 23:35:12', '2021-08-27 23:35:12'),
+	('7a1fc955d36554e4e5d4f61eb972d62d9c3e192de0472c08556d20ee832a0075cef11e6b9714aa57', 28, 1, 'Personal Access Token', '[]', 0, '2020-08-29 16:32:18', '2020-08-29 16:32:18', '2021-08-29 16:32:18'),
+	('7ee9f754bff249058ec94cffce52f0dec587808d7183149892c4980a9056b8218ea92b1c91c7bc74', 32, 1, 'Personal Access Token', '[]', 0, '2020-08-28 19:39:36', '2020-08-28 19:39:36', '2021-08-28 19:39:36'),
+	('80ad8e42cbb3246394ec98c79b85e70100f66720fd482e2e72f7a89bdcdd450075cdf077beb63cce', 20, 1, 'Personal Access Token', '[]', 0, '2020-08-28 01:26:31', '2020-08-28 01:26:31', '2021-08-28 01:26:31'),
+	('823fb11047bb4b953e0e8f274fdcfa40901f978635479b5b9226439ee0d75a5a1496072da3942398', 24, 1, 'Personal Access Token', '[]', 0, '2020-08-28 18:34:40', '2020-08-28 18:34:40', '2021-08-28 18:34:40'),
+	('86ac121f583b214b7497ef471e6befb395ac886119fd2478a09f7beadfc56d91e613dbe021159b07', 17, 1, 'Personal Access Token', '[]', 0, '2020-08-28 00:47:54', '2020-08-28 00:47:54', '2021-08-28 00:47:54'),
+	('878c6c766880f649f6319be3eaeb1db52455baea3763985edb8513fcbdd9309661527f9703a1b7e0', 47, 1, 'Personal Access Token', '[]', 0, '2020-08-29 16:07:30', '2020-08-29 16:07:30', '2021-08-29 16:07:30'),
+	('93424545f77e82e3216373c22a73355ffaaa89494abadedf63ce7dcfd7d6251dd5e652f3b0859154', 15, 1, 'Personal Access Token', '[]', 0, '2020-08-28 00:42:21', '2020-08-28 00:42:21', '2021-08-28 00:42:21'),
+	('98160cf02bf66bd017900cf17d290eb64da3be59ea1d0fb8760ee4066d14e352d366dc9ccc7f3707', 26, 1, 'Personal Access Token', '[]', 0, '2020-08-28 18:44:44', '2020-08-28 18:44:44', '2021-08-28 18:44:44'),
 	('9b4e81fbe6b35ed4fe1fc7967301f24c8bf91eeabac9133b3d0b97a73e16a1ba481ab2caa13b0c99', 3, 1, 'Personal Access Token', '[]', 0, '2020-04-18 00:35:51', '2020-04-18 00:35:51', '2021-04-18 00:35:51'),
+	('a4f403143994e4fd1a99f39c9d5ad8ebfb134591864204439f8c2e07c58bd705456936596bd1efcf', 38, 1, 'Personal Access Token', '[]', 0, '2020-08-28 20:19:17', '2020-08-28 20:19:17', '2021-08-28 20:19:17'),
+	('af6ac8ea0b4d653fcece1092effefed8681cd154eeba59b48b027d03196f4fc6565df6ec3631d3f8', 7, 1, 'Personal Access Token', '[]', 0, '2020-08-28 00:51:13', '2020-08-28 00:51:13', '2021-08-28 00:51:13'),
+	('b19eb48405d70e8e0d5f037cb572f3966fe14b11d90f91d2a06d41c4cf819306752e485c7d213529', 16, 1, 'Personal Access Token', '[]', 0, '2020-08-28 00:52:56', '2020-08-28 00:52:56', '2021-08-28 00:52:56'),
+	('b29893eb63d85e36d182e18d2dd669568ba26951fbc3f44a5c547362bbbfb5e3afdd738dcdeacd08', 7, 1, 'Personal Access Token', '[]', 0, '2020-08-28 00:46:46', '2020-08-28 00:46:46', '2021-08-28 00:46:46'),
+	('b5c9ed826989ad771a4dc91eb0489ac13b256709bcb95531154f6d42cdb0118a9836f01b05909834', 34, 1, 'Personal Access Token', '[]', 0, '2020-08-28 20:01:08', '2020-08-28 20:01:08', '2021-08-28 20:01:08'),
 	('bdb84b11ccc9ea1c676d402ffc75782a6d53374c0c470b0aa6adad247c16cd87e2905a99af51ea62', 3, 1, 'Personal Access Token', '[]', 0, '2020-04-18 05:24:07', '2020-04-18 05:24:07', '2021-04-18 05:24:07'),
+	('be31a896ddb627e2f7cbbc84b9f4351ef9d41a52b582c13fadb61dcbfa225254f6357ce3c32ef73d', 35, 1, 'Personal Access Token', '[]', 0, '2020-08-28 20:03:38', '2020-08-28 20:03:38', '2021-08-28 20:03:38'),
+	('be7bec1931d9d5c1775fa4908af7c5a2704aa12b81bc39089c38a29c8be7a34254a5fba5f213df02', 39, 1, 'Personal Access Token', '[]', 0, '2020-08-28 20:21:25', '2020-08-28 20:21:25', '2021-08-28 20:21:25'),
+	('c6f34a066eebfabade3fa70a43e131b314b3a7629859c02a22619d9b045cd91eb3de0300ca86fff1', 30, 1, 'Personal Access Token', '[]', 0, '2020-08-28 19:36:30', '2020-08-28 19:36:30', '2021-08-28 19:36:30'),
 	('c85a9bfb7fdb09072684e92aab762024648c0d209068b61d4f648eb2855edcbee1d9089b32ea8d70', 4, 1, 'Personal Access Token', '[]', 0, '2020-08-26 21:55:46', '2020-08-26 21:55:46', '2021-08-26 21:55:46'),
+	('d139a0979d432be44c6abc747b7a881c74c0c093eda5de94eb0256fe1a425f6b36193cff46c6ed42', 37, 1, 'Personal Access Token', '[]', 0, '2020-08-28 20:18:03', '2020-08-28 20:18:03', '2021-08-28 20:18:03'),
 	('d1571b403c8f04307684061d28f4c8fa74a6a731cb9c82e81c5647932545ef0118c39a70d8db81d1', 3, 1, 'Personal Access Token', '[]', 0, '2020-08-26 20:15:16', '2020-08-26 20:15:16', '2021-08-26 20:15:16'),
+	('d63d33e9ea05bf34d4be97a06044236c0118f21600c8bc8354aa7cbe81e19cf3c16445604d5c6833', 33, 1, 'Personal Access Token', '[]', 0, '2020-08-28 19:56:03', '2020-08-28 19:56:03', '2021-08-28 19:56:03'),
 	('daa5b2e584e3500260ac902f6d0d2f2d98e4f638e6de28cfc768bdcb3605a33fcb8b31f63405aec9', 5, 1, 'Personal Access Token', '[]', 0, '2020-08-26 22:09:35', '2020-08-26 22:09:35', '2021-08-26 22:09:35'),
-	('e0e6290cf3e3e5bced1a4271263a1b4ba8b9d7d25496a6ba6efce8eab9afb87974a5249579617a63', 3, 1, 'Personal Access Token', '[]', 0, '2020-04-18 00:36:04', '2020-04-18 00:36:04', '2021-04-18 00:36:04');
+	('dbba43d8ef89cfbc8ada2b01565e0a2b633e92405361c06311caf116f4a4186b420bb05b0556179e', 13, 1, 'Personal Access Token', '[]', 0, '2020-08-28 00:40:18', '2020-08-28 00:40:18', '2021-08-28 00:40:18'),
+	('dc2fa0f3666ad9d7dc63d2ecd82279bd3f27d82e1e021b83af029a5c909d4b7a90eb476067fa3ded', 8, 1, 'Personal Access Token', '[]', 0, '2020-08-27 21:59:52', '2020-08-27 21:59:52', '2021-08-27 21:59:52'),
+	('e0e6290cf3e3e5bced1a4271263a1b4ba8b9d7d25496a6ba6efce8eab9afb87974a5249579617a63', 3, 1, 'Personal Access Token', '[]', 0, '2020-04-18 00:36:04', '2020-04-18 00:36:04', '2021-04-18 00:36:04'),
+	('e1ff1f3ecfbf310a5d7e28608d4e8ea3722ac134677993e45f9133445306e4de4307fe3e0008f79f', 27, 1, 'Personal Access Token', '[]', 0, '2020-08-28 19:07:17', '2020-08-28 19:07:17', '2021-08-28 19:07:17'),
+	('e762122f4dd82942c02e8a2a517d79152dd0349a0554974dbbaf8ce2cdd73d47e6d8dfa9c4df8258', 42, 1, 'Personal Access Token', '[]', 0, '2020-08-29 01:48:38', '2020-08-29 01:48:38', '2021-08-29 01:48:38'),
+	('ebeca831365419cb1087d2b5f525e71d2b28f0c1f644e06e6bbf8c1b63a45345ec4fec5c9a037456', 22, 1, 'Personal Access Token', '[]', 0, '2020-08-28 01:33:52', '2020-08-28 01:33:52', '2021-08-28 01:33:52'),
+	('eedc1695c430826f25c9e229cee93a06ce5b5618f21c9b2d8588551b6628fc009010d677dd82b242', 40, 1, 'Personal Access Token', '[]', 0, '2020-08-28 20:22:34', '2020-08-28 20:22:34', '2021-08-28 20:22:34'),
+	('f6b0cd39adbe28675c1b68ad0c53b38de0e4d7d4a120ca6ef7d44e76d38f98764ac2888340ad4c74', 29, 1, 'Personal Access Token', '[]', 0, '2020-08-28 19:34:20', '2020-08-28 19:34:20', '2021-08-28 19:34:20'),
+	('f7000cb7b3baaa1c299410d37e743ece94e5d4b0629011f4a17fa9301a26c30530b42a04de17200a', 42, 1, 'Personal Access Token', '[]', 0, '2020-08-29 01:16:43', '2020-08-29 01:16:43', '2021-08-29 01:16:43');
 /*!40000 ALTER TABLE `oauth_access_tokens` ENABLE KEYS */;
 
 -- Volcando estructura para tabla moneygrowpro.oauth_auth_codes
@@ -608,12 +753,38 @@ CREATE TABLE IF NOT EXISTS `referido` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `idAccionFk` int(11) DEFAULT '0',
   `idUserReferidoFk` int(11) DEFAULT '0',
+  `idUsuarioDuenoFk` int(11) DEFAULT NULL,
+  `idAccionReferidoFk` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=308 DEFAULT CHARSET=latin1;
 
--- Volcando datos para la tabla moneygrowpro.referido: ~0 rows (aproximadamente)
+-- Volcando datos para la tabla moneygrowpro.referido: ~23 rows (aproximadamente)
 DELETE FROM `referido`;
 /*!40000 ALTER TABLE `referido` DISABLE KEYS */;
+INSERT INTO `referido` (`id`, `idAccionFk`, `idUserReferidoFk`, `idUsuarioDuenoFk`, `idAccionReferidoFk`) VALUES
+	(38, 30, 24, 25, 29),
+	(39, 31, 24, 26, 29),
+	(40, 32, 24, 27, 29),
+	(41, 33, 24, 28, 29),
+	(42, 34, 25, 29, 30),
+	(43, 35, 25, 30, 30),
+	(44, 36, 25, 31, 30),
+	(48, 38, 25, 32, 30),
+	(49, 39, 26, 33, 31),
+	(50, 40, 26, 34, 31),
+	(51, 41, 26, 35, 31),
+	(53, 43, 26, 36, 31),
+	(54, 44, 27, 37, 32),
+	(55, 45, 27, 38, 32),
+	(56, 46, 27, 39, 32),
+	(57, 47, 27, 40, 32),
+	(59, 49, 28, 42, 33),
+	(60, 50, 28, 43, 33),
+	(61, 51, 28, 44, 33),
+	(298, 153, 28, 42, 33),
+	(299, 237, 29, 28, 34),
+	(300, 238, 29, 24, 34),
+	(307, 239, 46, 47, 64);
 /*!40000 ALTER TABLE `referido` ENABLE KEYS */;
 
 -- Volcando estructura para tabla moneygrowpro.relation_file
@@ -716,14 +887,42 @@ INSERT INTO `role_has_permissions` (`permission_id`, `role_id`) VALUES
 CREATE TABLE IF NOT EXISTS `saldo` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `idUserFk` int(11) DEFAULT NULL,
-  `saldoDisponible` double(8,2) DEFAULT NULL,
+  `entrada` double(8,2) DEFAULT NULL,
+  `salida` double(8,2) DEFAULT NULL,
+  `concepto` text,
+  `idAccionFk` int(11) DEFAULT NULL,
+  `fecha` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
 
--- Volcando datos para la tabla moneygrowpro.saldo: ~0 rows (aproximadamente)
+-- Volcando datos para la tabla moneygrowpro.saldo: ~5 rows (aproximadamente)
 DELETE FROM `saldo`;
 /*!40000 ALTER TABLE `saldo` DISABLE KEYS */;
+INSERT INTO `saldo` (`id`, `idUserFk`, `entrada`, `salida`, `concepto`, `idAccionFk`, `fecha`) VALUES
+	(3, 28, 2.00, 0.00, 'Bono Arranque', 33, '2020-08-29 11:31:33'),
+	(4, 46, 1.00, 0.00, 'Bono por referido', 239, '2020-08-29 12:15:27'),
+	(5, 28, 2.00, 0.00, 'Bono Arranque', 33, '2020-08-29 11:31:33'),
+	(6, 28, 0.00, 1.50, 'Bono Arranque', 33, '2020-08-29 11:31:33'),
+	(7, 28, 30.00, 0.00, NULL, NULL, '2020-08-29 13:35:43');
 /*!40000 ALTER TABLE `saldo` ENABLE KEYS */;
+
+-- Volcando estructura para tabla moneygrowpro.solicitudretiro
+CREATE TABLE IF NOT EXISTS `solicitudretiro` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `idUserFk` int(11) DEFAULT NULL,
+  `montoSolicitado` double(8,2) DEFAULT NULL,
+  `plataforma` text,
+  `estatus` varchar(191) DEFAULT 'solicitando',
+  `fecha` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+
+-- Volcando datos para la tabla moneygrowpro.solicitudretiro: ~0 rows (aproximadamente)
+DELETE FROM `solicitudretiro`;
+/*!40000 ALTER TABLE `solicitudretiro` DISABLE KEYS */;
+INSERT INTO `solicitudretiro` (`id`, `idUserFk`, `montoSolicitado`, `plataforma`, `estatus`, `fecha`) VALUES
+	(1, 28, 10.00, 'Airtm', 'solicitando', '2020-08-29 13:36:12');
+/*!40000 ALTER TABLE `solicitudretiro` ENABLE KEYS */;
 
 -- Volcando estructura para tabla moneygrowpro.statuses
 CREATE TABLE IF NOT EXISTS `statuses` (
@@ -764,16 +963,37 @@ CREATE TABLE IF NOT EXISTS `users` (
   `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `users_email_deleted_at_unique` (`email`,`deleted_at`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=48 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Volcando datos para la tabla moneygrowpro.users: ~2 rows (aproximadamente)
+-- Volcando datos para la tabla moneygrowpro.users: ~24 rows (aproximadamente)
 DELETE FROM `users`;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
 INSERT INTO `users` (`id`, `email`, `first_name`, `last_name`, `avatar`, `email_verified_at`, `password`, `n_documento`, `link`, `idReferido`, `premiun`, `posicion`, `remember_token`, `created_at`, `updated_at`, `deleted_at`) VALUES
-	(1, '1092edgar@gmail.com', 'Edgar', 'Gomez', NULL, NULL, '$2y$10$KMZuA5rjWIhjU62P4Tj8c.wOQWhNsykmqWSShJYv5AwdlkuSxFQX6', NULL, 'culo', 3, 1, 1, NULL, '2020-04-17 23:38:48', '2020-04-17 23:38:48', NULL),
-	(3, 'hectormarrero91@gmail.com', 'jhonathan', 'rodriguez', NULL, NULL, '$2y$10$vMoJ8YKi8XStSha/8ObD2eijeTwvzf85BVw8MUuierdRfp9kEWnru', '6666', 'fN3eLuj7no', 1, 0, 1, NULL, '2020-04-17 23:41:37', '2020-04-18 03:06:50', NULL),
-	(4, 'menphisj@gmail.com', 'jhonathan', 'rodriguez', NULL, NULL, '$2y$10$FDiHFl.8BKuEItB096pIr.9jEYrFd8osUWM3b.7gctDPPvnRi0mE2', '20114851', 'anxBmYkbCn', NULL, 0, 1, NULL, '2020-08-26 21:55:35', '2020-08-26 21:55:35', NULL),
-	(5, 'tanito232@gmail.com', 'tanito', 'tancho', NULL, NULL, '$2y$10$Qhp1.kL4XJhOCBDiBwZS4OgxmZzLAQW0YBwZMWvlda/BrerqXENh2', '3455', 'D0vS1sYwvV', NULL, 0, 1, NULL, '2020-08-26 22:09:18', '2020-08-26 22:09:18', NULL);
+	(1, '1092edgar@gmail.com', 'Edgar', 'Gomez', NULL, NULL, '$2y$10$KMZuA5rjWIhjU62P4Tj8c.wOQWhNsykmqWSShJYv5AwdlkuSxFQX6', NULL, 'culo', 5, 1, 1, NULL, '2020-04-17 23:38:48', '2020-04-17 23:38:48', NULL),
+	(3, 'hectormarrero91@gmail.com', 'jhonathan', 'rodriguez', NULL, NULL, '$2y$10$vMoJ8YKi8XStSha/8ObD2eijeTwvzf85BVw8MUuierdRfp9kEWnru', '6666', 'fN3eLuj7no', 5, 1, 1, NULL, '2020-04-17 23:41:37', '2020-04-18 03:06:50', NULL),
+	(24, 'cr@gmail.com', 'cristina', 'meleant', NULL, NULL, '$2y$10$WNmVcDRuwkMe/5fhMop5huNAbYY1kHdV9kB/BHKXGVjKIryfRph42', '123456', 's4aA2HmF9D', NULL, 1, 1, NULL, '2020-08-28 18:34:25', '2020-08-29 01:37:38', NULL),
+	(25, 'usuario1@gmail.com', 'usuario1', 'usuario1', NULL, NULL, '$2y$10$iBzG9PHuYRyBuf.eeIiuIOCR45JTkIYz.Crzy/ixqNGuS.Ejm5r0e', '3334534', '8vrjuDiBhd', 24, 1, 1, NULL, '2020-08-28 18:37:56', '2020-08-28 18:42:58', NULL),
+	(26, 'usuario2@gmail.com', 'usuario2', 'usuario2', NULL, NULL, '$2y$10$VYMF.Dmzj2zfM.Sk9jd72OoTnBzXreEjRof.1RJ.OqhN1Teilb/du', '3334534', '6YB8WYsXMR', 24, 1, 1, NULL, '2020-08-28 18:44:28', '2020-08-28 18:51:25', NULL),
+	(27, 'usuario3@gmail.com', 'usuario3', 'usuario3', NULL, NULL, '$2y$10$UvemrJMP7CWVgcNJjzOTee4eGiAdiOEOQgfEa7h9qnR9t1gDShe7a', '3334534', 'F4SHOCTcE7', 24, 1, 1, NULL, '2020-08-28 19:07:04', '2020-08-28 19:07:37', NULL),
+	(28, 'usuario4@gmail.com', 'usuario4', 'usuario4', NULL, NULL, '$2y$10$vk7ahTFo9uSg.viulJ6quundTjdmjvLz.G60rMJ.yJrMTxJ2F.r/O', '3334534', 'pGxnQXvCV8', 24, 1, 1, NULL, '2020-08-28 19:20:59', '2020-08-28 19:21:49', NULL),
+	(29, 'usuario11@gmail.com', 'usuario11', 'usuario11', NULL, NULL, '$2y$10$zwFerCmuW8GjZKAeeOOYKO3Xq63RKJxvXeuZATKUqfLkTVW0vP0xO', '3334534', 'm50xgTEp2i', 25, 1, 1, NULL, '2020-08-28 19:34:06', '2020-08-28 19:35:17', NULL),
+	(30, 'usuario12@gmail.com', 'usuario12', 'usuario12', NULL, NULL, '$2y$10$6CARjl5v7bgy/.DDvQ/cbOxuB8/aM5EhggsIvQghpY8IRvyVCrIQO', '3334534', 'dU6fNfMNYq', 25, 1, 1, NULL, '2020-08-28 19:36:19', '2020-08-28 19:37:01', NULL),
+	(31, 'usuario13@gmail.com', 'usuario13', 'usuario13', NULL, NULL, '$2y$10$0CMi.gkPG9I7zFpV0/36q.W3oAQrO502OmtIVpjKi2iLT0DySPdai', '3334534', '8yQX268AdH', 25, 1, 1, NULL, '2020-08-28 19:37:40', '2020-08-28 19:38:46', NULL),
+	(32, 'usuario14@gmail.com', 'usuario14', 'usuario14', NULL, NULL, '$2y$10$IbO3Ndivm9WOKinKt5Q95e4SyRUSVpe/Ddc76XG9Kbo9q36YWDXCG', '3334534', '8xUL0WPyhr', 25, 1, 1, NULL, '2020-08-28 19:39:23', '2020-08-28 19:45:35', NULL),
+	(33, 'usuario21@gmail.com', 'usuario21', 'usuario21', NULL, NULL, '$2y$10$T7yoWq0f6KCNsO1eooUW1OzknyWtOkbORtI9Kj3Y4EJvlDMIUvqKm', '3334534', 't3CmRMm09s', 26, 1, 1, NULL, '2020-08-28 19:52:04', '2020-08-28 19:58:06', NULL),
+	(34, 'usuario22@gmail.com', 'usuario22', 'usuario22', NULL, NULL, '$2y$10$rdYd0MZ0SVf2QEPyqfuNieRfxTW9rFNKO7sme/RofYvm4/yfczuwi', '3334534', 'bR1iI76vYZ', 26, 1, 1, NULL, '2020-08-28 20:00:03', '2020-08-28 20:02:41', NULL),
+	(35, 'usuario23@gmail.com', 'usuario23', 'usuario23', NULL, NULL, '$2y$10$.XlXApQy/L2v7m15S6ZMSeCiT.3nNBK7P7dE2uL0ukU.xFIGEO2HW', '3334534', '5aF4sDfumY', 26, 1, 1, NULL, '2020-08-28 20:03:26', '2020-08-28 20:04:29', NULL),
+	(36, 'usuario24@gmail.com', 'usuario24', 'usuario24', NULL, NULL, '$2y$10$E18rJ4Ej0DbHqZCq3kvVzuqRekuL9FXekQbeMWD1u/kKLeN9jqxem', '3334534', 'mpoGTJsAK9', 26, 1, 1, NULL, '2020-08-28 20:08:45', '2020-08-28 20:09:53', NULL),
+	(37, 'usuario31@gmail.com', 'usuario31', 'usuario31', NULL, NULL, '$2y$10$KASKggxuFJiyrDa2ZRxcU.07J7ZvQE7Q7RzRBPsqgSK1/cl7lOoIa', '3334534', 'QEzAcT1OC4', 27, 1, 1, NULL, '2020-08-28 20:17:48', '2020-08-28 20:18:25', NULL),
+	(38, 'usuario32@gmail.com', 'usuario32', 'usuario32', NULL, NULL, '$2y$10$HtDouLhFxnuT4xCmzRBvwOecJuXS/EtJ8R7EqeXQstUey8PE4uG4e', '3334534', 'prHe55eIzJ', 27, 1, 1, NULL, '2020-08-28 20:19:04', '2020-08-28 20:20:40', NULL),
+	(39, 'usuario33@gmail.com', 'usuario33', 'usuario33', NULL, NULL, '$2y$10$F19O8or2qkJKfGkztg/Zv.mxshhgcihJ0JFU6HN8uqUpR/Pw9DhGe', '3334534', 'xsDHpXb2M3', 27, 1, 1, NULL, '2020-08-28 20:21:09', '2020-08-28 20:21:51', NULL),
+	(40, 'usuario34@gmail.com', 'usuario34', 'usuario34', NULL, NULL, '$2y$10$qOwy1Ar.C.vGtq5OFMV.muxrbe7jW9GP6dFrC4SsV1m5Dy3aWi.xa', '3334534', 'JUU26FAXoV', 27, 1, 1, NULL, '2020-08-28 20:22:25', '2020-08-28 20:23:07', NULL),
+	(42, 'usuario41@gmail.com', 'usuario41', 'usuario41', NULL, NULL, '$2y$10$9rhjw7rbGHUykPXvMofxReSzx2NPY0U/P8scyv.RLsbuJOAxK7LKW', '3334534', '1TNIP4ukBS', 28, 1, 1, NULL, '2020-08-28 20:28:47', '2020-08-28 20:29:39', NULL),
+	(43, 'usuario42@gmail.com', 'usuario42', 'usuario42', NULL, NULL, '$2y$10$W/by3cd/mNQt/47Kjtt5xeeDs6tyK3LyhNxMKGqThclTgac5ADn4q', '3334534', 'R84h3ArLJB', 28, 1, 1, NULL, '2020-08-28 20:30:13', '2020-08-28 20:30:47', NULL),
+	(44, 'usuario43@gmail.com', 'usuario43', 'usuario43', NULL, NULL, '$2y$10$HPBcnYhpzwDv9BBgMcbYkeYifsaWlgoHxWPVaR/mWX1vHnBZmdrcS', '3334534', 'SYmVnQHZZc', 28, 1, 1, NULL, '2020-08-28 20:31:46', '2020-08-28 20:32:35', NULL),
+	(45, 'usuario44@gmail.com', 'usuario44', 'usuario44', NULL, NULL, '$2y$10$S7mxDyPbVWyuPDVJ/jaJHOD3SE2ja4NPVvyzREFpGrcp1WtO9P7V2', '3334534', 'F68iBE2ylV', 28, 1, 1, NULL, '2020-08-28 20:36:12', '2020-08-28 20:37:20', NULL),
+	(46, 'usuario51@gmail.com', 'usuario51', 'usuario51', NULL, NULL, '$2y$10$rADmkOyv9TSU67UD0AJ65.nr9FdUvEFnaUf0cHyGMHYgxMAeDfuee', '3334534', '58LaHzL83o', 28, 1, 1, NULL, '2020-08-29 01:03:43', '2020-08-29 01:04:35', NULL),
+	(47, 'tancho@gmail.com', 'tancho', 'tancho', NULL, NULL, '$2y$10$54vcvdjoxfhZprlEpZ8oFer/zByt9PTE4JtcPS73rzXL0J6/b86Ne', '3334534', '45oMhzF8Y7', 46, 1, 1, NULL, '2020-08-29 16:07:16', '2020-08-29 16:07:55', NULL);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;

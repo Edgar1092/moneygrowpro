@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { UsersComponent } from './users/users.component';
 import { UsersListComponent } from './users-list/users-list.component';
 import { UserComponent } from './user/user.component';
+import { SolicitudespagoComponent } from './solicitudespago/solicitudespago.component';
 import { RoleAdminGuard } from 'app/guards/role-admin.guard';
 
 const routes: Routes = [
@@ -20,6 +21,10 @@ const routes: Routes = [
   },
   {
     path: 'user/:id/edit',
+    component: UsersComponent
+  },
+  {
+    path: 'solicitudesPago',
     component: UsersComponent
   },
 ];

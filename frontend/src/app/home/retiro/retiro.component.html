@@ -5,7 +5,7 @@
         <div class="card-header">
           <div class="card-title">
             <h2>
-              Reporta tu pago
+              Retiro
             </h2>
           </div>
         </div>
@@ -15,17 +15,32 @@
               <div class="form-row align-items-end">
                 <div class="col-12">
                   <div class="form-group">
-                    <label for="email">Referencia de pago</label>
+                    <label for="email">Saldo disponible</label>
                     <input
                       type="text"
                       class="form-control"
-                      formControlName="referenciaPago"
-                      id="referenciaPago"
+                      formControlName="saldoDisponible"
+                      id="saldoDisponible"
+                      disabled
+                    />
+                  </div>
+                </div>
+                <div class="col-12">
+                  <div class="form-group">
+                    <label for="email">Monto a solicitar</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      formControlName="montoSolicitar"
+                      id="montoSolicitar"
                       required
                     />
                   </div>
+                </div>
+                <div class="col-12">
                   <div class="form-group">
                     <label for="email">Plataforma</label>
+                
                     <select
                     class="form-control"
                     formControlName="plataforma"

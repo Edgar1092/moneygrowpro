@@ -66,6 +66,8 @@ export const ADMIN_ROUTES: RouteInfo[] = [
       },
     ]
   },
+  
+  
   // {
   //   path: '/home/cursos',
   //   title: 'Cursos',
@@ -76,25 +78,35 @@ export const ADMIN_ROUTES: RouteInfo[] = [
   //   isExternalLink: false,
   //   submenu: []
   // },
+  // {
+  //   path: '/admin/solicitudesPago',
+  //   title: 'Solicitudes de retiro',
+  //   icon: 'ft-inbox',
+  //   isExternalLink: false,
+  //   class: '',
+  //   badge: '',
+  //   badgeClass: '',
+  //   submenu: []
+  // },
   {
-    path: '/accions/',
-    title: 'Accion',
+    path: '/Solicitudes/',
+    title: 'Solicitudes',
     icon: 'ft-user',
     isExternalLink: false,
     class: 'has-sub',
     badge: '',
     badgeClass: '',
     submenu: [
-      // {
-      //   path: '/home/accion/list',
-      //   title: 'Solicitudes',
-      //   icon: 'ft-list',
-      //   isExternalLink: false,
-      //   class: '',
-      //   badge: '',
-      //   badgeClass: '',
-      //   submenu: []
-      // },
+      {
+        path: '/admin/solicitudesPago',
+        title: 'Retiro',
+        icon: 'ft-inbox',
+        isExternalLink: false,
+        class: '',
+        badge: '',
+        badgeClass: '',
+        submenu: []
+      },
       // {
       //   path: '/home/accion/add',
       //   title: 'Reportar pago',
@@ -174,9 +186,19 @@ export const CLIENTE_ROUTES: RouteInfo[] = [
     ]
   },
   {
+    path: '/home/retiro',
+    title: 'Retiro',
+    icon: 'ft-download-cloud',
+    isExternalLink: false,
+    class: '',
+    badge: '',
+    badgeClass: '',
+    submenu: []
+  },
+  {
     path: '/home/historico',
-    title: 'Historico de pago',
-    icon: 'ft-list',
+    title: 'Movimientos',
+    icon: 'ft-layers',
     isExternalLink: false,
     class: '',
     badge: '',

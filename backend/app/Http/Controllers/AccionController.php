@@ -5,7 +5,11 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Accion;
+use App\Models\Saldo;
+use App\Models\Intensityfitness;
+use App\Models\Corporacion;
 use App\Models\Referido;
+use App\Models\Solicitudretiro;
 use DB;
 use Auth;
 use Exception;
@@ -34,6 +38,35 @@ class AccionController extends Controller
             }else{
             $per_page = (!empty($request->per_page)) ? $request->per_page : Accion::count();
             $result = Accion::paginate($per_page);
+            }
+            $response = $result;  
+  
+            if($result->isEmpty()){
+                return response()->json([
+                    'msj' => 'No se encontraron registros.',
+                ], 200); 
+            }
+            return response()->json($response);
+        }catch (\Exception $e) {
+            Log::error('Ha ocurrido un error en '.$this->NAME_CONTROLLER.': '.$e->getMessage().', Linea: '.$e->getLine());
+            return response()->json([
+                'message' => 'Ha ocurrido un error al tratar de guardar los datos.',
+            ], 500);
+        }
+    }
+
+    function getHistorico(Request $request){
+        try{
+        	$request->validate([
+                'per_page'      =>  'nullable|integer',
+                'page'          =>  'nullable|integer'
+            ]);  
+            if($request->id){
+                $per_page = (!empty($request->per_page)) ? $request->per_page : Saldo::count();
+                $result = Saldo::where('idUserFk',$request->id)->paginate($per_page);
+            }else{
+            $per_page = (!empty($request->per_page)) ? $request->per_page : Saldo::count();
+            $result = Saldo::paginate($per_page);
             }
             $response = $result;  
   
@@ -96,6 +129,7 @@ class AccionController extends Controller
           
             $user = Accion::create([
                 'referenciaPago'    => $request->referenciaPago,
+                'plataforma'    => $request->plataforma,
                 'idFaseFk'    => 1,
                 'idUsuarioFk'     => $request->idUsuarioFk
                
@@ -134,6 +168,9 @@ function crearAccionCambiodeFase($activarAcciondeFase){
             
              if($datosUser->idReferido!=''){
 
+                $cuantasAccionesyPAgo=Accion::where('idUsuarioFk',$datosUser->id)->where('estatus','aprobado')->count();
+                // echo 'entre aqui'.$cuantasAccionesyPAgo;
+                  
               
 
                  $usuerio=User::find($activarAcciondeFase['idUsuarioFk']);
@@ -179,7 +216,20 @@ function crearAccionCambiodeFase($activarAcciondeFase){
                          }
 
                          $user->save();
-                    
+
+                         if($cuantasAccionesyPAgo==0){
+                       
+                            $patrocinador = Saldo::create([
+                                'idUserFk'    => $datosUser->idReferido,
+                                'idAccionFk'    => $user->id,
+                                'entrada' =>1,
+                                'salida'     => 0,
+                                'concepto' => 'Bono por referido'
+                               
+                         
+                            ]);
+    
+                        }
               
                          return $premio;
 
@@ -378,7 +428,7 @@ function crearAccionCambiodeFase($activarAcciondeFase){
             leftjoin('accions','accions.id','=','referido.idAccionReferidoFk')
             ->where('idAccionReferidoFk',$arreglo->id)->get();
 
-            if(count($consultarpordebajodeAccionrecibida)>0 && $arreglo->idFaseFk<7){
+            if(count($consultarpordebajodeAccionrecibida)>0 && $arreglo->idFaseFk<8){
             
                 $cantidadFasesiguales=0;
                 foreach($consultarpordebajodeAccionrecibida as $predecesores){
@@ -397,10 +447,263 @@ function crearAccionCambiodeFase($activarAcciondeFase){
                     $actualizarfase=Accion::find($arreglo->id);
                     $actualizarfase->idFaseFk=$actualizarfase->idFaseFk+1;
 
-                    // echo 'la mate en '.$actualizarfase; 
+                    
                     $actualizarfase->save();
 
-                    if($actualizarfase->idFaseFk<7){
+                   
+
+                    if($actualizarfase->idFaseFk<8){
+
+                        $obtenerPAtrocinado=User::where('id',$actualizarfase->idUsuarioFk)->first();
+                       
+                        if(($actualizarfase->idFaseFk)==2){
+                            
+                            $saldo = Saldo::create([
+                                'idUserFk'    => $actualizarfase->idUsuarioFk,
+                                'idAccionFk'    => $actualizarfase->id,
+                                'entrada' =>2,
+                                'salida'     => 0,
+                                'concepto' => 'Bono Arranque'
+                               
+                         
+                            ]); 
+
+                            $saldo = Intensityfitness::create([
+                                'idAccionEnvioFk'    => $actualizarfase->id,
+                                'entrada' =>6,
+                                'salida'     => 0,
+                               
+                            ]); 
+
+                            $corporacion = Corporacion::create([
+                                'idAccionEnvioFk'    => $actualizarfase->id,
+                                'entrada' =>0,
+                                'salida'     => 0,
+                               
+                            ]); 
+                        }
+
+                        if(($actualizarfase->idFaseFk)==3){
+                            
+                            $saldo = Saldo::create([
+                                'idUserFk'    => $actualizarfase->idUsuarioFk,
+                                'idAccionFk'    => $actualizarfase->id,
+                                'entrada' =>4,
+                                'salida'     => 0,
+                                'concepto' => 'Bono impulsor'
+                               
+                         
+                            ]); 
+
+                            $patrocinador = Saldo::create([
+                                'idUserFk'    => $obtenerPAtrocinado->idReferido,
+                                'idAccionFk'    => $actualizarfase->id,
+                                'entrada' =>1,
+                                'salida'     => 0,
+                                'concepto' => 'Bono impulsor de referido'
+                               
+                         
+                            ]); 
+
+                            $intensity = Intensityfitness::create([
+                                'idAccionEnvioFk'    => $actualizarfase->id,
+                                'entrada' =>16,
+                                'salida'     => 0,
+                               
+                            ]); 
+
+                            $corporacion = Corporacion::create([
+                                'idAccionEnvioFk'    => $actualizarfase->id,
+                                'entrada' =>1,
+                                'salida'     => 0,
+                               
+                            ]); 
+                        }
+
+                        if(($actualizarfase->idFaseFk)==4){
+                            
+                            $saldo = Saldo::create([
+                                'idUserFk'    => $actualizarfase->idUsuarioFk,
+                                'idAccionFk'    => $actualizarfase->id,
+                                'entrada' =>10,
+                                'salida'     => 0,
+                                'concepto' => 'Bono constructor'
+                               
+                         
+                            ]); 
+
+                            $patrocinador = Saldo::create([
+                                'idUserFk'    => $obtenerPAtrocinado->idReferido,
+                                'idAccionFk'    => $actualizarfase->id,
+                                'entrada' =>2,
+                                'salida'     => 0,
+                                'concepto' => 'Bono consntructor de referido'
+                               
+                         
+                            ]); 
+
+                            $intensity = Intensityfitness::create([
+                                'idAccionEnvioFk'    => $actualizarfase->id,
+                                'entrada' =>48,
+                                'salida'     => 0,
+                               
+                            ]); 
+
+                            $corporacion = Corporacion::create([
+                                'idAccionEnvioFk'    => $actualizarfase->id,
+                                'entrada' =>2,
+                                'salida'     => 0,
+                               
+                            ]); 
+                        }
+
+                        if(($actualizarfase->idFaseFk)==5){
+                            
+                            $saldo = Saldo::create([
+                                'idUserFk'    => $actualizarfase->idUsuarioFk,
+                                'idAccionFk'    => $actualizarfase->id,
+                                'entrada' =>42,
+                                'salida'     => 0,
+                                'concepto' => 'Bono productor'
+                               
+                         
+                            ]); 
+
+                            $patrocinador = Saldo::create([
+                                'idUserFk'    => $obtenerPAtrocinado->idReferido,
+                                'idAccionFk'    => $actualizarfase->id,
+                                'entrada' =>2,
+                                'salida'     => 0,
+                                'concepto' => 'Bono productor de referido'
+                               
+                         
+                            ]); 
+
+                            $intensity = Intensityfitness::create([
+                                'idAccionEnvioFk'    => $actualizarfase->id,
+                                'entrada' =>144,
+                                'salida'     => 0,
+                               
+                            ]); 
+
+                            $corporacion = Corporacion::create([
+                                'idAccionEnvioFk'    => $actualizarfase->id,
+                                'entrada' =>2,
+                                'salida'     => 0,
+                               
+                            ]); 
+                        }
+
+                        if(($actualizarfase->idFaseFk)==6){
+                            
+                            $saldo = Saldo::create([
+                                'idUserFk'    => $actualizarfase->idUsuarioFk,
+                                'idAccionFk'    => $actualizarfase->id,
+                                'entrada' =>84,
+                                'salida'     => 0,
+                                'concepto' => 'Bono emprendedor'
+                               
+                         
+                            ]); 
+
+                            $patrocinador = Saldo::create([
+                                'idUserFk'    => $obtenerPAtrocinado->idReferido,
+                                'idAccionFk'    => $actualizarfase->id,
+                                'entrada' =>2,
+                                'salida'     => 0,
+                                'concepto' => 'Bono emprendedor de referido'
+                               
+                         
+                            ]); 
+
+                            $intensity = Intensityfitness::create([
+                                'idAccionEnvioFk'    => $actualizarfase->id,
+                                'entrada' =>486,
+                                'salida'     => 0,
+                               
+                            ]); 
+
+                            $corporacion = Corporacion::create([
+                                'idAccionEnvioFk'    => $actualizarfase->id,
+                                'entrada' =>2,
+                                'salida'     => 0,
+                               
+                            ]); 
+                        }
+
+                        if(($actualizarfase->idFaseFk)==7){
+                            
+                            $saldo = Saldo::create([
+                                'idUserFk'    => $actualizarfase->idUsuarioFk,
+                                'idAccionFk'    => $actualizarfase->id,
+                                'entrada' =>438,
+                                'salida'     => 0,
+                                'concepto' => 'Bono capitalizacion'
+                               
+                         
+                            ]); 
+
+                            $patrocinador = Saldo::create([
+                                'idUserFk'    => $obtenerPAtrocinado->idReferido,
+                                'idAccionFk'    => $actualizarfase->id,
+                                'entrada' =>2,
+                                'salida'     => 0,
+                                'concepto' => 'Bono capitalizacion de referido'
+                               
+                         
+                            ]); 
+
+                            $intensity = Intensityfitness::create([
+                                'idAccionEnvioFk'    => $actualizarfase->id,
+                                'entrada' =>1500,
+                                'salida'     => 0,
+                               
+                            ]); 
+
+                            $corporacion = Corporacion::create([
+                                'idAccionEnvioFk'    => $actualizarfase->id,
+                                'entrada' =>2,
+                                'salida'     => 0,
+                               
+                            ]); 
+                        }
+
+                        if(($actualizarfase->idFaseFk)==8){
+                            
+                            $saldo = Saldo::create([
+                                'idUserFk'    => $actualizarfase->idUsuarioFk,
+                                'idAccionFk'    => $actualizarfase->id,
+                                'entrada' =>5800,
+                                'salida'     => 0,
+                                'concepto' => 'Bono fundador'
+                               
+                         
+                            ]); 
+
+                            $patrocinador = Saldo::create([
+                                'idUserFk'    => $obtenerPAtrocinado->idReferido,
+                                'idAccionFk'    => $actualizarfase->id,
+                                'entrada' =>100,
+                                'salida'     => 0,
+                                'concepto' => 'Bono fundador de referido'
+                               
+                         
+                            ]); 
+
+                            $intensity = Intensityfitness::create([
+                                'idAccionEnvioFk'    => $actualizarfase->id,
+                                'entrada' =>0,
+                                'salida'     => 0,
+                               
+                            ]); 
+
+                            $corporacion = Corporacion::create([
+                                'idAccionEnvioFk'    => $actualizarfase->id,
+                                'entrada' =>92,
+                                'salida'     => 0,
+                               
+                            ]); 
+                        }
 
                         $Accions = Accion::create([
                             'referenciaPago'    => 'creada por cambio de fase '.$actualizarfase->idFaseFk,
@@ -442,5 +745,47 @@ function crearAccionCambiodeFase($activarAcciondeFase){
         // }
  
         return true;
+    }
+
+
+    function obtenerSaldo(Request $request){
+        $ingreso=DB::table("saldo")->where('idUserFk',$request->id)->get()->sum("entrada");
+        $salida=DB::table("saldo")->where('idUserFk',$request->id)->get()->sum("salida");
+
+        $total=$ingreso-$salida;
+
+        return response()->json($total,201);
+    }
+
+    function obtenerAcciones(Request $request){
+        $cantidad=Accion::where('idUsuarioFk',$request->id)->count();
+        $acciones=Accion::where('idUsuarioFk',$request->id)->get();
+
+        
+
+        return response()->json([
+            'cantidad' => $cantidad,
+            'acciones' => $acciones,
+        ], 200); 
+    }
+    function solicitudRetiro(Request $request){
+
+       
+        $retiro = Solicitudretiro::create([
+            'idUserFk'    => $request->idUsuarioFk,
+            'montoSolicitado'    => $request->montoSolicitar,
+            'plataforma' =>$request->plataforma
+           
+     
+        ]); 
+       
+        
+            $mesanje='Solicitud enviada';
+        
+
+        return response()->json([
+            'msj' => $mesanje,
+            
+        ], 200); 
     }
 }

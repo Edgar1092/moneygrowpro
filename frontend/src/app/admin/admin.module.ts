@@ -9,13 +9,15 @@ import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { UserComponent } from './user/user.component';
 import { SharedModule } from 'app/shared/shared.module';
 import { ProcesarAccionesComponent } from './procesar-acciones/procesar-acciones.component';
+import { SolicitudespagoComponent } from './solicitudespago/solicitudespago.component';
 
 @NgModule({
   declarations: [
     UsersComponent,
     UsersListComponent,
     UserComponent,
-    ProcesarAccionesComponent
+    ProcesarAccionesComponent,
+    SolicitudespagoComponent
   ],
   imports: [
     CommonModule,

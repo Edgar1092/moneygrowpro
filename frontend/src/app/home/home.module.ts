@@ -9,9 +9,10 @@ import { AccionAddComponent } from './accion-add/accion-add.component';
 import { SharedModule } from 'app/shared/shared.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HistoricoComponent } from './historico/historico.component';
+import { RetiroComponent } from './retiro/retiro.component';
 
 @NgModule({
-  declarations: [HomeComponent, CursosComponent, AccionListComponent, AccionAddComponent, HistoricoComponent],
+  declarations: [HomeComponent, CursosComponent, AccionListComponent, AccionAddComponent, HistoricoComponent, RetiroComponent],
   imports: [CommonModule, HomeRoutingModule,SharedModule,FormsModule,
     ReactiveFormsModule,]
 })

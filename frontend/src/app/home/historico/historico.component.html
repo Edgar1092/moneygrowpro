@@ -4,7 +4,7 @@
       <div class="card">
         <div class="card-header">
           <div class="card-title">
-            <h2>Historico de pago</h2>
+            <h2>Movimientos</h2>
           </div>
         </div>
         <div class="card-body">
@@ -18,8 +18,9 @@
               >
                 <thead class="thead-inverse">
                   <tr>
-                    <th>Referencia de pago</th>
-                    <th>Estatus</th>
+                    <th>Entradas</th>
+                    <th>Salidas</th>
+                    <th>Concepto</th>
                     <th>Fecha</th>
 
                   </tr>
@@ -39,9 +40,10 @@
                   >
                 
 
-                    <td>{{ blog.referenciaPago }} </td>
-                    <td>{{ blog.estatus }} </td>
-                    <td>{{ blog.created_at }} </td>
+                    <td>$ {{ blog.entrada | number }} </td>
+                    <td>$ {{ blog.salida | number }} </td>
+                    <td>{{ blog.concepto }} </td>
+                    <td>{{ blog.fecha }} </td>
                   </tr>
                 </tbody>
               </table>

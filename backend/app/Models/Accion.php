@@ -19,6 +19,7 @@ class Accion extends Model
     protected $fillable = [
         'id',
         'referenciaPago',
+        'plataforma',
         'idUsuarioFk',
         'idFaseFk',
         'estatus'

@@ -56,6 +56,17 @@ export class UsersService {
     param={id:id};
     return this.http.post(`referidos`,param);
   }
+
+  obtenerSaldo(id: number) {
+    let param
+    param={id:id};
+    return this.http.post(`accion/obtenerSaldo`,param);
+  }
+  obtenerAcciones(id: number) {
+    let param
+    param={id:id};
+    return this.http.post(`accion/obtenerAcciones`,param);
+  }
   obtenerPatrocinador(id: number) {
     let param
     param={id:id};

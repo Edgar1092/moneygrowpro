@@ -5,7 +5,7 @@
           <div class="col-md-4">
             <div class="card-counter success">
               <i class="fa fa-money"></i>
-              <span class="count-numbers">$ 120</span>
+              <span class="count-numbers">$ {{saldo | number}}</span>
               <span class="count-name">Saldo</span>
             </div>
           </div>
@@ -13,7 +13,7 @@
           <div class="col-md-4">
             <div class="card-counter danger">
               <i class="fa fa-user-o"></i>
-              <span class="count-numbers" *ngIf="contadorReferidos">{{contadorReferidos}}</span>
+              <span class="count-numbers" *ngIf="saldo">{{contadorReferidos}}</span>
               <span class="count-name">Referidos</span>
             </div>
           </div>
@@ -21,7 +21,7 @@
           <div class="col-md-4">
             <div class="card-counter info">
               <i class="fa fa-line-chart"></i>
-              <span class="count-numbers">{{posicion}}</span>
+              <span class="count-numbers">{{accionesConteo}}</span>
               <span class="count-name">Acciones</span>
             </div>
           </div>

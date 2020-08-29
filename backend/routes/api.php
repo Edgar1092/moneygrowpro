@@ -47,6 +47,10 @@ Route::group([
     Route::post('aprobar','AccionController@update');
     Route::post('delete','AccionController@delete');
     Route::post('verificar','AccionController@verificar');
+    Route::post('obtenerSaldo','AccionController@obtenerSaldo');
+    Route::post('obtenerAcciones','AccionController@obtenerAcciones');
+    Route::post('solicitudRetiro','AccionController@solicitudRetiro');
+    Route::get('getHistorico','AccionController@getHistorico');
 });
     /** File routes */
 

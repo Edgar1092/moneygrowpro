@@ -5,6 +5,7 @@ import { CursosComponent } from './cursos/cursos.component';
 import { AccionListComponent } from './accion-list/accion-list.component';
 import { AccionAddComponent } from './accion-add/accion-add.component';
 import { HistoricoComponent } from './historico/historico.component';
+import { RetiroComponent } from './retiro/retiro.component';
 
 const routes: Routes = [
   {
@@ -26,6 +27,10 @@ const routes: Routes = [
   {
     path: 'historico',
     component: HistoricoComponent
+  },
+  {
+    path: 'retiro',
+    component: RetiroComponent
   },
 ];
 

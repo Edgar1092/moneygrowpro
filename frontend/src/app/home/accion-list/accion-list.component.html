@@ -29,10 +29,11 @@
                   <tr>
                     <!-- <th>Email</th> -->
                     <th>Referencia de pago</th>
+                    <th>Plataforma</th>
                     <th>Estatus</th>
-                    <!-- <th>Oficinas</th> -->
+                    
                     <!-- <th>Roles</th> -->
-                    <th>Acciones</th>
+                    <!-- <th>Acciones</th> -->
                   </tr>
                 </thead>
                 <tbody>
@@ -51,11 +52,13 @@
                 
                     <!-- <td scope="row">{{ blog.usuario.email }}</td> -->
                     <td>{{ blog.referenciaPago }} </td>
+                    <td>{{ blog.plataforma }} </td>
                     <td>{{ blog.estatus }} </td>
+                    
                     <!-- <td>{{ joinData(user.offices) }}</td> -->
                     <!-- <td>{{ user.roles.name }}</td> -->
                     <td>
-                      <div class="btn-group">
+                      <!-- <div class="btn-group">
                         <button
                         *ngIf="blog.estatus=='solicitando'"
                         ngbTooltip="Aprobar pago"
@@ -75,7 +78,7 @@
                         >
                           <a class="ft-x" style="color:white"></a>
                         </button>
-                      </div>
+                      </div> -->
                     </td>
                   </tr>
                 </tbody>
