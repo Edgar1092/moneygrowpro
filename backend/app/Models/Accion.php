@@ -34,19 +34,19 @@ class Accion extends Model
         'updated_at'        =>  'datetime',
     ];
 
-    protected $appends = [
-        'usuario'
-    ];
+    // protected $appends = [
+    //     'usuario'
+    // ];
 
     // public function quotations()
     // {
     //     return $this->belongsToMany(Calculadora::class);
     // }
     
-    public function user()
-    {
-        return $this->hasOne(User::class, 'id');
-    }
+    // public function user()
+    // {
+    //     return $this->hasOne(User::class, 'id');
+    // }
 
 
     public function getusuarioAttribute()

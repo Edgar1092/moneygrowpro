@@ -79,6 +79,7 @@ export class AccionListComponent implements OnInit {
 
   loadInitialData(params){
     this.AccionService.get(params);
+    console.log('arreglo',this.AccionService.get(params))
   }
 
   verificarAcciones(params){
