@@ -1,5 +1,5 @@
 export const environment = {
   production: true,
-  apiUrl: 'http://inversionesnetwill.com/clients/moneygrowpro/backend/api',
+  apiUrl: 'https://intensityfitnessonline.com/admin/moneygrowpro/backend/api',
   serviceWorker: false
 };

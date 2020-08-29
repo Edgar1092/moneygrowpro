@@ -23,6 +23,20 @@ export class ClientsService {
       });
   }
 
+  getSolicitudes(params?) {
+    let parseParams = new HttpParams();
+    if (params) {
+      Object.keys(params).forEach(p => {
+        parseParams = parseParams.append(p, params[p]);
+      });
+    }
+    this.http
+      .get<any[]>(`accion/getSolicitudes`, { params: parseParams })
+      .subscribe(preguntas => {
+        this.clients$.next(preguntas);
+      });
+  }
+
   getAll() {
     return this.http.get<any[]>(`clients`);
   }

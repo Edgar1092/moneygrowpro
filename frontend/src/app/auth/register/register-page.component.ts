@@ -45,6 +45,7 @@ export class RegisterPageComponent implements OnInit  {
           this.auth.register(this.registerForm.value).subscribe(response =>{
             this.registerForm.reset();
             this.toast.success(response['message']);
+            this.router.navigate(['/auth/login']);
             console.log(response);
           },error => {
             console.log(error);

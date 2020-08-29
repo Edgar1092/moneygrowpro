@@ -21,6 +21,10 @@ export class UsersService {
     return this.http.get(`users/${index}`);
   }
 
+    obtenerNumeroUsuario(params) {
+    return this.http.post(`accion/obtenerNumeroUsuario`, params);
+  }
+
   add(params: {
     email: string;
     first_name: string;

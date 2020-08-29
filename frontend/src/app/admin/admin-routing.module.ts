@@ -4,6 +4,7 @@ import { UsersComponent } from './users/users.component';
 import { UsersListComponent } from './users-list/users-list.component';
 import { UserComponent } from './user/user.component';
 import { SolicitudespagoComponent } from './solicitudespago/solicitudespago.component';
+import { ActivaraccionComponent } from './activaraccion/activaraccion.component';
 import { RoleAdminGuard } from 'app/guards/role-admin.guard';
 
 const routes: Routes = [
@@ -25,7 +26,11 @@ const routes: Routes = [
   },
   {
     path: 'solicitudesPago',
-    component: UsersComponent
+    component: SolicitudespagoComponent
+  },
+  {
+    path: 'activar',
+    component: ActivaraccionComponent
   },
 ];
 

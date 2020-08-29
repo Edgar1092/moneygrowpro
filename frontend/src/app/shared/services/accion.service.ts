@@ -8,6 +8,7 @@ import { BehaviorSubject } from 'rxjs';
 export class AccionService {
 
   blogs$: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([]);
+  
   constructor(private http: HttpClient) {
   }
   get(params?) {
@@ -32,6 +33,20 @@ export class AccionService {
     }
     this.http
       .get<any[]>(`accion/getHistorico`, { params: parseParams })
+      .subscribe(preguntas => {
+        this.blogs$.next(preguntas);
+      });
+  }
+
+  getSolicitudes(params?) {
+    let parseParams = new HttpParams();
+    if (params) {
+      Object.keys(params).forEach(p => {
+        parseParams = parseParams.append(p, params[p]);
+      });
+    }
+    this.http
+      .get<any[]>(`accion/getSolicitudes`, { params: parseParams })
       .subscribe(preguntas => {
         this.blogs$.next(preguntas);
       });
@@ -61,6 +76,10 @@ export class AccionService {
   solicitudRetiro(params) {
     return this.http.post(`accion/solicitudRetiro`, params);
   }
+  obtenerNumeroUsuario(params) {
+    return this.http.post(`accion/obtenerNumeroUsuario`, params);
+  }
+  
   aprobar(params) {
     return this.http.post(`accion/aprobar`, params);
   }

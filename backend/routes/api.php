@@ -51,6 +51,9 @@ Route::group([
     Route::post('obtenerAcciones','AccionController@obtenerAcciones');
     Route::post('solicitudRetiro','AccionController@solicitudRetiro');
     Route::get('getHistorico','AccionController@getHistorico');
+    Route::post('getSolicitudes','AccionController@getSolicitudes');
+    Route::post('aprobarRechazarRetiro','AccionController@aprobarRechazarRetiro');
+    Route::post('obtenerNumeroUsuario','AccionController@obtenerNumeroUsuario');
 });
     /** File routes */
 

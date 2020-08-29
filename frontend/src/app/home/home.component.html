@@ -9,12 +9,13 @@
               <span class="count-name">Saldo</span>
             </div>
           </div>
-      
+          
           <div class="col-md-4">
             <div class="card-counter danger">
               <i class="fa fa-user-o"></i>
-              <span class="count-numbers" *ngIf="saldo">{{contadorReferidos}}</span>
-              <span class="count-name">Referidos</span>
+              <span class="count-numbers" *ngIf="saldo">{{administrador!= 1? contadorReferidos : 'usuarios'}}</span>
+            
+              <span class="count-name">{{ administrador!= 1?'Referidos':'Usuarios'}}</span>
             </div>
           </div>
 
@@ -27,14 +28,14 @@
           </div>
       </div><br><br>
   
-<div class="row justify-content-center">
+<div class="row justify-content-center" *ngIf="administrador!=1">
   <div class="col-md-6 titulo-box"><h3><strong>link de socio</strong></h3></div>
 
   <div class="col-md-6 titulo-box"><h3><strong>Patrocinador</strong></h3></div>
 
 </div>
-<div class="row justify-content-center">
-  <div class="col-md-6 contenido-box"><p>www.moneygrowpros.com/register/{{codigoReferido}}</p></div>
+<div class="row justify-content-center" *ngIf="administrador!=1">
+  <div class="col-md-6 contenido-box"><p>http://intensityfitnessonline.com/register/{{codigoReferido}}</p></div>
   <div class="col-md-6 contenido-box" ><p *ngIf="Patrocinador">{{Patrocinador ? Patrocinador.first_name+' '+Patrocinador.last_name+' ('+Patrocinador.email+')' : 'No posee'}}</p></div>
 
 </div>

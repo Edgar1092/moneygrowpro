@@ -4,13 +4,22 @@
       <div class="card">
         <div class="card-header">
           <div class="card-title">
-            <h2>Solicitudes de retiro</h2>
+            <h2>Activar acciones</h2>
           </div>
         </div>
         <div class="card-body">
           <div class="row">
             <div class="col-12">
-            
+              <!-- <button
+              *ngIf="contadorAccion==0 || contadorAccion==1 "
+                        ngbTooltip="Agregar accion"
+                          type="button"
+                          class="btn btn-success"
+                          [routerLink]="['/home/accion/add']"
+                          
+                        >
+                          <a class="ft-plus" style="color:white"></a>
+                        </button> -->
             </div>
             <div class="col-12 table-responsive">
               <table
@@ -19,8 +28,8 @@
                 <thead class="thead-inverse">
                   <tr>
                     <!-- <th>Email</th> -->
-                    <th>Usuario</th>
-                    <th>Monto solicitado</th>
+                    <th>Referencia de pago</th>
+                    <th>Plataforma</th>
                     <th>Estatus</th>
                     
                     <!-- <th>Roles</th> -->
@@ -30,15 +39,20 @@
                 <tbody>
                   <tr
                     *ngFor="
-                      let blog of (solicitud$ | async)['data']
-                    
+                      let blog of (blogs$ | async)['data']
+                        | paginate
+                          : {
+                              itemsPerPage: itemsPerPage,
+                              currentPage: p,
+                              totalItems: (blogs$ | async)['total']
+                            }; 
                           index as i
                     "
                   >
                 
                     <!-- <td scope="row">{{ blog.usuario.email }}</td> -->
-                    <td>{{ blog.email }} </td>
-                    <td>$ {{ blog.montoSolicitado | number }} </td>
+                    <td>{{ blog.referenciaPago }} </td>
+                    <td>{{ blog.plataforma }} </td>
                     <td>{{ blog.estatus }} </td>
                     
                     <!-- <td>{{ joinData(user.offices) }}</td> -->

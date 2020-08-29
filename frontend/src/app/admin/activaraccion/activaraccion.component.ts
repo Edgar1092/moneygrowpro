@@ -1,45 +1,40 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable, from } from 'rxjs';
 import { AccionService } from 'app/shared/services/accion.service';
-import { SolicitudService } from 'app/shared/services/solicitud.service';
 import swal from 'sweetalert2';
 import { ToastrService } from 'ngx-toastr';
 import { ActivatedRoute, Router } from '@angular/router';
 import { switchMap } from 'rxjs/operators';
 import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
-import { registerLocaleData } from '@angular/common';
-import localeEs from '@angular/common/locales/es';
 
 @Component({
-  selector: 'app-solicitudespago',
-  templateUrl: './solicitudespago.component.html',
-  styleUrls: ['./solicitudespago.component.scss']
+  selector: 'app-activaraccion',
+  templateUrl: './activaraccion.component.html',
+  styleUrls: ['./activaraccion.component.scss']
 })
-export class SolicitudespagoComponent implements OnInit {
+export class ActivaraccionComponent implements OnInit {
 
-  solicitud$: Observable<any[]>;
+  blogs$: Observable<any[]>;
   total = 0;
   p=1;
   itemsPerPage = 5;
   formBlog: FormGroup;
   contadorAccion
-  constructor(private AccionService: AccionService, private toast: ToastrService, private SolicitudService: SolicitudService,
+  constructor(private AccionService: AccionService, private toast: ToastrService, 
     private fb: FormBuilder,
     private activatedRoute: ActivatedRoute,
     private router: Router,) {
-    this.solicitud$ = this.SolicitudService.solicitud$;
+    this.blogs$ = this.AccionService.blogs$;
 
     this.formBlog = this.fb.group({
       id: [''],
-      idUserFk: [''],
-      montoSolicitado: [''],
-      estatus: ['']
+      idUsuarioFk: [''],
+      estatus: [''],
 
     });
   }
 
   ngOnInit() {
-    registerLocaleData(localeEs, 'es');
     let param;
 
     if(this.p)
@@ -49,7 +44,7 @@ export class SolicitudespagoComponent implements OnInit {
         param={page:1,per_page:this.itemsPerPage};
       }
       this.loadInitialData(param);
-     
+      this.verificarAcciones(JSON.parse(localStorage.getItem('user')).id);
   }
 
   delete(user: any) {
@@ -83,8 +78,8 @@ export class SolicitudespagoComponent implements OnInit {
   // }
 
   loadInitialData(params){
-    this.SolicitudService.getSolicitudes(params);
-    console.log('arreglo',this.SolicitudService.getSolicitudes(params))
+    this.AccionService.get(params);
+    console.log('arreglo',this.AccionService.get(params))
   }
 
   verificarAcciones(params){
@@ -108,16 +103,14 @@ export class SolicitudespagoComponent implements OnInit {
   }
 
   aprobar(infor) {
-  
-    this.formBlog.controls['idUserFk'].setValue(infor.idUserFk);
+    this.formBlog.controls['idUsuarioFk'].setValue(infor.idUsuarioFk);
     this.formBlog.controls['id'].setValue(infor.id);
-    this.formBlog.controls['montoSolicitado'].setValue(infor.montoSolicitado);
     this.formBlog.controls['estatus'].setValue('aprobado');
     // console.log(infor)
     if (this.formBlog.valid) {
       let d = this.formBlog.value;
   
-      this.SolicitudService.aprobarRechazarRetiro(this.formBlog.value).subscribe(response => {
+      this.AccionService.aprobar(this.formBlog.value).subscribe(response => {
         if (response) {
           this.toast.success("Pago aprobado");
           this.AccionService.get();
@@ -130,24 +123,16 @@ export class SolicitudespagoComponent implements OnInit {
   }
 
   rechazar(infor) {
-    this.formBlog.controls['idUserFk'].setValue(infor.idUserFk);
+    this.formBlog.controls['idUsuarioFk'].setValue(infor.idUsuarioFk);
     this.formBlog.controls['id'].setValue(infor.id);
-    this.formBlog.controls['montoSolicitado'].setValue(infor.montoSolicitado);
     this.formBlog.controls['estatus'].setValue('rechazado');
     if (this.formBlog.valid) {
       let d = this.formBlog.value;
   
       this.AccionService.aprobar(this.formBlog.value).subscribe(response => {
         if (response) {
-          this.toast.success("rechazado");
-          let param;
-          if(this.p)
-            { 
-              param={page:this.p,per_page:this.itemsPerPage};
-            }else{
-              param={page:1,per_page:this.itemsPerPage};
-            }
-            this.loadInitialData(param);
+          this.toast.success("Pago rechazado");
+          this.AccionService.get();
         } else {
           this.toast.error(JSON.stringify(response));
         }
@@ -155,6 +140,5 @@ export class SolicitudespagoComponent implements OnInit {
     }
     // console.log(this.formBlog.value);
   }
-
 
 }

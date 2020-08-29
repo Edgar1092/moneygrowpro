@@ -37,7 +37,7 @@ class AccionController extends Controller
                 $result = Accion::where('idUsuarioFk',$request->id)->paginate($per_page);
             }else{
             $per_page = (!empty($request->per_page)) ? $request->per_page : Accion::count();
-            $result = Accion::paginate($per_page);
+            $result = Accion::where('estatus','solicitando')->paginate($per_page);
             }
             $response = $result;  
   
@@ -83,7 +83,35 @@ class AccionController extends Controller
             ], 500);
         }
     }
-
+    function getSolicitudes(Request $request){
+        try{
+        	$request->validate([
+                'per_page'      =>  'nullable|integer',
+                'page'          =>  'nullable|integer'
+            ]);  
+            if($request->id){
+                $per_page = (!empty($request->per_page)) ? $request->per_page : Solicitudretiro::count();
+                $result = Solicitudretiro::leftjoin('users','users.id','=','solicitudretiro.idUserFk')->select('users.id as idUsuario','users.*','solicitudretiro.*')->where('estatus','solicitando')->paginate($per_page);
+            }else{
+            $per_page = (!empty($request->per_page)) ? $request->per_page : Solicitudretiro::count();
+            $result = Solicitudretiro::leftjoin('users','users.id','=','solicitudretiro.idUserFk')->select('users.id as idUsuario','users.*','solicitudretiro.*')->where('estatus','solicitando')->paginate($per_page);
+            }
+            $response = $result;  
+  
+            if($result->isEmpty()){
+                return response()->json([
+                    'msj' => 'No se encontraron registros.',
+                ], 200); 
+            }
+            return response()->json($response);
+        }catch (\Exception $e) {
+            Log::error('Ha ocurrido un error en '.$this->NAME_CONTROLLER.': '.$e->getMessage().', Linea: '.$e->getLine());
+            return response()->json([
+                'message' => 'Ha ocurrido un error al tratar de guardar los datos.',
+            ], 500);
+        }
+    }
+    
     function getAccion(Request $request){
         try{
             $users = Accion::
@@ -768,6 +796,14 @@ function crearAccionCambiodeFase($activarAcciondeFase){
             'acciones' => $acciones,
         ], 200); 
     }
+    function obtenerNumeroUsuario(Request $request){
+        $cantidad=User::count();
+        
+
+        
+
+        return response()->json($cantidad); 
+    }
     function solicitudRetiro(Request $request){
 
        
@@ -787,5 +823,45 @@ function crearAccionCambiodeFase($activarAcciondeFase){
             'msj' => $mesanje,
             
         ], 200); 
+    }
+
+    function aprobarRechazarRetiro(Request $request){
+
+        if($request->estatus=='aprobado'){
+
+            $retiro = Saldo::create([
+                'idUserFk'    => $request->idUserFk,
+               
+                'entrada' =>0,
+                'salida'     => $request->montoSolicitado,
+                'concepto' => 'Solicitud de retiro'
+               
+         
+            ]); 
+
+            $actualizar=Solicitudretiro::find($request->id);
+            $actualizar->estatus='aprobado';
+            $actualizar->save();
+            $mesanje='Procesado correctamente';
+        
+
+            return response()->json([
+                'msj' => $mesanje,
+                
+            ], 200); 
+        }else{
+            $mesanje='Rechazado';
+        
+
+            return response()->json([
+                'msj' => $mesanje,
+                
+            ], 400); 
+        }
+
+     
+       
+        
+   
     }
 }

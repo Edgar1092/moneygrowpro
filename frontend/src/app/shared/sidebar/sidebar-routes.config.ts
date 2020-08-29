@@ -107,16 +107,16 @@ export const ADMIN_ROUTES: RouteInfo[] = [
         badgeClass: '',
         submenu: []
       },
-      // {
-      //   path: '/home/accion/add',
-      //   title: 'Reportar pago',
-      //   icon: 'ft-user-plus',
-      //   isExternalLink: false,
-      //   class: '',
-      //   badge: '',
-      //   badgeClass: '',
-      //   submenu: []
-      // }
+      {
+        path: '/admin/activar',
+        title: 'Activar',
+        icon: 'ft-user-plus',
+        isExternalLink: false,
+        class: '',
+        badge: '',
+        badgeClass: '',
+        submenu: []
+      }
     ]
   },
   // {

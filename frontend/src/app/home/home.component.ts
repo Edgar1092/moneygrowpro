@@ -16,7 +16,9 @@ contadorReferidos;
 Patrocinador;
 posicion;
 saldo
+administrador
 accionesConteo
+usuarios
   constructor(private userService: UsersService) { }
 
   ngOnInit() {
@@ -28,6 +30,13 @@ accionesConteo
     this.obtenerPatrocinador(usuario.idReferido)
     this.obtenerSaldo(usuario.id)
     this.obtenerAcciones(usuario.id)
+    // console.log('administrador',JSON.parse(localStorage.getItem('user')).roles[0].id)
+    if(JSON.parse(localStorage.getItem('user')).roles[0].id==1){
+      this.obtenerNumeroUsuario(usuario.id);
+      this.administrador=1;
+    }else{
+      this.administrador=0;
+    }
   }
 
   obtenerReferidos(idLogeado){
@@ -50,6 +59,20 @@ accionesConteo
     this.userService.obtenerPatrocinador(idLogeado).subscribe((res)=>{
       console.log(res);
        this.Patrocinador = JSON.parse(JSON.stringify(res)).patrocinador;
+
+    },(error)=>{
+      console.log(error);
+    })
+    
+    // this.contadorReferidos=this.userService.countReferidos(idLogeado);
+  
+  }
+  obtenerNumeroUsuario(idLogeado){
+
+  
+    this.userService.obtenerNumeroUsuario(idLogeado).subscribe((res)=>{
+      console.log(res);
+      this.usuarios = res;
 
     },(error)=>{
       console.log(error);

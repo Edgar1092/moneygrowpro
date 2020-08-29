@@ -10,6 +10,7 @@ import { UserComponent } from './user/user.component';
 import { SharedModule } from 'app/shared/shared.module';
 import { ProcesarAccionesComponent } from './procesar-acciones/procesar-acciones.component';
 import { SolicitudespagoComponent } from './solicitudespago/solicitudespago.component';
+import { ActivaraccionComponent } from './activaraccion/activaraccion.component';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { SolicitudespagoComponent } from './solicitudespago/solicitudespago.comp
     UsersListComponent,
     UserComponent,
     ProcesarAccionesComponent,
-    SolicitudespagoComponent
+    SolicitudespagoComponent,
+    ActivaraccionComponent
   ],
   imports: [
     CommonModule,
