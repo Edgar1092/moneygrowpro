@@ -66,6 +66,16 @@ export class UsersService {
     param={id:id};
     return this.http.post(`accion/obtenerSaldo`,param);
   }
+  obtenerSaldoCorporacion(id: number) {
+    let param
+    param={id:id};
+    return this.http.post(`accion/obtenerSaldoCorporacion`,param);
+  }
+  obtenerSaldoIntensity(id: number) {
+    let param
+    param={id:id};
+    return this.http.post(`accion/obtenerSaldoIntensity`,param);
+  }
   obtenerAcciones(id: number) {
     let param
     param={id:id};

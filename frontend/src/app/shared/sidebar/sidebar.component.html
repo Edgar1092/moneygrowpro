@@ -63,7 +63,7 @@
           *ngIf="!menuItem.isExternalLink; else externalLinkBlock"
         >
           <i [ngClass]="[menuItem.icon]"></i>
-          <span class="menu-title">{{ menuItem.title | translate }}</span>
+          <span class="menu-title">{{ menuItem.title }}</span>
           <span
             *ngIf="menuItem.badge != ''"
             [ngClass]="[menuItem.badgeClass]"
@@ -73,7 +73,7 @@
         <ng-template #externalLinkBlock>
           <a [href]="[menuItem.path]" target="_blank">
             <i [ngClass]="[menuItem.icon]"></i>
-            <span class="menu-title">{{ menuItem.title | translate }}</span>
+            <span class="menu-title">{{ menuItem.title }}</span>
             <span
               *ngIf="menuItem.badge != ''"
               [ngClass]="[menuItem.badgeClass]"

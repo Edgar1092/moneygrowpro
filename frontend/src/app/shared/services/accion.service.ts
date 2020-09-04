@@ -76,12 +76,14 @@ export class AccionService {
   solicitudRetiro(params) {
     return this.http.post(`accion/solicitudRetiro`, params);
   }
-  obtenerNumeroUsuario(params) {
-    return this.http.post(`accion/obtenerNumeroUsuario`, params);
-  }
+
   
   aprobar(params) {
     return this.http.post(`accion/aprobar`, params);
+  }
+
+  rechazar(params) {
+    return this.http.post(`accion/rechazar`, params);
   }
 
   delete(id) {

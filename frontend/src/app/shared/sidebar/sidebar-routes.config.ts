@@ -146,7 +146,7 @@ export const CLIENTE_ROUTES: RouteInfo[] = [
  
   {
     path: '/home/cursos',
-    title: 'Cursos',
+    title: 'Tienda',
     icon: 'ft-home',
     class: '',
     badge: '',

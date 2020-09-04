@@ -45,6 +45,7 @@ Route::group([
     Route::post('getAccion','AccionController@getAccion');
     Route::post('create','AccionController@create');
     Route::post('aprobar','AccionController@update');
+    Route::post('rechazar','AccionController@rechazarAccion');
     Route::post('delete','AccionController@delete');
     Route::post('verificar','AccionController@verificar');
     Route::post('obtenerSaldo','AccionController@obtenerSaldo');
@@ -54,6 +55,8 @@ Route::group([
     Route::post('getSolicitudes','AccionController@getSolicitudes');
     Route::post('aprobarRechazarRetiro','AccionController@aprobarRechazarRetiro');
     Route::post('obtenerNumeroUsuario','AccionController@obtenerNumeroUsuario');
+    Route::post('obtenerSaldoCorporacion','AccionController@obtenerSaldoCorporacion');
+    Route::post('obtenerSaldoIntensity','AccionController@obtenerSaldoIntensity');
 });
     /** File routes */
 

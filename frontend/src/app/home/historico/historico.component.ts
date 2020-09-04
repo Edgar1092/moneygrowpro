@@ -19,6 +19,7 @@ export class HistoricoComponent implements OnInit {
   blogs$: Observable<any[]>;
   total = 0;
   p=1;
+  user
   itemsPerPage = 5;
   formBlog: FormGroup;
   constructor(private AccionService: AccionService, private toast: ToastrService, 
@@ -39,6 +40,7 @@ export class HistoricoComponent implements OnInit {
     registerLocaleData(localeEs, 'es');
     let param;
     let usuario= JSON.parse(localStorage.getItem('user'));
+    this.user=JSON.parse(localStorage.getItem('user'))
 
 
     if(this.p)
@@ -91,7 +93,7 @@ export class HistoricoComponent implements OnInit {
   perPage(itemsPerPage,page){
     this.p = page;
     this.itemsPerPage = itemsPerPage;
-    let param={page:this.p,per_page:this.itemsPerPage};
+    let param={id:this.user.id,page:this.p,per_page:this.itemsPerPage};
     this.loadInitialData(param);
 
   }

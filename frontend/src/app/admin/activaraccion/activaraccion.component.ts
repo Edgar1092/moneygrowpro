@@ -113,7 +113,15 @@ export class ActivaraccionComponent implements OnInit {
       this.AccionService.aprobar(this.formBlog.value).subscribe(response => {
         if (response) {
           this.toast.success("Pago aprobado");
-          this.AccionService.get();
+          let param;
+
+          if(this.p)
+            { 
+              param={page:this.p,per_page:this.itemsPerPage};
+            }else{
+              param={page:1,per_page:this.itemsPerPage};
+            }
+          this.AccionService.get(param);
         } else {
           this.toast.error(JSON.stringify(response));
         }
@@ -129,7 +137,7 @@ export class ActivaraccionComponent implements OnInit {
     if (this.formBlog.valid) {
       let d = this.formBlog.value;
   
-      this.AccionService.aprobar(this.formBlog.value).subscribe(response => {
+      this.AccionService.rechazar(this.formBlog.value).subscribe(response => {
         if (response) {
           this.toast.success("Pago rechazado");
           this.AccionService.get();

@@ -16,6 +16,8 @@ contadorReferidos;
 Patrocinador;
 posicion;
 saldo
+intensity
+corporacion
 administrador
 accionesConteo
 usuarios
@@ -33,6 +35,8 @@ usuarios
     // console.log('administrador',JSON.parse(localStorage.getItem('user')).roles[0].id)
     if(JSON.parse(localStorage.getItem('user')).roles[0].id==1){
       this.obtenerNumeroUsuario(usuario.id);
+      this.obtenerSaldoCorporacion(usuario.id)
+      this.obtenerSaldoIntensity(usuario.id)
       this.administrador=1;
     }else{
       this.administrador=0;
@@ -87,6 +91,26 @@ usuarios
     this.userService.obtenerSaldo(idLogeado).subscribe((res)=>{
       console.log(res);
       this.saldo = res;
+
+    },(error)=>{
+      console.log(error);
+    })
+  }
+
+  obtenerSaldoCorporacion(idLogeado){
+    this.userService.obtenerSaldoCorporacion(idLogeado).subscribe((res)=>{
+      console.log(res);
+      this.corporacion = res;
+
+    },(error)=>{
+      console.log(error);
+    })
+  }
+
+  obtenerSaldoIntensity(idLogeado){
+    this.userService.obtenerSaldoIntensity(idLogeado).subscribe((res)=>{
+      console.log(res);
+      this.intensity = res;
 
     },(error)=>{
       console.log(error);

@@ -97,7 +97,7 @@ export class AccionListComponent implements OnInit {
   perPage(itemsPerPage,page){
     this.p = page;
     this.itemsPerPage = itemsPerPage;
-    let param={page:this.p,per_page:this.itemsPerPage};
+    let param={id:JSON.parse(localStorage.getItem('user')).id,page:this.p,per_page:this.itemsPerPage};
     this.loadInitialData(param);
 
   }

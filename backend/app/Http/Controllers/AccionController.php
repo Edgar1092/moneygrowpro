@@ -44,6 +44,8 @@ class AccionController extends Controller
             if($result->isEmpty()){
                 return response()->json([
                     'msj' => 'No se encontraron registros.',
+                    'data'=>[],
+                    'total'=>0
                 ], 200); 
             }
             return response()->json($response);
@@ -194,7 +196,7 @@ function crearAccionCambiodeFase($activarAcciondeFase){
          if($activarAcciondeFase['estatus']=='aprobado'){
 
             
-             if($datosUser->idReferido!=''){
+             if($datosUser->idReferido!='' || $datosUser->idReferido!=0){
 
                 $cuantasAccionesyPAgo=Accion::where('idUsuarioFk',$datosUser->id)->where('estatus','aprobado')->count();
                 // echo 'entre aqui'.$cuantasAccionesyPAgo;
@@ -205,7 +207,7 @@ function crearAccionCambiodeFase($activarAcciondeFase){
                      $usuerio->premiun=1;
                      $usuerio->save();
 
-                 $acciones=Accion::where('idUsuarioFk',$datosUser->idReferido)->where('estatus','aprobado')->get();
+                 $acciones=Accion::where('estatus','aprobado')->get();
                  $accionesConseguidas=[];
                  foreach($acciones as $accion){
                   
@@ -261,18 +263,19 @@ function crearAccionCambiodeFase($activarAcciondeFase){
               
                          return $premio;
 
-                     }else{
+                     }
+                    //  else{
                         
-                         $referidoporAccion=Referido::where('idAccionReferidoFk',$accion->id)->get();
-                         if(count($referidoporAccion)>0){
-                             foreach($referidoporAccion as $referidoporAccion2){
+                    //      $referidoporAccion=Referido::where('idAccionReferidoFk',$accion->id)->where('idUsuarioDuenoFk','!=',$user->idUsuarioFk)->get();
+                    //      if(count($referidoporAccion)>0){
+                    //          foreach($referidoporAccion as $referidoporAccion2){
 
-                                 array_push($accionesConseguidas,$referidoporAccion2);
-                             }
-                         }
+                    //              array_push($accionesConseguidas,$referidoporAccion2);
+                    //          }
+                    //      }
      
                         
-                     }
+                    //  }
                      
               
                  }//AQUI MUERE EL FOREACH DE ACCIONES
@@ -453,8 +456,8 @@ function crearAccionCambiodeFase($activarAcciondeFase){
         //  if(!empty($consultarReferido)){
 
             $consultarpordebajodeAccionrecibida=Referido::
-            leftjoin('accions','accions.id','=','referido.idAccionReferidoFk')
-            ->where('idAccionReferidoFk',$arreglo->id)->get();
+            leftjoin('accions','accions.id','=','referido.idAccionFk')
+            ->where('referido.idAccionReferidoFk',$arreglo->id)->get();
 
             if(count($consultarpordebajodeAccionrecibida)>0 && $arreglo->idFaseFk<8){
             
@@ -468,7 +471,7 @@ function crearAccionCambiodeFase($activarAcciondeFase){
                     }
         
                 }
-      
+    //   echo json_encode($consultarpordebajodeAccionrecibida).'  hasta aqui llega <br>';
                 if($cantidadFasesiguales==4){
                     
                     
@@ -732,24 +735,24 @@ function crearAccionCambiodeFase($activarAcciondeFase){
                                
                             ]); 
                         }
+                        if($actualizarfase->idFaseFk !=2){
+                            $Accions = Accion::create([
+                                'referenciaPago'    => 'creada por cambio de fase '.$actualizarfase->idFaseFk,
+                                'idFaseFk'    => 1,
+                                'estatus' =>'aprobado',
+                                'idUsuarioFk'     => $actualizarfase->idUsuarioFk
+                            
+                        
+                            ]); 
+                            
+                            $arregloEnviarUpdate=array(
+                                'id'=>$Accions->id,
+                                'idUsuarioFk'=>$actualizarfase->idUsuarioFk,
+                                'estatus'=>'aprobado'
+                            );
 
-                        $Accions = Accion::create([
-                            'referenciaPago'    => 'creada por cambio de fase '.$actualizarfase->idFaseFk,
-                            'idFaseFk'    => 1,
-                            'estatus' =>'aprobado',
-                            'idUsuarioFk'     => $actualizarfase->idUsuarioFk
-                           
-                     
-                        ]); 
-                           
-                        $arregloEnviarUpdate=array(
-                            'id'=>$Accions->id,
-                            'idUsuarioFk'=>$actualizarfase->idUsuarioFk,
-                            'estatus'=>'aprobado'
-                        );
-
-                        $crearAccion=self::crearAccionCambiodeFase($arregloEnviarUpdate);
-
+                            $crearAccion=self::crearAccionCambiodeFase($arregloEnviarUpdate);
+                        }
                     }
 
                  $consultarReferido=Referido::where('idAccionFk',$arreglo->id)->first();
@@ -785,9 +788,25 @@ function crearAccionCambiodeFase($activarAcciondeFase){
         return response()->json($total,201);
     }
 
+    function obtenerSaldoCorporacion(Request $request){
+        $ingreso=DB::table("corporacion")->get()->sum("entrada");
+
+        $total=$ingreso;
+
+        return response()->json($total,201);
+    }
+
+    function obtenerSaldoIntensity(Request $request){
+        $ingreso=DB::table("intensityfitness")->get()->sum("entrada");
+
+        $total=$ingreso;
+
+        return response()->json($total,201);
+    }
+
     function obtenerAcciones(Request $request){
-        $cantidad=Accion::where('idUsuarioFk',$request->id)->count();
-        $acciones=Accion::where('idUsuarioFk',$request->id)->get();
+        $cantidad=Accion::where('idUsuarioFk',$request->id)->where('estatus','aprobado')->count();
+        $acciones=Accion::where('idUsuarioFk',$request->id)->where('estatus','aprobado')->get();
 
         
 
@@ -859,9 +878,44 @@ function crearAccionCambiodeFase($activarAcciondeFase){
             ], 400); 
         }
 
-     
-       
-        
    
     }
+
+    function rechazarAccion(Request $request){
+            
+        try{
+
+
+        // return json_decode($request);
+            DB::beginTransaction(); 
+            
+            $rechazar=Accion::find($request->id);
+            $rechazar->estatus='rechazado';
+            $rechazar->save();
+
+            // $arregloEnviarUpdate=array(
+            //     'id'=>$request->id,
+            //     'idUsuarioFk'=>$request->idUsuarioFk,
+            //     'estatus'=>$request->estatus
+            // );
+            //     $premio=self::crearAccionCambiodeFase($arregloEnviarUpdate);
+
+            DB::commit(); 
+            
+            return response()->json($rechazar,200);
+
+
+
+        }catch (\Exception $e) {
+            if($e instanceof ValidationException) {
+                return response()->json($e->errors(),402);
+            }
+            DB::rollback(); // Retrocedemos la transaccion
+            Log::error('Ha ocurrido un error en '.$this->NAME_CONTROLLER.': '.$e->getMessage().', Linea: '.$e->getLine());
+            return response()->json([
+                'message' => 'Ha ocurrido un error al tratar de guardar los datos.',
+            ], 500);
+        }
+            
+        }
 }
