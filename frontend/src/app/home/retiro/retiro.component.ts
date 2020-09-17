@@ -41,6 +41,7 @@ export class RetiroComponent implements OnInit {
       saldoDisponible: ['', Validators.required],
       montoSolicitar: ['', Validators.required],
       plataforma: ['', Validators.required],
+      cuenta: ['', Validators.required],
 
     });
    }

@@ -34,10 +34,50 @@ class AccionController extends Controller
             ]);  
             if($request->id){
                 $per_page = (!empty($request->per_page)) ? $request->per_page : Accion::count();
-                $result = Accion::where('idUsuarioFk',$request->id)->paginate($per_page);
+                $result = Accion::leftjoin('users','users.id','=','accions.idUsuarioFk')
+                ->select('users.id as idUser','users.*','accions.*')
+                ->where('idUsuarioFk',$request->id)->paginate($per_page);
             }else{
             $per_page = (!empty($request->per_page)) ? $request->per_page : Accion::count();
-            $result = Accion::where('estatus','solicitando')->paginate($per_page);
+            $result = Accion::leftjoin('users','users.id','=','accions.idUsuarioFk');
+            $result->select('users.id as idUser','users.*','accions.*');
+
+            if($request->search!=''){
+                $result->where('users.email',$request->search);
+            }
+            $result->where('estatus','solicitando');
+            $resultado=$result->paginate($per_page);
+
+
+            }
+            $response = $resultado;  
+  
+            if($resultado->isEmpty()){
+                return response()->json([
+                    'msj' => 'No se encontraron registros.',
+                    'data'=>[],
+                    'total'=>0
+                ], 200); 
+            }
+            return response()->json($response);
+        }catch (\Exception $e) {
+            Log::error('Ha ocurrido un error en '.$this->NAME_CONTROLLER.': '.$e->getMessage().', Linea: '.$e->getLine());
+            return response()->json([
+                'message' => 'Ha ocurrido un error al tratar de guardar los datos.',
+            ], 500);
+        }
+    }
+
+    function getAllReferidos(Request $request){
+        try{
+        	$request->validate([
+                'per_page'      =>  'nullable|integer',
+                'page'          =>  'nullable|integer'
+            ]);  
+            if($request->id){
+                $per_page = (!empty($request->per_page)) ? $request->per_page : User::count();
+                $result = User::where('idReferido',$request->id)
+                ->paginate($per_page);
             }
             $response = $result;  
   
@@ -501,10 +541,18 @@ function crearAccionCambiodeFase($activarAcciondeFase){
 
                             $saldo = Intensityfitness::create([
                                 'idAccionEnvioFk'    => $actualizarfase->id,
+                                'entrada' =>0,
+                                'salida'     => 2,
+                               
+                            ]); 
+
+                            $saldo = Intensityfitness::create([
+                                'idAccionEnvioFk'    => $actualizarfase->id,
                                 'entrada' =>6,
                                 'salida'     => 0,
                                
                             ]); 
+                            
 
                             $corporacion = Corporacion::create([
                                 'idAccionEnvioFk'    => $actualizarfase->id,
@@ -526,6 +574,13 @@ function crearAccionCambiodeFase($activarAcciondeFase){
                          
                             ]); 
 
+                            $saldo = Intensityfitness::create([
+                                'idAccionEnvioFk'    => $actualizarfase->id,
+                                'entrada' =>0,
+                                'salida'     => 4,
+                               
+                            ]); 
+
                             $patrocinador = Saldo::create([
                                 'idUserFk'    => $obtenerPAtrocinado->idReferido,
                                 'idAccionFk'    => $actualizarfase->id,
@@ -534,6 +589,13 @@ function crearAccionCambiodeFase($activarAcciondeFase){
                                 'concepto' => 'Bono impulsor de referido'
                                
                          
+                            ]); 
+
+                            $saldo = Intensityfitness::create([
+                                'idAccionEnvioFk'    => $actualizarfase->id,
+                                'entrada' =>0,
+                                'salida'     => 1,
+                               
                             ]); 
 
                             $intensity = Intensityfitness::create([
@@ -547,6 +609,13 @@ function crearAccionCambiodeFase($activarAcciondeFase){
                                 'idAccionEnvioFk'    => $actualizarfase->id,
                                 'entrada' =>1,
                                 'salida'     => 0,
+                               
+                            ]); 
+
+                            $saldo = Intensityfitness::create([
+                                'idAccionEnvioFk'    => $actualizarfase->id,
+                                'entrada' =>0,
+                                'salida'     => 1,
                                
                             ]); 
                         }
@@ -563,6 +632,13 @@ function crearAccionCambiodeFase($activarAcciondeFase){
                          
                             ]); 
 
+                            $saldo = Intensityfitness::create([
+                                'idAccionEnvioFk'    => $actualizarfase->id,
+                                'entrada' =>0,
+                                'salida'     => 10,
+                               
+                            ]); 
+
                             $patrocinador = Saldo::create([
                                 'idUserFk'    => $obtenerPAtrocinado->idReferido,
                                 'idAccionFk'    => $actualizarfase->id,
@@ -571,6 +647,13 @@ function crearAccionCambiodeFase($activarAcciondeFase){
                                 'concepto' => 'Bono consntructor de referido'
                                
                          
+                            ]); 
+
+                            $saldo = Intensityfitness::create([
+                                'idAccionEnvioFk'    => $actualizarfase->id,
+                                'entrada' =>0,
+                                'salida'     => 2,
+                               
                             ]); 
 
                             $intensity = Intensityfitness::create([
@@ -584,6 +667,13 @@ function crearAccionCambiodeFase($activarAcciondeFase){
                                 'idAccionEnvioFk'    => $actualizarfase->id,
                                 'entrada' =>2,
                                 'salida'     => 0,
+                               
+                            ]); 
+
+                            $saldo = Intensityfitness::create([
+                                'idAccionEnvioFk'    => $actualizarfase->id,
+                                'entrada' =>0,
+                                'salida'     => 2,
                                
                             ]); 
                         }
@@ -600,6 +690,13 @@ function crearAccionCambiodeFase($activarAcciondeFase){
                          
                             ]); 
 
+                            $saldo = Intensityfitness::create([
+                                'idAccionEnvioFk'    => $actualizarfase->id,
+                                'entrada' =>0,
+                                'salida'     => 42,
+                               
+                            ]); 
+
                             $patrocinador = Saldo::create([
                                 'idUserFk'    => $obtenerPAtrocinado->idReferido,
                                 'idAccionFk'    => $actualizarfase->id,
@@ -608,6 +705,13 @@ function crearAccionCambiodeFase($activarAcciondeFase){
                                 'concepto' => 'Bono productor de referido'
                                
                          
+                            ]); 
+
+                            $saldo = Intensityfitness::create([
+                                'idAccionEnvioFk'    => $actualizarfase->id,
+                                'entrada' =>0,
+                                'salida'     => 2,
+                               
                             ]); 
 
                             $intensity = Intensityfitness::create([
@@ -621,6 +725,13 @@ function crearAccionCambiodeFase($activarAcciondeFase){
                                 'idAccionEnvioFk'    => $actualizarfase->id,
                                 'entrada' =>2,
                                 'salida'     => 0,
+                               
+                            ]); 
+
+                            $saldo = Intensityfitness::create([
+                                'idAccionEnvioFk'    => $actualizarfase->id,
+                                'entrada' =>0,
+                                'salida'     => 2,
                                
                             ]); 
                         }
@@ -637,6 +748,13 @@ function crearAccionCambiodeFase($activarAcciondeFase){
                          
                             ]); 
 
+                            $saldo = Intensityfitness::create([
+                                'idAccionEnvioFk'    => $actualizarfase->id,
+                                'entrada' =>0,
+                                'salida'     => 84,
+                               
+                            ]); 
+
                             $patrocinador = Saldo::create([
                                 'idUserFk'    => $obtenerPAtrocinado->idReferido,
                                 'idAccionFk'    => $actualizarfase->id,
@@ -645,6 +763,13 @@ function crearAccionCambiodeFase($activarAcciondeFase){
                                 'concepto' => 'Bono emprendedor de referido'
                                
                          
+                            ]);
+                            
+                            $saldo = Intensityfitness::create([
+                                'idAccionEnvioFk'    => $actualizarfase->id,
+                                'entrada' =>0,
+                                'salida'     => 2,
+                               
                             ]); 
 
                             $intensity = Intensityfitness::create([
@@ -658,6 +783,13 @@ function crearAccionCambiodeFase($activarAcciondeFase){
                                 'idAccionEnvioFk'    => $actualizarfase->id,
                                 'entrada' =>2,
                                 'salida'     => 0,
+                               
+                            ]); 
+
+                            $saldo = Intensityfitness::create([
+                                'idAccionEnvioFk'    => $actualizarfase->id,
+                                'entrada' =>0,
+                                'salida'     => 2,
                                
                             ]); 
                         }
@@ -674,6 +806,13 @@ function crearAccionCambiodeFase($activarAcciondeFase){
                          
                             ]); 
 
+                            $saldo = Intensityfitness::create([
+                                'idAccionEnvioFk'    => $actualizarfase->id,
+                                'entrada' =>0,
+                                'salida'     => 438,
+                               
+                            ]); 
+
                             $patrocinador = Saldo::create([
                                 'idUserFk'    => $obtenerPAtrocinado->idReferido,
                                 'idAccionFk'    => $actualizarfase->id,
@@ -682,6 +821,13 @@ function crearAccionCambiodeFase($activarAcciondeFase){
                                 'concepto' => 'Bono capitalizacion de referido'
                                
                          
+                            ]); 
+
+                            $saldo = Intensityfitness::create([
+                                'idAccionEnvioFk'    => $actualizarfase->id,
+                                'entrada' =>0,
+                                'salida'     => 2,
+                               
                             ]); 
 
                             $intensity = Intensityfitness::create([
@@ -697,6 +843,13 @@ function crearAccionCambiodeFase($activarAcciondeFase){
                                 'salida'     => 0,
                                
                             ]); 
+
+                            $saldo = Intensityfitness::create([
+                                'idAccionEnvioFk'    => $actualizarfase->id,
+                                'entrada' =>0,
+                                'salida'     => 2,
+                               
+                            ]); 
                         }
 
                         if(($actualizarfase->idFaseFk)==8){
@@ -709,6 +862,13 @@ function crearAccionCambiodeFase($activarAcciondeFase){
                                 'concepto' => 'Bono fundador'
                                
                          
+                            ]);
+                            
+                            $saldo = Intensityfitness::create([
+                                'idAccionEnvioFk'    => $actualizarfase->id,
+                                'entrada' =>0,
+                                'salida'     => 5800,
+                               
                             ]); 
 
                             $patrocinador = Saldo::create([
@@ -719,6 +879,13 @@ function crearAccionCambiodeFase($activarAcciondeFase){
                                 'concepto' => 'Bono fundador de referido'
                                
                          
+                            ]);
+                            
+                            $saldo = Intensityfitness::create([
+                                'idAccionEnvioFk'    => $actualizarfase->id,
+                                'entrada' =>0,
+                                'salida'     => 100,
+                               
                             ]); 
 
                             $intensity = Intensityfitness::create([
@@ -732,6 +899,13 @@ function crearAccionCambiodeFase($activarAcciondeFase){
                                 'idAccionEnvioFk'    => $actualizarfase->id,
                                 'entrada' =>92,
                                 'salida'     => 0,
+                               
+                            ]); 
+
+                            $saldo = Intensityfitness::create([
+                                'idAccionEnvioFk'    => $actualizarfase->id,
+                                'entrada' =>0,
+                                'salida'     => 92,
                                
                             ]); 
                         }
@@ -798,8 +972,9 @@ function crearAccionCambiodeFase($activarAcciondeFase){
 
     function obtenerSaldoIntensity(Request $request){
         $ingreso=DB::table("intensityfitness")->get()->sum("entrada");
+        $salida=DB::table("intensityfitness")->get()->sum("salida");
 
-        $total=$ingreso;
+        $total=$ingreso-$salida;
 
         return response()->json($total,201);
     }
@@ -829,7 +1004,8 @@ function crearAccionCambiodeFase($activarAcciondeFase){
         $retiro = Solicitudretiro::create([
             'idUserFk'    => $request->idUsuarioFk,
             'montoSolicitado'    => $request->montoSolicitar,
-            'plataforma' =>$request->plataforma
+            'plataforma' =>$request->plataforma,
+            'cuenta' =>$request->cuenta
            
      
         ]); 
@@ -856,6 +1032,13 @@ function crearAccionCambiodeFase($activarAcciondeFase){
                 'concepto' => 'Solicitud de retiro'
                
          
+            ]); 
+
+            $saldo = Intensityfitness::create([
+                
+                'entrada' =>0,
+                'salida'     => $request->montoSolicitado,
+               
             ]); 
 
             $actualizar=Solicitudretiro::find($request->id);

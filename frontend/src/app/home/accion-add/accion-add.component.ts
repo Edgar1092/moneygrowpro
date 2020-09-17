@@ -6,11 +6,19 @@ import { AccionService } from 'app/shared/services/accion.service';
 import { ToastrService } from 'ngx-toastr';
 import { ActivatedRoute, Router } from '@angular/router';
 import { switchMap } from 'rxjs/operators';
+import { state, trigger, transition, animate, style } from '@angular/animations';
 
 @Component({
   selector: 'app-accion-add',
   templateUrl: './accion-add.component.html',
-  styleUrls: ['./accion-add.component.scss']
+  styleUrls: ['./accion-add.component.scss'],
+  animations: [
+    trigger('openClose', [
+                state('open', style({height: '100%', opacity: 1})),
+                state('closed', style({height: 0, opacity: 0})),
+                transition('* => *', [animate('100ms')])
+            ]),
+ ]
 })
 export class AccionAddComponent implements OnInit {
   formBlog: FormGroup;
@@ -21,6 +29,11 @@ export class AccionAddComponent implements OnInit {
   nombreImagen
   urlImagen
  idUser;
+ isOpen = true;
+
+ toggle() {
+   this.isOpen = !this.isOpen;
+ }
 
   constructor(
     private fb: FormBuilder,

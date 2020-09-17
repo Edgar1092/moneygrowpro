@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UsersService } from 'app/shared/services/users.service';
+import { AuthService } from 'app/shared/auth/auth.service';
 import { Routes, Router, Route, ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { switchMap, filter, throttleTime } from 'rxjs/operators';
@@ -11,14 +12,18 @@ import { switchMap, filter, throttleTime } from 'rxjs/operators';
 })
 export class UserComponent implements OnInit {
   user$: Observable<any>;
+  isAdmin=false
   constructor(
     private userService: UsersService,
-    private activeRouter: ActivatedRoute
+    private activeRouter: ActivatedRoute,
+    public authService:AuthService
   ) {
     this.getUserData();
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+   this.isAdmin=this.authService.isAdmin();
+  }
 
   getUserData() {
     this.user$ = this.activeRouter.params.pipe(throttleTime(500)).pipe(

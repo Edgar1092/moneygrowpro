@@ -92,7 +92,7 @@ class UserController extends Controller
     {
         $user = [];
         try{
-            $user = $this->repository->with(['offices','roles'])->find($id);
+            $user = $this->repository->with(['roles'])->find($id);
 
         }catch(\Exception $e){
             $this->responseCode = 404;
@@ -115,7 +115,6 @@ class UserController extends Controller
             $user->fill( $request->all() );
             $user->save();
 
-            $user->offices()->sync($request->offices);
             $user->roles()->sync($request->roles);
 
             $message = 'Registro Actualizado!';
@@ -128,7 +127,7 @@ class UserController extends Controller
         }
 
         return response()->json([
-            'data'      =>  $user->load('offices','roles'),
+            'data'      =>  $user->load('roles'),
             'message'   =>  $message,
         ],$this->responseCode);
     }

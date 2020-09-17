@@ -6,6 +6,7 @@ import { UsersService } from 'app/shared/services/users.service';
 import { ToastrService } from 'ngx-toastr';
 import { ActivatedRoute, Router } from '@angular/router';
 import { switchMap } from 'rxjs/operators';
+import { AuthService } from 'app/shared/auth/auth.service';
 
 @Component({
   selector: 'app-users',
@@ -17,6 +18,7 @@ export class UsersComponent implements OnInit {
   roles$: Observable<any[]>;
   page=1;
   per_page=30;
+  isAdmin=false
   userToEdit$: BehaviorSubject<any> = new BehaviorSubject<any>(null);
 
   constructor(
@@ -25,7 +27,8 @@ export class UsersComponent implements OnInit {
     private userService: UsersService,
     private toast: ToastrService,
     private activatedRoute: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    public authService:AuthService
   ) {
     this.formUser = this.fb.group({
       id: [''],
@@ -92,7 +95,12 @@ export class UsersComponent implements OnInit {
       this.userService.update(id, this.formUser.value).subscribe(response => {
         if (response) {
           this.toast.success(response['message']);
-          this.router.navigate(['/admin/users/list']);
+          if(this.isAdmin){
+            this.router.navigate(['/admin/users/list']);
+          }else{
+            this.router.navigate(['/home']);
+          }
+          
         } else {
           this.toast.error(JSON.stringify(response));
         }
@@ -101,5 +109,7 @@ export class UsersComponent implements OnInit {
     // console.log(this.formUser.value);
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.isAdmin=this.authService.isAdmin();
+  }
 }

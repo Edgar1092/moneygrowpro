@@ -57,6 +57,7 @@ Route::group([
     Route::post('obtenerNumeroUsuario','AccionController@obtenerNumeroUsuario');
     Route::post('obtenerSaldoCorporacion','AccionController@obtenerSaldoCorporacion');
     Route::post('obtenerSaldoIntensity','AccionController@obtenerSaldoIntensity');
+    Route::get('get/referidos','AccionController@getAllReferidos');
 });
     /** File routes */
 

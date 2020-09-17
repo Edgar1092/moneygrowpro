@@ -12,26 +12,25 @@ import localeEs from '@angular/common/locales/es';
 export class HomeComponent implements OnInit {
 users$: Observable<any[]>;
 codigoReferido;
-contadorReferidos;
+contadorReferidos=0;
 Patrocinador;
 posicion;
 saldo
-intensity
-corporacion
+intensity=0
+corporacion=0
 administrador
-accionesConteo
-usuarios
+accionesConteo=0
+usuarios=0
+nombreApellido;
   constructor(private userService: UsersService) { }
 
   ngOnInit() {
     registerLocaleData(localeEs, 'es');
     let usuario= JSON.parse(localStorage.getItem('user'));
+    this.nombreApellido=usuario.first_name+' '+usuario.last_name;
     this.codigoReferido=usuario.link;
     this.posicion=usuario.posicion;
-    this.obtenerReferidos(usuario.id)
-    this.obtenerPatrocinador(usuario.idReferido)
-    this.obtenerSaldo(usuario.id)
-    this.obtenerAcciones(usuario.id)
+
     // console.log('administrador',JSON.parse(localStorage.getItem('user')).roles[0].id)
     if(JSON.parse(localStorage.getItem('user')).roles[0].id==1){
       this.obtenerNumeroUsuario(usuario.id);
@@ -39,13 +38,17 @@ usuarios
       this.obtenerSaldoIntensity(usuario.id)
       this.administrador=1;
     }else{
+      this.obtenerReferidos(usuario.id)
+      this.obtenerPatrocinador(usuario.idReferido)
+      this.obtenerSaldo(usuario.id)
+      this.obtenerAcciones(usuario.id)
       this.administrador=0;
     }
   }
 
   obtenerReferidos(idLogeado){
     
-    this.contadorReferidos=this.userService.countReferidos(idLogeado);
+    // this.contadorReferidos=this.userService.countReferidos(idLogeado);
 
 
     this.userService.countReferidos(idLogeado).subscribe((res)=>{
@@ -76,7 +79,7 @@ usuarios
   
     this.userService.obtenerNumeroUsuario(idLogeado).subscribe((res)=>{
       console.log(res);
-      this.usuarios = res;
+      this.contadorReferidos = parseFloat(JSON.parse(JSON.stringify(res)));
 
     },(error)=>{
       console.log(error);
@@ -100,7 +103,7 @@ usuarios
   obtenerSaldoCorporacion(idLogeado){
     this.userService.obtenerSaldoCorporacion(idLogeado).subscribe((res)=>{
       console.log(res);
-      this.corporacion = res;
+      this.corporacion = parseFloat(JSON.parse(JSON.stringify(res)));
 
     },(error)=>{
       console.log(error);
@@ -110,7 +113,7 @@ usuarios
   obtenerSaldoIntensity(idLogeado){
     this.userService.obtenerSaldoIntensity(idLogeado).subscribe((res)=>{
       console.log(res);
-      this.intensity = res;
+      this.intensity = parseFloat(JSON.parse(JSON.stringify(res)));
 
     },(error)=>{
       console.log(error);

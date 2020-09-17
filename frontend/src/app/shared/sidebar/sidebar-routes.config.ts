@@ -155,6 +155,16 @@ export const CLIENTE_ROUTES: RouteInfo[] = [
     submenu: []
   },
   {
+    path: '/home/referidos',
+    title: 'Mis referidos',
+    icon: 'ft-users',
+    class: '',
+    badge: '',
+    badgeClass: '',
+    isExternalLink: false,
+    submenu: []
+  },
+  {
     path: '/accions/',
     title: 'Accion',
     icon: 'ft-user',

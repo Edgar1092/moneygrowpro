@@ -4,13 +4,22 @@
       <div class="card">
         <div class="card-header">
           <div class="card-title">
-            <h2>Activar acciones</h2>
+            <h2>Mis referidos</h2>
           </div>
         </div>
         <div class="card-body">
           <div class="row">
             <div class="col-12">
-              <app-filter (onFilter)="onFilter($event)"></app-filter>
+              <!-- <button
+            
+                        ngbTooltip="Agregar accion"
+                          type="button"
+                          class="btn btn-success"
+                          [routerLink]="['/home/accion/add']"
+                          
+                        >
+                          <a class="ft-plus" style="color:white"></a>
+                        </button> -->
             </div>
             <div class="col-12 table-responsive">
               <table
@@ -18,13 +27,14 @@
               >
                 <thead class="thead-inverse">
                   <tr>
+                    <!-- <th>Email</th> -->
+                    <th>Nombre y Apellido</th>
                     <th>Email</th>
-                    <th>Referencia de pago</th>
-                    <th>Plataforma</th>
+                    <th>Nº telefono</th>
                     <th>Estatus</th>
                     
                     <!-- <th>Roles</th> -->
-                    <th>Acciones</th>
+                    <!-- <th>Acciones</th> -->
                   </tr>
                 </thead>
                 <tbody>
@@ -41,15 +51,16 @@
                     "
                   >
                 
-                    <td scope="row">{{ blog.email }}</td>
-                    <td>{{ blog.referenciaPago }} </td>
-                    <td>{{ blog.plataforma }} </td>
-                    <td>{{ blog.estatus }} </td>
+                    <!-- <td scope="row">{{ blog.usuario.email }}</td> -->
+                    <td>{{ blog.first_name }} {{ blog.last_name }} </td>
+                    <td>{{ blog.email }} </td>
+                    <td>{{ blog.n_telefono }} </td>
+                    <td>{{ blog.premiun==1 ? 'Activo' : 'Inactivo' }} </td>
                     
                     <!-- <td>{{ joinData(user.offices) }}</td> -->
                     <!-- <td>{{ user.roles.name }}</td> -->
                     <td>
-                      <div class="btn-group">
+                      <!-- <div class="btn-group">
                         <button
                         *ngIf="blog.estatus=='solicitando'"
                         ngbTooltip="Aprobar pago"
@@ -62,7 +73,6 @@
                         </button>
 
                         <button
-                        *ngIf="blog.estatus=='solicitando'"
                         ngbTooltip="Rechazar pago"
                           type="button"
                           class="btn btn-danger"
@@ -70,7 +80,7 @@
                         >
                           <a class="ft-x" style="color:white"></a>
                         </button>
-                      </div>
+                      </div> -->
                     </td>
                   </tr>
                 </tbody>

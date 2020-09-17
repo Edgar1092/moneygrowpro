@@ -34,9 +34,17 @@
                     <input
                       type="text"
                       class="form-control mb-3"
-                      placeholder="Apellidos"
+                      placeholder="Nº de documento"
                       formControlName="n_documento"
                       id="n_documento"
+                    />
+                    <label for="last_name">Nº telefono</label>
+                    <input
+                      type="text"
+                      class="form-control mb-3"
+                      placeholder="+581111111111"
+                      formControlName="n_telefono"
+                      id="n_telefono"
                     />
                     <label for="email_login">Email (AIRTM)</label>
                     <input
@@ -46,6 +54,21 @@
                       formControlName="email"
                       id="email_login"
                     />
+                    <label for="email_login">Fecha de nacimiento</label>
+                    <input
+                    type="text"
+                    ngbDatepicker
+                    #fecha_nacimiento="ngbDatepicker"
+                    (click)="fecha_nacimiento.toggle()"
+                    (dateSelect)="minFE($event)"
+                    class="form-control"
+                    id="fecha_nacimiento"
+           
+                    
+                    [minDate]="fechasesenta"
+                    [maxDate]="maxDate"
+               
+                  />
                     <label for="password">Contraseña</label>
                     <input
                       type="password"

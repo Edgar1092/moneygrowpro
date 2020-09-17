@@ -22,6 +22,7 @@
                       class="form-control"
                       formControlName="email"
                       id="email"
+                      [readonly]='!isAdmin'
                       required
                     />
                   </div>
@@ -63,7 +64,7 @@
                   </div>
                 </div>
               </div>
-              <div class="form-row">
+              <div class="form-row" *ngIf="isAdmin">
                 <div class="col-4">
                   <div class="form-group">
                     <label for="roles">Roles</label>

@@ -6,6 +6,7 @@ import { AccionListComponent } from './accion-list/accion-list.component';
 import { AccionAddComponent } from './accion-add/accion-add.component';
 import { HistoricoComponent } from './historico/historico.component';
 import { RetiroComponent } from './retiro/retiro.component';
+import { ReferidosComponent } from './referidos/referidos.component';
 
 const routes: Routes = [
   {
@@ -31,6 +32,10 @@ const routes: Routes = [
   {
     path: 'retiro',
     component: RetiroComponent
+  },
+  {
+    path: 'referidos',
+    component: ReferidosComponent
   },
 ];
 

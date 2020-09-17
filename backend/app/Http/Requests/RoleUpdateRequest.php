@@ -28,7 +28,6 @@ class RoleUpdateRequest extends FormRequest
 
         return [
             'name'                              =>  "required|string|max:200|unique:roles,name,{$id},id",
-            'office_id'                         =>  'required|exists:offices,id',
             'permissions'                       =>  'required|array|exists:permissions,id'
         ];
     }

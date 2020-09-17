@@ -10,6 +10,7 @@ import { MaintenancePageComponent } from './maintenance/maintenance-page.compone
 import { RegisterPageComponent } from './register/register-page.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LockScreenPageComponent } from './lock-screen/lock-screen-page.component';
+import { SharedModule } from 'app/shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,7 @@ import { LockScreenPageComponent } from './lock-screen/lock-screen-page.componen
     RegisterPageComponent,
     LockScreenPageComponent
   ],
-  imports: [CommonModule, AuthRoutingModule, FormsModule, ReactiveFormsModule],
+  imports: [CommonModule, AuthRoutingModule, FormsModule, ReactiveFormsModule,SharedModule],
   providers: []
 })
 export class AuthModule {}

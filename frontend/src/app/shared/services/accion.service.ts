@@ -24,6 +24,19 @@ export class AccionService {
         this.blogs$.next(preguntas);
       });
   }
+  getReferidos(params?) {
+    let parseParams = new HttpParams();
+    if (params) {
+      Object.keys(params).forEach(p => {
+        parseParams = parseParams.append(p, params[p]);
+      });
+    }
+    this.http
+      .get<any[]>(`accion/get/referidos`, { params: parseParams })
+      .subscribe(preguntas => {
+        this.blogs$.next(preguntas);
+      });
+  }
   getHistorico(params?) {
     let parseParams = new HttpParams();
     if (params) {

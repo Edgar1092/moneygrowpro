@@ -20,7 +20,7 @@ export const Full_ROUTES: Routes = [
   {
     path: 'admin',
     loadChildren: './admin/admin.module#AdminModule',
-    canActivateChild: [RoleAdminGuard]
+    canActivate: [AuthGuard]
   }
 
 ];

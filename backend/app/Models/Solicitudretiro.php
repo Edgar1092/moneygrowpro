@@ -23,7 +23,8 @@ class Solicitudretiro extends Model
         'idUserFk',
         'montoSolicitado',
         'plataforma',
-        'estatus'
+        'estatus',
+        'cuenta'
     ];
 
     /**

@@ -5,7 +5,8 @@
 
 export const environment = {
   production: false,
-    apiUrl: 'http://localhost:8000/api',
+     apiUrl: 'http://localhost:8000/api',
+    // apiUrl: 'https://intensityfitnessonline.com/test/backend/api',
   //  apiUrl: '',
   serviceWorker: false
 };
