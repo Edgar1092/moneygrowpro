@@ -11,6 +11,7 @@ import { SharedModule } from 'app/shared/shared.module';
 import { ProcesarAccionesComponent } from './procesar-acciones/procesar-acciones.component';
 import { SolicitudespagoComponent } from './solicitudespago/solicitudespago.component';
 import { ActivaraccionComponent } from './activaraccion/activaraccion.component';
+import { ActivaraccionmgpComponent } from './activaraccionmgp/activaraccionmgp.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { ActivaraccionComponent } from './activaraccion/activaraccion.component'
     UserComponent,
     ProcesarAccionesComponent,
     SolicitudespagoComponent,
-    ActivaraccionComponent
+    ActivaraccionComponent,
+    ActivaraccionmgpComponent
   ],
   imports: [
     CommonModule,

@@ -7,6 +7,8 @@ import { AccionAddComponent } from './accion-add/accion-add.component';
 import { HistoricoComponent } from './historico/historico.component';
 import { RetiroComponent } from './retiro/retiro.component';
 import { ReferidosComponent } from './referidos/referidos.component';
+import { AccionMGPComponent } from './accion-mgp/accion-mgp.component';
+import { AccionmgpAddComponent } from './accionmgp-add/accionmgp-add.component';
 
 const routes: Routes = [
   {
@@ -36,6 +38,14 @@ const routes: Routes = [
   {
     path: 'referidos',
     component: ReferidosComponent
+  },
+  {
+    path: 'accionMGP',
+    component: AccionMGPComponent
+  },
+  {
+    path: 'accionMGP/add/:id',
+    component: AccionmgpAddComponent
   },
 ];
 

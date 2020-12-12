@@ -42,10 +42,14 @@ Route::group([
     'prefix'        => 'accion',
 ], function () {
     Route::get('get','AccionController@getAll');
+    Route::get('getMGP','AccionController@getMGP');
     Route::post('getAccion','AccionController@getAccion');
     Route::post('create','AccionController@create');
+    Route::post('createMGP','AccionController@createMGP');
     Route::post('aprobar','AccionController@update');
     Route::post('rechazar','AccionController@rechazarAccion');
+    Route::post('aprobarMGP','AccionController@matrixMPG');
+    Route::post('rechazarMGP','AccionController@rechazarAccionMGP');
     Route::post('delete','AccionController@delete');
     Route::post('verificar','AccionController@verificar');
     Route::post('obtenerSaldo','AccionController@obtenerSaldo');
@@ -58,6 +62,11 @@ Route::group([
     Route::post('obtenerSaldoCorporacion','AccionController@obtenerSaldoCorporacion');
     Route::post('obtenerSaldoIntensity','AccionController@obtenerSaldoIntensity');
     Route::get('get/referidos','AccionController@getAllReferidos');
+    Route::get('acionesMGP','AccionController@acionesMGP');
+    Route::post('actualizarMGP','AccionController@actualizarMGP');
+    Route::post('cobradores','AccionController@cobradores');
+    Route::post('liberarCiclo','AccionController@liberarCiclo');
+    Route::post('obtenerSaldoMGP','AccionController@obtenerSaldoMGP');
 });
     /** File routes */
 

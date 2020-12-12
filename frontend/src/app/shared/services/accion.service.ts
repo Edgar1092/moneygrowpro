@@ -8,6 +8,8 @@ import { BehaviorSubject } from 'rxjs';
 export class AccionService {
 
   blogs$: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([]);
+  blogs2$: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([]);
+  MGP$: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([]);
   
   constructor(private http: HttpClient) {
   }
@@ -22,6 +24,33 @@ export class AccionService {
       .get<any[]>(`accion/get`, { params: parseParams })
       .subscribe(preguntas => {
         this.blogs$.next(preguntas);
+      });
+  }
+
+  getMGP(params?) {
+    let parseParams = new HttpParams();
+    if (params) {
+      Object.keys(params).forEach(p => {
+        parseParams = parseParams.append(p, params[p]);
+      });
+    }
+    this.http
+      .get<any[]>(`accion/getMGP`, { params: parseParams })
+      .subscribe(preguntas => {
+        this.MGP$.next(preguntas);
+      });
+  }
+  getAccionmgp(params?) {
+    let parseParams = new HttpParams();
+    if (params) {
+      Object.keys(params).forEach(p => {
+        parseParams = parseParams.append(p, params[p]);
+      });
+    }
+    this.http
+      .get<any[]>(`accion/acionesMGP`, { params: parseParams })
+      .subscribe(preguntas => {
+        this.blogs2$.next(preguntas);
       });
   }
   getReferidos(params?) {
@@ -84,6 +113,13 @@ export class AccionService {
   add(params) {
     return this.http.post(`accion/create`, params);
   }
+  addmatrixMGP(params) {
+    return this.http.post(`accion/createMGP`, params);
+  }
+  
+  addMGP(params) {
+    return this.http.post(`accion/actualizarMGP`, params);
+  }
 
   
   solicitudRetiro(params) {
@@ -97,6 +133,14 @@ export class AccionService {
 
   rechazar(params) {
     return this.http.post(`accion/rechazar`, params);
+  }
+
+  aprobarMGP(params) {
+    return this.http.post(`accion/aprobarMGP`, params);
+  }
+
+  rechazarMGP(params) {
+    return this.http.post(`accion/rechazarMGP`, params);
   }
 
   delete(id) {

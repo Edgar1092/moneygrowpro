@@ -5,7 +5,7 @@
         <div class="card-header">
           <div class="card-title">
             <h2>
-              Reporta tu pago
+              Asigna accion MGP
             </h2>
           </div>
         </div>
@@ -15,8 +15,8 @@
               <div class="form-row align-items-end">
                 <div class="col-12">
                   <div class="form-group">
-                    <label for="email">Referencia de pago</label>
-
+                    <label for="email">Asignar Accion MGP</label>
+<!-- 
                     <div class="col-12"><br>
                       <h4>CUENTAS A TRANSFERIR</h4>
                       <ngb-accordion #acc="ngbAccordion" >
@@ -58,7 +58,7 @@
                               </div>
                               <div class="row"><span class="col-md-12 left">3AkcvobAZjnFaTs89CYbuTc6xABJfy4t6V </span></div>
                               
-                              <!-- <div class="row"><span class="col-md-3 left">Correo:&nbsp;</span><span class="col-md-9 left"> intensityfitness.c.a@gmail.com</span></div> -->
+                           <div class="row"><span class="col-md-3 left">Correo:&nbsp;</span><span class="col-md-9 left"> intensityfitness.c.a@gmail.com</span></div> 
                               
   
                               
@@ -117,49 +117,33 @@
                      
                       </ngb-accordion>
                     
-                    </div>
+                    </div> -->
                     
                   
                   </div>
                   <div class="form-group">
-                    <label for="email">Plataforma</label>
+                    <label for="email">Usuarios</label>
                     <select
                     class="form-control"
-                    formControlName="plataforma"
-                    id="plataforma"
+                    formControlName="usuario"
+                    id="usuario"
                     required
                     >
                       <option value="">Seleccionar</option>
-                      <option value="Payeer">Payeer</option>
-                      <option value="Bitcoin">Bitcoin</option>
-                      <option value="Airtm">Airtm</option>
-                      <option value="Pago movil">Pago movil</option>
+                      <option *ngFor="let usuario of dataUsuario"  value="{{usuario.id}}">{{usuario.email}}</option>
+                 
                     </select>
                   </div>
-                  <div class="form-group">
-                    <label for="email">Matrix</label>
-                    <select
-                    class="form-control"
-                    formControlName="matrix"
-                    id="matrix"
-                    required
-                    >
-                      <option value="">Seleccionar</option>
-                      <option value="intensity">Intensity</option>
-                      <option value="mgp">MGP</option>
-                
-                    </select>
-                  </div>
-                  <div class="form-group">
+                  <!-- <div class="form-group">
                     <label for="email">Coloque su referencia de pago</label>
                     <input
                       type="text"
                       class="form-control"
                       formControlName="referenciaPago"
                       id="referenciaPago"
-                      required
+                      
                     />
-                    </div>
+                    </div> -->
                 </div>
 
               </div>

@@ -116,19 +116,29 @@ export const ADMIN_ROUTES: RouteInfo[] = [
         badge: '',
         badgeClass: '',
         submenu: []
+      },
+      {
+        path: '/admin/activarmgp',
+        title: 'Activar MGP',
+        icon: 'ft-user-plus',
+        isExternalLink: false,
+        class: '',
+        badge: '',
+        badgeClass: '',
+        submenu: []
       }
     ]
   },
-  // {
-  //   path: '/home/historico',
-  //   title: 'Historico de pago',
-  //   icon: 'ft-list',
-  //   isExternalLink: false,
-  //   class: '',
-  //   badge: '',
-  //   badgeClass: '',
-  //   submenu: []
-  // }
+  {
+    path: '/home/accionMGP',
+    title: 'Acciones MGP',
+    icon: 'ft-list',
+    isExternalLink: false,
+    class: '',
+    badge: '',
+    badgeClass: '',
+    submenu: []
+  }
 
 ];
 

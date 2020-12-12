@@ -48,6 +48,7 @@ export class AccionAddComponent implements OnInit {
       idUsuarioFk: [''],
       plataforma: ['', Validators.required],
       referenciaPago: ['', Validators.required],
+      matrix:['', Validators.required]
 
     });
    }
@@ -59,24 +60,54 @@ export class AccionAddComponent implements OnInit {
     this.formBlog.controls['idUsuarioFk'].setValue(this.idUser);
     if (this.formBlog.valid) {
       let d = this.formBlog.value;
+
+
+      if(this.formBlog.get('matrix').value=='intensity'){
+
+        this.AccionService.add(this.formBlog.value).subscribe(response => {
+          if (response) {
+            
+            this.toast.success(response['message']);
+            this.router.navigate(['/home']);
+          } else {
+            this.toast.error(JSON.stringify(response));
+          }
+        },(error)=>
+        {
+          let mensaje =error.error.errors;
+          Object.keys(mensaje).forEach(key => {
+            console.log(key)
+            this.toast.error(mensaje[key][0]);
+            console.log(mensaje[key][0])
+           });
+        });
+
+      }else{
+
+        this.AccionService.addmatrixMGP(this.formBlog.value).subscribe(response => {
+          if (response) {
+            
+            this.toast.success(response['message']);
+            this.router.navigate(['/home']);
+          } else {
+            this.toast.error(JSON.stringify(response));
+          }
+        },(error)=>
+        {
+          let mensaje =error.error.errors;
+          Object.keys(mensaje).forEach(key => {
+            console.log(key)
+            this.toast.error(mensaje[key][0]);
+            console.log(mensaje[key][0])
+           });
+        });
+
+      }
+      
  
-      this.AccionService.add(this.formBlog.value).subscribe(response => {
-        if (response) {
-          
-          this.toast.success(response['message']);
-          this.router.navigate(['/home']);
-        } else {
-          this.toast.error(JSON.stringify(response));
-        }
-      },(error)=>
-      {
-        let mensaje =error.error.errors;
-        Object.keys(mensaje).forEach(key => {
-          console.log(key)
-          this.toast.error(mensaje[key][0]);
-          console.log(mensaje[key][0])
-         });
-      });
+
+
+
     }
   }
 

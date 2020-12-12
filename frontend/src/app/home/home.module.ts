@@ -11,9 +11,11 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HistoricoComponent } from './historico/historico.component';
 import { RetiroComponent } from './retiro/retiro.component';
 import { ReferidosComponent } from './referidos/referidos.component';
+import { AccionMGPComponent } from './accion-mgp/accion-mgp.component';
+import { AccionmgpAddComponent } from './accionmgp-add/accionmgp-add.component';
 
 @NgModule({
-  declarations: [HomeComponent, CursosComponent, AccionListComponent, AccionAddComponent, HistoricoComponent, RetiroComponent, ReferidosComponent],
+  declarations: [HomeComponent, CursosComponent, AccionListComponent, AccionAddComponent, HistoricoComponent, RetiroComponent, ReferidosComponent, AccionMGPComponent, AccionmgpAddComponent],
   imports: [CommonModule, HomeRoutingModule,SharedModule,FormsModule,
     ReactiveFormsModule,]
 })

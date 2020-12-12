@@ -31,6 +31,34 @@
               <span class="count-name">{{ administrador!= 1?'Acciones':'Intensity Fitness'}}</span>
             </div>
           </div>
+
+          <div class="col-md-4" *ngIf="administrador==1">
+            <div class="card-counter info">
+              <i class="fa fa-line-chart"></i>
+              <span class="count-numbers">{{listosCobrar}}</span><br>
+              <span class="count-numbers" style="margin-top: 15px;" ><button (click)="liberarciclo()" class="btn btn-link" [disabled]="listosCobrar>=40 ? false : true">Liberar ciclo</button></span>
+              
+              <span class="count-name">Usuarios para cobrar MGP</span>
+            </div>
+          </div>
+          <div class="col-md-4" *ngIf="administrador==1">
+            <div class="card-counter success">
+              <i class="fa fa-money"></i>
+              
+              <span class="count-numbers">$ {{ mgp | number}}</span>
+              <span class="count-name">Ganancia MGP</span>
+            </div>
+          </div>
+
+          <div class="col-md-4" *ngIf="administrador==1">
+            <div class="card-counter danger">
+              <i class="fa fa-user-o"></i>
+  
+              <span class="count-numbers" >{{listosTotal }}</span>
+            
+              <span class="count-name">Activos en el ciclo</span>
+            </div>
+          </div>
       </div><br><br>
   
 <div class="row justify-content-center" *ngIf="administrador!=1">

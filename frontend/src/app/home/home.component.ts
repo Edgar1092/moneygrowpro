@@ -15,12 +15,15 @@ codigoReferido;
 contadorReferidos=0;
 Patrocinador;
 posicion;
+listosTotal
 saldo
+mgp
 intensity=0
 corporacion=0
 administrador
 accionesConteo=0
 usuarios=0
+listosCobrar=0
 nombreApellido;
   constructor(private userService: UsersService) { }
 
@@ -36,6 +39,8 @@ nombreApellido;
       this.obtenerNumeroUsuario(usuario.id);
       this.obtenerSaldoCorporacion(usuario.id)
       this.obtenerSaldoIntensity(usuario.id)
+      this.obtenercobradores();
+      this.obtenerSaldocorporacionMGP();
       this.administrador=1;
     }else{
       this.obtenerReferidos(usuario.id)
@@ -109,7 +114,26 @@ nombreApellido;
       console.log(error);
     })
   }
+  obtenercobradores(){
+    this.userService.cobradores().subscribe((res)=>{
+      console.log(res);
+      this.listosCobrar = JSON.parse(JSON.stringify(res)).listos;
+      this.listosTotal = JSON.parse(JSON.stringify(res)).activosTotal;
+    },(error)=>{
+      console.log(error);
+    })
+  }
 
+  liberarciclo(){
+    this.userService.liberarCiclo().subscribe((res)=>{
+      console.log(res);
+      this.listosCobrar = JSON.parse(JSON.stringify(res));
+
+    },(error)=>{
+      console.log(error);
+    })
+  }
+  
   obtenerSaldoIntensity(idLogeado){
     this.userService.obtenerSaldoIntensity(idLogeado).subscribe((res)=>{
       console.log(res);
@@ -120,6 +144,17 @@ nombreApellido;
     })
   }
 
+  obtenerSaldocorporacionMGP(){
+    this.userService.obtenerSaldoMGP().subscribe((res)=>{
+      console.log(res);
+      this.mgp = parseFloat(JSON.parse(JSON.stringify(res)));
+
+    },(error)=>{
+      console.log(error);
+    })
+  }
+
+  
   obtenerAcciones(idLogeado){
   
     this.userService.obtenerAcciones(idLogeado).subscribe((res)=>{

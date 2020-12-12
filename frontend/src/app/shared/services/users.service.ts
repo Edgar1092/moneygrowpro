@@ -61,6 +61,18 @@ export class UsersService {
     return this.http.post(`referidos`,param);
   }
 
+  cobradores(){
+    let param
+    param={id:1};
+    return this.http.post(`accion/cobradores`,param);
+  }
+
+  liberarCiclo(){
+    let param
+    param={id:1};
+    return this.http.post(`accion/liberarCiclo`,param);
+  }
+
   obtenerSaldo(id: number) {
     let param
     param={id:id};
@@ -70,6 +82,11 @@ export class UsersService {
     let param
     param={id:id};
     return this.http.post(`accion/obtenerSaldoCorporacion`,param);
+  }
+  obtenerSaldoMGP(){
+    let param
+    param={id:1};
+    return this.http.post(`accion/obtenerSaldoMGP`,param);
   }
   obtenerSaldoIntensity(id: number) {
     let param
