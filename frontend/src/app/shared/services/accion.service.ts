@@ -10,6 +10,7 @@ export class AccionService {
   blogs$: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([]);
   blogs2$: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([]);
   MGP$: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([]);
+  ciclos$: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([]);
   
   constructor(private http: HttpClient) {
   }
@@ -93,6 +94,24 @@ export class AccionService {
         this.blogs$.next(preguntas);
       });
   }
+
+  getCiclo(params?) {
+    let parseParams = new HttpParams();
+    if (params) {
+      Object.keys(params).forEach(p => {
+        parseParams = parseParams.append(p, params[p]);
+      });
+    }
+    this.http
+      .get<any[]>(`accion/getCiclo`, { params: parseParams })
+      .subscribe(preguntas => {
+        this.ciclos$.next(preguntas);
+      });
+  }
+
+  totalciclo() {
+    return this.http.get<any[]>(`accion/getCiclo`);
+  }
   
   // get(params) {
   //   this.http.post<any[]>(`accion/get`, params ).subscribe(blogs => {
@@ -112,6 +131,10 @@ export class AccionService {
 
   add(params) {
     return this.http.post(`accion/create`, params);
+  }
+
+  addmanualMGP(params){
+    return this.http.post(`accion/createManualmgp`, params);
   }
   addmatrixMGP(params) {
     return this.http.post(`accion/createMGP`, params);

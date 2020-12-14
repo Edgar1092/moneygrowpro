@@ -13,9 +13,10 @@ import { RetiroComponent } from './retiro/retiro.component';
 import { ReferidosComponent } from './referidos/referidos.component';
 import { AccionMGPComponent } from './accion-mgp/accion-mgp.component';
 import { AccionmgpAddComponent } from './accionmgp-add/accionmgp-add.component';
+import { AccionmanualmgpComponent } from './accionmanualmgp/accionmanualmgp.component';
 
 @NgModule({
-  declarations: [HomeComponent, CursosComponent, AccionListComponent, AccionAddComponent, HistoricoComponent, RetiroComponent, ReferidosComponent, AccionMGPComponent, AccionmgpAddComponent],
+  declarations: [HomeComponent, CursosComponent, AccionListComponent, AccionAddComponent, HistoricoComponent, RetiroComponent, ReferidosComponent, AccionMGPComponent, AccionmgpAddComponent, AccionmanualmgpComponent],
   imports: [CommonModule, HomeRoutingModule,SharedModule,FormsModule,
     ReactiveFormsModule,]
 })

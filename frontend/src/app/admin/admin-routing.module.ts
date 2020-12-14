@@ -6,6 +6,7 @@ import { UserComponent } from './user/user.component';
 import { SolicitudespagoComponent } from './solicitudespago/solicitudespago.component';
 import { ActivaraccionComponent } from './activaraccion/activaraccion.component';
 import { ActivaraccionmgpComponent } from './activaraccionmgp/activaraccionmgp.component';
+import { CiclosComponent } from './ciclos/ciclos.component';
 import { RoleAdminGuard } from 'app/guards/role-admin.guard';
 
 const routes: Routes = [
@@ -36,6 +37,10 @@ const routes: Routes = [
   {
     path: 'activarmgp',
     component: ActivaraccionmgpComponent
+  },
+  {
+    path: 'ciclos',
+    component: CiclosComponent
   },
 ];
 

@@ -12,6 +12,7 @@ import { ProcesarAccionesComponent } from './procesar-acciones/procesar-acciones
 import { SolicitudespagoComponent } from './solicitudespago/solicitudespago.component';
 import { ActivaraccionComponent } from './activaraccion/activaraccion.component';
 import { ActivaraccionmgpComponent } from './activaraccionmgp/activaraccionmgp.component';
+import { CiclosComponent } from './ciclos/ciclos.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { ActivaraccionmgpComponent } from './activaraccionmgp/activaraccionmgp.c
     ProcesarAccionesComponent,
     SolicitudespagoComponent,
     ActivaraccionComponent,
-    ActivaraccionmgpComponent
+    ActivaraccionmgpComponent,
+    CiclosComponent
   ],
   imports: [
     CommonModule,

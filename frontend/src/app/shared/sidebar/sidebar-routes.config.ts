@@ -138,8 +138,28 @@ export const ADMIN_ROUTES: RouteInfo[] = [
     badge: '',
     badgeClass: '',
     submenu: []
+  },
+  {
+    path: '/home/accionmanualmgp',
+    title: 'Agregar accion manual',
+    icon: 'ft-list',
+    isExternalLink: false,
+    class: '',
+    badge: '',
+    badgeClass: '',
+    submenu: []
+  },
+  {
+    path: '/admin/ciclos',
+    title: 'ciclo actual',
+    icon: 'ft-list',
+    isExternalLink: false,
+    class: '',
+    badge: '',
+    badgeClass: '',
+    submenu: []
   }
-
+  
 ];
 
 export const CLIENTE_ROUTES: RouteInfo[] = [

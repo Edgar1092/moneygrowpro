@@ -36,24 +36,24 @@ class accionesMGP extends Model
         'updated_at'        =>  'datetime',
     ];
 
-    // protected $appends = [
-    //     'usuario'
-    // ];
+    protected $appends = [
+        'Referidos'
+    ];
 
     // public function quotations()
     // {
     //     return $this->belongsToMany(Calculadora::class);
     // }
     
-    // public function user()
-    // {
-    //     return $this->hasOne(User::class, 'id');
-    // }
-
-
-    public function getusuarioAttribute()
+    public function referidos()
     {
-        $usuario = $this->user()->orderBy('created_at','desc')->first();
+        return $this->hasMany(referidomgp::class, 'idAccionPerteneceFk');
+    }
+
+
+    public function getReferidosAttribute()
+    {
+        $usuario = $this->referidos()->leftjoin('users','users.id','=','referidomgp.idUsarioFk')->get();
 
         if(!empty($usuario))
         {

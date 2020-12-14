@@ -1414,13 +1414,19 @@ function crearAccionCambiodeFase($activarAcciondeFase){
         }
         function cobradores(Request $request){
             $listos=accionesMGP::where('estatus','ListoCobrar')->count();
-            $activosTotal=accionesMGP::where('estatus','ListoCobrar')->orWhere('estatus','aprobado')->count();
+            $activosTotal=accionesMGP::where('estatus','ListoCobrar')->orWhere('estatus','aprobado')->get();
+            $contadorFinal=40;
+            foreach($activosTotal as $pagadorestotale){
+                $totales=referidomgp::where('idAccionPerteneceFk',$pagadorestotale->id)->count();
+                $contadorFinal=$contadorFinal+$totales;
+            }
+       
 
             // return response()->json($listos,200);
 
             return response()->json([
                 'listos' => $listos,
-                'activosTotal' => $activosTotal,
+                'activosTotal' => $contadorFinal,
             ], 200);
 
         }
@@ -1461,6 +1467,113 @@ function crearAccionCambiodeFase($activarAcciondeFase){
             $total=$ingreso-$salida;
     
             return response()->json($total,201);
+        }
+
+        function createManualmgp(Request $request){
+
+            try{
+
+                DB::beginTransaction(); 
+
+
+                $user = accionesMGP::create([
+                    'referenciaPago'    => 'Verificado por flavio',
+                    'plataforma'    => 'verificado por flavio',
+                    'idUsuarioFk'     => $request->idUsuarioFk
+                   
+             
+                ]);
+    
+
+        $activarAccion=accionesMGP::find($user->id);
+        $activarAccion->estatus='aprobado';
+        $activarAccion->save();
+
+        $accionVacia=accionesMGP::where('id','!=',$user->id)
+        ->where('contadorReferido','<',4)->first();
+        
+        $crearReferido=referidomgp::create([
+            'idAccionFk'    => $activarAccion->id,
+            'idUsarioFk'     => $request->idUsuarioFk,
+            'idUsuarioPerteneceFk'    => $accionVacia->idUsuarioFk,
+            'idAccionPerteneceFk'     => $accionVacia->id
+           
+        ]);
+        
+        $contadorReferido=$accionVacia->contadorReferido+1;
+        $accionVacia->contadorReferido=$contadorReferido;
+       
+            if($contadorReferido==4){
+                $accionVacia->estatus='ListoCobrar';   
+            }
+
+            $accionVacia->save();
+
+
+    
+                DB::commit(); 
+                
+                return response()->json($accionVacia,200);
+    
+      
+    
+           }catch (\Exception $e) {
+               if($e instanceof ValidationException) {
+                   return response()->json($e->errors(),402);
+               }
+               DB::rollback(); // Retrocedemos la transaccion
+               Log::error('Ha ocurrido un error en '.$this->NAME_CONTROLLER.': '.$e->getMessage().', Linea: '.$e->getLine());
+               return response()->json([
+                   'message' => 'Ha ocurrido un error al tratar de guardar los datos.',
+               ], 500);
+           }
+
+
+        }
+
+
+
+        function getCiclo(Request $request){
+            try{
+                // $request->validate([
+                //     'per_page'      =>  'nullable|integer',
+                //     'page'          =>  'nullable|integer'
+                // ]);  
+                // if($request->id){
+                //     $per_page = (!empty($request->per_page)) ? $request->per_page : accionesMGP::count();
+                //     $result = accionesMGP::leftjoin('users','users.id','=','accionsmgp.idUsuarioFk')
+                //     ->select('users.id as idUser','users.*','accionsmgp.*')
+                //     ->where('idUsuarioFk',$request->id)->paginate($per_page);
+                // }else{
+                 $per_page = (!empty($request->per_page)) ? $request->per_page : accionesMGP::count();
+                $result = accionesMGP::leftjoin('users','users.id','=','accionsmgp.idUsuarioFk');
+                $result->select('users.id as idUser','users.*','accionsmgp.*');
+    
+                // if($request->search!=''){
+                //     $result->where('users.email',$request->search);
+                // }
+                $result->where('estatus','aprobado');
+                $result->orWhere('estatus','ListoCobrar');
+                $resultado=$result->paginate($per_page);
+    
+    
+                // }
+                $response = $resultado;  
+      
+                if($resultado->isEmpty()){
+                    return response()->json([
+                        'msj' => 'No se encontraron registros.',
+                        'data'=>[],
+                        'total'=>0
+                    ], 200); 
+                }
+                return response()->json($response);
+            }catch (\Exception $e) {
+                Log::error('Ha ocurrido un error en '.$this->NAME_CONTROLLER.': '.$e->getMessage().', Linea: '.$e->getLine());
+                return response()->json([
+                    'message' => 'Ha ocurrido un error al tratar de guardar los datos.',
+                ], 500);
+            }
         }
             
 }
