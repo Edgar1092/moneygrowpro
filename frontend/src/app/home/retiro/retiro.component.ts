@@ -67,12 +67,13 @@ export class RetiroComponent implements OnInit {
       let d = this.formBlog.value;
  
       this.AccionService.solicitudRetiro(this.formBlog.value).subscribe(response => {
-        if (response) {
-          
-          this.toast.success(response['message']);
+        if (JSON.parse(JSON.stringify(response)).respuesta==0) {
+          // 'respuesta'=>1
+          this.toast.success(JSON.parse(JSON.stringify(response)).msj);
           this.router.navigate(['/home']);
         } else {
-          this.toast.error(JSON.stringify(response));
+          this.toast.error(JSON.parse(JSON.stringify(response)).msj);
+          // this.toast.error(JSON.stringify(response));
         }
       },(error)=>
       {

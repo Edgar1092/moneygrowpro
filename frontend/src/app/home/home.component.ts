@@ -3,6 +3,8 @@ import { UsersService } from 'app/shared/services/users.service';
 import { Observable, from } from 'rxjs';
 import { registerLocaleData } from '@angular/common';
 import localeEs from '@angular/common/locales/es';
+import { ToastrService } from 'ngx-toastr';
+import swal from 'sweetalert2';
 
 @Component({
   selector: 'app-home',
@@ -22,10 +24,11 @@ intensity=0
 corporacion=0
 administrador
 accionesConteo=0
+accionesConteoMGP=0
 usuarios=0
 listosCobrar=0
 nombreApellido;
-  constructor(private userService: UsersService) { }
+  constructor(private userService: UsersService,private toast: ToastrService) { }
 
   ngOnInit() {
     registerLocaleData(localeEs, 'es');
@@ -47,6 +50,7 @@ nombreApellido;
       this.obtenerPatrocinador(usuario.idReferido)
       this.obtenerSaldo(usuario.id)
       this.obtenerAcciones(usuario.id)
+  
       this.administrador=0;
     }
   }
@@ -160,10 +164,88 @@ nombreApellido;
     this.userService.obtenerAcciones(idLogeado).subscribe((res)=>{
       console.log(res);
       this.accionesConteo = JSON.parse(JSON.stringify(res)).cantidad;
-
+      this.accionesConteoMGP = JSON.parse(JSON.stringify(res)).accionesMGP;
+console.log('aqui va',this.accionesConteoMGP)
     },(error)=>{
       console.log(error);
     })
+  }
+
+  // compraconSaldo
+
+
+  // compraconSaldo(){
+  //   let usuario= JSON.parse(localStorage.getItem('user'));
+  //   let idUsuario=usuario.id
+
+  //   this.userService.compraconSaldo({idUsuarioFk:idUsuario}).subscribe((res)=>{
+  //     console.log(res);
+  //     if(JSON.parse(JSON.stringify(res)).retorno==1){
+
+  //       this.obtenerSaldo(idUsuario)
+  //       this.obtenerAcciones(idUsuario)
+  //       this.toast.success(JSON.parse(JSON.stringify(res)).msj);
+
+  //     }else{
+  //       this.toast.error(JSON.parse(JSON.stringify(res)).msj);
+  //     }
+     
+
+      
+
+  //   },(error)=>{
+  //     console.log(error);
+  //   })
+  // }
+
+  // compraconSaldo(user: any) {
+  //   const confirm = swal.fire({
+  //     title: `Borrar al usuario ${user.first_name} ${user.last_name}`,
+  //     text: 'Esta acción no se puede deshacer',
+  //     type: 'question',
+  //     showConfirmButton: true,
+  //     showCancelButton: true,
+  //     cancelButtonText: 'Cancelar',
+  //     confirmButtonText: 'Borrar',
+  //     focusCancel: true
+  //   });
+
+  //   from(confirm).subscribe(r => {
+  //     if (r['value']) {
+       
+           
+  //     }
+  //   });
+  // }
+
+
+  compraconSaldo(configuracion: any) {
+    const confirm = swal.fire({
+      title: `Desea comprar una accion en MGP`,
+      text: 'Esta acción no se puede deshacer',
+      type: 'question',
+      showConfirmButton: true,
+      showCancelButton: true,
+      cancelButtonText: 'Cancelar',
+      confirmButtonText: 'Comprar',
+      focusCancel: true
+    });
+  
+    from(confirm).subscribe(r => {
+      if (r['value']) {
+        let usuario= JSON.parse(localStorage.getItem('user'));
+        let idUsuario=usuario.id
+        this.userService.compraconSaldo({idUsuarioFk:idUsuario}).subscribe(response => {
+          if (JSON.parse(JSON.stringify(response)).retorno==1) {
+                  this.obtenerSaldo(idUsuario)
+              this.obtenerAcciones(idUsuario)
+              this.toast.success(JSON.parse(JSON.stringify(response)).msj);
+          } else {
+            this.toast.error(JSON.parse(JSON.stringify(response)).msj);
+          }
+        });
+      }
+    });
   }
 
 }

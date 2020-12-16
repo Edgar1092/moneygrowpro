@@ -69,6 +69,7 @@ Route::group([
     Route::post('obtenerSaldoMGP','AccionController@obtenerSaldoMGP');
     Route::post('createManualmgp','AccionController@createManualmgp');
     Route::get('getCiclo','AccionController@getCiclo');
+    Route::post('compraconSaldo','AccionController@compraconSaldo');
 });
     /** File routes */
 

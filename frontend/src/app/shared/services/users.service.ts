@@ -88,6 +88,10 @@ export class UsersService {
     param={id:1};
     return this.http.post(`accion/obtenerSaldoMGP`,param);
   }
+
+  compraconSaldo(param){
+    return this.http.post(`accion/compraconSaldo`,param);
+  }
   obtenerSaldoIntensity(id: number) {
     let param
     param={id:id};
