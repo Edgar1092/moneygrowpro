@@ -35,7 +35,7 @@
                       currentPage: p,
                       totalItems: (ciclos$ | async)['total']
                     }; 
-                  index as i" style="text-align: center;border: 1px solid;text-align: center;"><label>{{ciclo.first_name}} {{ciclo.last_name}}</label>
+                  index as i" style="text-align: center;border: 1px solid;text-align: center;"><label>{{ciclo.id}}{{ciclo.first_name}} {{ciclo.last_name}}</label>
                   
                   <div class="row">
                     <div class="col-md-3" *ngFor="let cicloreferido of ciclo.Referidos " style="font-size: 10px;border-top:1px solid">

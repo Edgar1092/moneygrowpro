@@ -1497,26 +1497,28 @@ if(!Solicitudretiro::where('idUserFk',$request->idUsuarioFk)->where('estatus','s
             ->get();
             foreach($usuariospagar as $pagados){
 
-                $corporacion = corporacionmgp::create([
-                    'idAccionEnvioFk'    => $pagados->idAccions,
-                    'entrada' =>3,
-                    'salida'     => 0,
-                   
-                ]);
+               echo $pagados->first_name.'<br>';
 
-                $usuario = Saldo::create([
-                    'idUserFk'    => $pagados->idUser,
-                    'idAccionFk'    => $pagados->idAccions,
-                    'entrada' =>37,
-                    'salida'     => 0,
-                    'concepto' => 'Matrix mgp'
+                // $corporacion = corporacionmgp::create([
+                //     'idAccionEnvioFk'    => $pagados->idAccions,
+                //     'entrada' =>3,
+                //     'salida'     => 0,
+                   
+                // ]);
+
+                // $usuario = Saldo::create([
+                //     'idUserFk'    => $pagados->idUser,
+                //     'idAccionFk'    => $pagados->idAccions,
+                //     'entrada' =>37,
+                //     'salida'     => 0,
+                //     'concepto' => 'Matrix mgp'
                    
              
-                ]);
+                // ]);
 
-                $actualizarAccionmuerta=accionesMGP::find($pagados->id);
-                $actualizarAccionmuerta->estatus='pagado';
-                $actualizarAccionmuerta->save();
+                // $actualizarAccionmuerta=accionesMGP::find($pagados->id);
+                // $actualizarAccionmuerta->estatus='pagado';
+                // $actualizarAccionmuerta->save();
 
                 //  var_dump($pagados);
 
