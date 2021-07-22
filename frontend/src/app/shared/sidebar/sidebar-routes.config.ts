@@ -107,16 +107,16 @@ export const ADMIN_ROUTES: RouteInfo[] = [
         badgeClass: '',
         submenu: []
       },
-      {
-        path: '/admin/activar',
-        title: 'Activar',
-        icon: 'ft-user-plus',
-        isExternalLink: false,
-        class: '',
-        badge: '',
-        badgeClass: '',
-        submenu: []
-      },
+      // {
+      //   path: '/admin/activar',
+      //   title: 'Activar',
+      //   icon: 'ft-user-plus',
+      //   isExternalLink: false,
+      //   class: '',
+      //   badge: '',
+      //   badgeClass: '',
+      //   submenu: []
+      // },
       {
         path: '/admin/activarmgp',
         title: 'Activar MGP',
@@ -129,16 +129,16 @@ export const ADMIN_ROUTES: RouteInfo[] = [
       }
     ]
   },
-  {
-    path: '/home/accionMGP',
-    title: 'Acciones MGP',
-    icon: 'ft-list',
-    isExternalLink: false,
-    class: '',
-    badge: '',
-    badgeClass: '',
-    submenu: []
-  },
+  // {
+  //   path: '/home/accionMGP',
+  //   title: 'Acciones MGP',
+  //   icon: 'ft-list',
+  //   isExternalLink: false,
+  //   class: '',
+  //   badge: '',
+  //   badgeClass: '',
+  //   submenu: []
+  // },
   {
     path: '/home/accionmanualmgp',
     title: 'Agregar accion manual',
@@ -151,7 +151,7 @@ export const ADMIN_ROUTES: RouteInfo[] = [
   },
   {
     path: '/admin/ciclos',
-    title: 'ciclo actual',
+    title: 'Mesas de trabajo',
     icon: 'ft-list',
     isExternalLink: false,
     class: '',
@@ -196,7 +196,7 @@ export const CLIENTE_ROUTES: RouteInfo[] = [
   },
   {
     path: '/accions/',
-    title: 'Accion',
+    title: 'Mesas de trabajo',
     icon: 'ft-user',
     isExternalLink: false,
     class: 'has-sub',
@@ -205,7 +205,7 @@ export const CLIENTE_ROUTES: RouteInfo[] = [
     submenu: [
       {
         path: '/home/accion/list',
-        title: 'Mis acciones',
+        title: 'Mis mesas',
         icon: 'ft-list',
         isExternalLink: false,
         class: '',

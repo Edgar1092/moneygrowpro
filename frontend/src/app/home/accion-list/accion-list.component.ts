@@ -17,9 +17,12 @@ export class AccionListComponent implements OnInit {
   blogs$: Observable<any[]>;
   total = 0;
   p=1;
+  arregloAcciones=[]
   itemsPerPage = 5;
   formBlog: FormGroup;
   contadorAccion
+  referes
+  referes2
   constructor(private AccionService: AccionService, private toast: ToastrService, 
     private fb: FormBuilder,
     private activatedRoute: ActivatedRoute,
@@ -43,7 +46,7 @@ export class AccionListComponent implements OnInit {
       }else{
         param={id:JSON.parse(localStorage.getItem('user')).id,page:1,per_page:this.itemsPerPage};
       }
-      this.loadInitialData(param);
+      this.loadInitialData(JSON.parse(localStorage.getItem('user')).id);
       this.verificarAcciones(JSON.parse(localStorage.getItem('user')).id);
   }
 
@@ -78,16 +81,61 @@ export class AccionListComponent implements OnInit {
   // }
 
   loadInitialData(params){
-    this.AccionService.get(params);
-    console.log('arreglo',this.AccionService.get(params))
+    this.AccionService.obtenermesa(params);
+    console.log('arreglo',this.AccionService.obtenermesa(params))
   }
 
   verificarAcciones(params){
     console.log('entre a esta mierda');
-    this.AccionService.verificar(params).subscribe(response => {
+    this.AccionService.obtenermesa(params).subscribe(response => {
+      console.log('este es el resultado',response)
       this.contadorAccion=response;
+
+      if(this.contadorAccion){
+        this.contadorAccion.forEach((element,index) => {
+
+          this.consultarReferidos(element.id,index)
+          
+        });
+      }
+       
     });
   
+  }
+
+  consultarReferidos(param,index){
+    
+    console.log('entre a esta mierda232',param);
+
+    this.AccionService.consultarReferidos(param).subscribe(response => {
+      console.log('esta es la respuesta',response)
+      this.referes=response;
+       this.contadorAccion[index]['referidos']=this.referes
+
+       this.referes.forEach((element,index2) => {
+
+         this.AccionService.consultarReferidos(element.idAccionFk).subscribe(response2 => {
+           this.referes2=response2
+          this.contadorAccion[index]['referidos'][index2]['referidos']=this.referes2
+
+          console.log('holaaaa',this.referes2)
+
+          this.referes2.forEach((element,index3) => {
+
+            this.AccionService.consultarReferidos(element.idAccionFk).subscribe(response3 => {
+             this.contadorAccion[index]['referidos'][index2]['referidos'][index3]['referidos']=response3
+            })
+          });
+
+         })
+
+    
+       });
+
+
+
+      console.log('nuevo arreglo',this.contadorAccion)
+    });
   }
 
   onFilter(filterParams) {

@@ -33,4 +33,8 @@ class referidomgp2021 extends Model
     protected $hidden = [
         'update_at', 'create_at','delete_at'
     ];
+
+      
+ 
+
 }

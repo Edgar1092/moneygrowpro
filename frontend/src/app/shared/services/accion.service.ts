@@ -124,6 +124,21 @@ export class AccionService {
     return this.http.post(`accion/getAccion`, params);
   }
 
+  obtenermesa(index: number) {
+    let params = {idUsuario : index}
+    return this.http.post(`accion/obtenerMesas`, params);
+  }
+
+  consultarReferidos(index: number) {
+    let params = {idAccion : index}
+    return this.http.post(`accion/consultarReferidos`, params);
+  }
+
+
+  
+
+  
+
   verificar(index: number) {
     let params = {id : index}
     return this.http.post(`accion/verificar`, params);

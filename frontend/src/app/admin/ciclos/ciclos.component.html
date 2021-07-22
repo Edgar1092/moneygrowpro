@@ -4,13 +4,27 @@
       <div class="card">
         <div class="card-header">
           <div class="card-title">
-            <h2>Ciclo Actual</h2>
+            <h2>Mesas de trabajo</h2>
           </div>
         </div>
         <div class="card-body">
           <div class="row">
             <div class="col-12">
-              <p style="font-size: 24px;"><b>Ciclo # {{p}} </b></p>
+              <div class="form-group">
+                <label for="email">Usuarios</label>
+                <select
+                class="form-control"
+                
+               [(ngModel)]="usuarios"
+                (change)="obtenerMesas()"
+                >
+                  <option value="">Seleccionar</option>
+                  <option *ngFor="let usuario of ciclos"  value="{{usuario.id}}">{{usuario.email}}</option>
+             
+                </select>
+              </div>
+
+              <!-- <p style="font-size: 24px;"><b>Ciclo # {{p}} </b></p> -->
               <!-- <button
             
                         ngbTooltip="Agregar accion"
@@ -27,50 +41,35 @@
 
             </div>
             <div class="col-12 ">
-              <div class="row">
-                <div class="col-md-3" *ngFor=" let ciclo of (ciclos$ | async)['data']
-                | paginate
-                  : {
-                      itemsPerPage: itemsPerPage,
-                      currentPage: p,
-                      totalItems: (ciclos$ | async)['total']
-                    }; 
-                  index as i" style="text-align: center;border: 1px solid;text-align: center;"><label>{{ciclo.id}}{{ciclo.first_name}} {{ciclo.last_name}}</label>
+             
+              <div class="row" >
+                <div class="col-12 text-center " style='margin-bottom: 50px;' *ngFor='let misacciones of contadorAccion'>
                   
+                  <p class="bordes">{{misacciones.email}}</p>
+           
                   <div class="row">
-                    <div class="col-md-3" *ngFor="let cicloreferido of ciclo.Referidos " style="font-size: 10px;border-top:1px solid">
-                      <label>{{cicloreferido.first_name}}</label>
-                    </div>
-                    <div class="col-md-12" *ngIf="ciclo.Referidos==''" style="font-size: 10px;border-top:1px solid black;color:red">
-                      <label >No posee pagadores</label>
-                    </div>
-                  </div>
+                    <div class="col-6 " *ngFor='let misreferidos of misacciones.referidos'>
+                      
+                     <p class="bordes">{{misreferidos.email}}</p> 
 
+                      <div class="row">
+             
+                        <div class="col-6 " *ngFor='let misreferidos2 of misreferidos.referidos'>
+                            
+                            <p class="bordes">{{misreferidos2.email}}</p>
+
+                            <div class="row">
+             
+                              <div class="col-6 " *ngFor='let misreferidos3 of misreferidos2.referidos'>
+                                  
+                                  <p class="bordes" [ngClass]="misreferidos3.status==0 ? 'reds' : 'greens'">{{misreferidos3.email}}</p>
+                                </div>
+                            </div>
+                          </div>
+                      </div>
+                    </div>
                 </div>
-    
-              </div>
-              <div class="row aling-items-end">
-                <div class="col-3">
-                  <div class="form-group">
-                    <!-- <label for="page">Items por Página</label> -->
-                    <!-- <select
-                      class="form-control"
-                      name="page"
-                      id="page"
-                      (change)="perPage($event.target.value, p)"
-                    >
-                      <option value="5">5</option>
-                      <option value="15">15</option>
-                      <option value="50">50</option>
-                    </select> -->
-                  </div>
-                </div>
-                <div class="col">
-                  <pagination-controls
-                  (pageChange)="perPage(itemsPerPage,$event)"
-                    previousLabel="Anterior"
-                    nextLabel="Siguiente"
-                  ></pagination-controls>
+       
                 </div>
               </div>
 

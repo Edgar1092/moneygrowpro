@@ -7,6 +7,7 @@ import { Observable, BehaviorSubject } from 'rxjs';
 })
 export class UsersService {
   users$: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([]);
+  ciclos$: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([]);
   usersReferido$: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([]);
   constructor(private http: HttpClient) {
     this.get();
@@ -22,6 +23,16 @@ export class UsersService {
     this.http.get<any[]>(`userReferido`, { params }).subscribe(users => {
       this.usersReferido$.next(users);
     });
+  }
+
+  // getUser(params?) {
+  //   this.http.get<any[]>(`users`, { params }).subscribe(users => {
+  //     this.ciclos$.next(users);
+  //   });
+  // }
+
+  getUser() {
+    return this.http.get(`users`);
   }
 
   show(index: number) {

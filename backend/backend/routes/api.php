@@ -44,6 +44,8 @@ Route::group([
     Route::get('get','AccionController@getAll');
     Route::get('getMGP','AccionController@getMGP');
     Route::post('getAccion','AccionController@getAccion');
+    Route::post('obtenerMesas','AccionController@obtenerMesas');
+    Route::post('consultarReferidos','AccionController@consultarReferidos');
     Route::post('create','AccionController@create');
     Route::post('create2021','AccionController@create2021');
     Route::post('createMGP','AccionController@createMGP');

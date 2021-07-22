@@ -6,6 +6,7 @@ import { ToastrService } from 'ngx-toastr';
 import { ActivatedRoute, Router } from '@angular/router';
 import { switchMap } from 'rxjs/operators';
 import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
+import { UsersService } from 'app/shared/services/users.service';
 
 @Component({
   selector: 'app-ciclos',
@@ -14,18 +15,23 @@ import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 })
 export class CiclosComponent implements OnInit {
 
-  ciclos$: Observable<any[]>;
+  ciclos;
   total = 0;
+  dataUsuario
   ciclototal
   p=1;
+  usuarios
   itemsPerPage = 40;
   formBlog: FormGroup;
+  referes
+  referes2
   contadorAccion
   constructor(private AccionService: AccionService, private toast: ToastrService, 
     private fb: FormBuilder,
     private activatedRoute: ActivatedRoute,
+    private userService: UsersService,
     private router: Router,) {
-    this.ciclos$ = this.AccionService.ciclos$;
+   
 
     this.formBlog = this.fb.group({
       id: [''],
@@ -45,8 +51,73 @@ export class CiclosComponent implements OnInit {
         param={page:1,per_page:this.itemsPerPage};
       }
       this.loadInitialData(param);
+      this.cargarUser()
+
+     
+  }
+
+  cargarUser(){
+    this.userService.getUser().subscribe(response => {
+      console.log('esta es lka data',response)
+     this.ciclos=JSON.parse(JSON.stringify(response)).data
+    });
+  }
+
+  obtenerMesas(){
+
+    console.log('entre a esta mierda',this.usuarios);
+    this.AccionService.obtenermesa(this.usuarios).subscribe(response => {
+      console.log('este es el resultado',response)
+      this.contadorAccion=response;
+
+      if(this.contadorAccion){
+        this.contadorAccion.forEach((element,index) => {
+
+          this.consultarReferidos(element.id,index)
+          
+        });
+      }
+       
+    });
 
   }
+
+  consultarReferidos(param,index){
+    
+    console.log('entre a esta mierda232',param);
+
+    this.AccionService.consultarReferidos(param).subscribe(response => {
+      console.log('esta es la respuesta',response)
+      this.referes=response;
+       this.contadorAccion[index]['referidos']=this.referes
+
+       this.referes.forEach((element,index2) => {
+
+         this.AccionService.consultarReferidos(element.idAccionFk).subscribe(response2 => {
+           this.referes2=response2
+          this.contadorAccion[index]['referidos'][index2]['referidos']=this.referes2
+
+          console.log('holaaaa',this.referes2)
+
+          this.referes2.forEach((element,index3) => {
+
+            this.AccionService.consultarReferidos(element.idAccionFk).subscribe(response3 => {
+             this.contadorAccion[index]['referidos'][index2]['referidos'][index3]['referidos']=response3
+            })
+          });
+
+         })
+
+    
+       });
+
+
+
+      console.log('nuevo arreglo',this.contadorAccion)
+    });
+  }
+
+  
 
   delete(user: any) {
     const confirm = swal.fire({

@@ -4,7 +4,7 @@
       <div class="card">
         <div class="card-header">
           <div class="card-title">
-            <h2>Mis acciones</h2>
+            <h2>Mesas de trabajo</h2>
           </div>
         </div>
         <div class="card-body">
@@ -21,68 +21,38 @@
                           <a class="ft-plus" style="color:white"></a>
                         </button>
             </div>
-            <div class="col-12 table-responsive">
-              <table
-                class="table table-striped"
-              >
-                <thead class="thead-inverse">
-                  <tr>
-                    <!-- <th>Email</th> -->
-                    <th>Referencia de pago</th>
-                    <th>Plataforma</th>
-                    <th>Estatus</th>
-                    
-                    <!-- <th>Roles</th> -->
-                    <!-- <th>Acciones</th> -->
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr
-                    *ngFor="
-                      let blog of (blogs$ | async)['data']
-                        | paginate
-                          : {
-                              itemsPerPage: itemsPerPage,
-                              currentPage: p,
-                              totalItems: (blogs$ | async)['total']
-                            }; 
-                          index as i
-                    "
-                  >
-                
-                    <!-- <td scope="row">{{ blog.usuario.email }}</td> -->
-                    <td>{{ blog.referenciaPago }} </td>
-                    <td>{{ blog.plataforma }} </td>
-                    <td>{{ blog.estatus }} </td>
-                    
-                    <!-- <td>{{ joinData(user.offices) }}</td> -->
-                    <!-- <td>{{ user.roles.name }}</td> -->
-                    <td>
-                      <!-- <div class="btn-group">
-                        <button
-                        *ngIf="blog.estatus=='solicitando'"
-                        ngbTooltip="Aprobar pago"
-                          type="button"
-                          
-                          class="btn btn-success"
-                          (click)="aprobar(blog)"
-                        >
-                          <a class="ft-check" style="color: white;" text-info></a>
-                        </button>
+            <div class="col-12 table-responsive"> 
+              <div class="row" >
+                <div class="col-12 text-center " style='margin-bottom: 50px;' *ngFor='let misacciones of contadorAccion'>
+                  
+                  <p class="bordes">{{misacciones.email}}</p>
+           
+                  <div class="row">
+                    <div class="col-6 " *ngFor='let misreferidos of misacciones.referidos'>
+                      
+                     <p class="bordes">{{misreferidos.email}}</p> 
 
-                        <button
-                        ngbTooltip="Rechazar pago"
-                          type="button"
-                          class="btn btn-danger"
-                          (click)="rechazar(blog)"
-                        >
-                          <a class="ft-x" style="color:white"></a>
-                        </button>
-                      </div> -->
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
+                      <div class="row">
+             
+                        <div class="col-6 " *ngFor='let misreferidos2 of misreferidos.referidos'>
+                            
+                            <p class="bordes">{{misreferidos2.email}}</p>
+
+                            <div class="row">
+             
+                              <div class="col-6 " *ngFor='let misreferidos3 of misreferidos2.referidos'>
+                                  
+                                  <p class="bordes" [ngClass]="misreferidos3.status==0 ? 'reds' : 'greens'">{{misreferidos3.email}}</p>
+                                </div>
+                            </div>
+                          </div>
+                      </div>
+                    </div>
+                </div>
+       
+                </div>
+              </div>
+           
             </div>
           </div>
           <div class="row aling-items-end">

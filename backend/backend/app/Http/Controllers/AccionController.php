@@ -1714,71 +1714,7 @@ if(!Solicitudretiro::where('idUserFk',$request->idUsuarioFk)->where('estatus','s
             return response()->json($total,201);
         }
 
-        function createManualmgp(Request $request){
 
-            try{
-
-                DB::beginTransaction(); 
-
-
-                $user = accionesMGP::create([
-                    'referenciaPago'    => 'Verificado por flavio',
-                    'plataforma'    => 'verificado por flavio',
-                     'estatus'=>'aprobado',
-                    'idUsuarioFk'     => $request->idUsuarioFk
-                   
-             
-                ]);
-    
-
-
-        $accionVacia=accionesMGP::leftjoin('users','users.id','=','accionsmgp.idUsuarioFk')
-        ->leftjoin('referidomgp','referidomgp.idAccionFk','=','accionsmgp.id')
-        ->select('users.id as idUser','users.*','accionsmgp.id as idAccions','accionsmgp.*')
-        ->where('accionsmgp.id','!=',$user->id)
-        ->where('contadorReferido','<',4)
-        ->where('estatus','aprobado')
-        ->orderBy('referidomgp.id','asc')
-        ->first();
-        
-        $crearReferido=referidomgp::create([
-            'idAccionFk'    => $user->id,
-            'idUsarioFk'     => $request->idUsuarioFk,
-            'idUsuarioPerteneceFk'    => $accionVacia->idUsuarioFk,
-            'idAccionPerteneceFk'     => $accionVacia->idAccions
-           
-        ]);
-        
-        $contadorReferido=$accionVacia->contadorReferido+1;
-        $accionVacia->contadorReferido=$contadorReferido;
-       
-            if($contadorReferido==4){
-                $accionVacia->estatus='ListoCobrar';   
-            }
-
-            $accionVacia->save();
-
-
-    
-                DB::commit(); 
-                
-                return response()->json($accionVacia,200);
-    
-      
-    
-           }catch (\Exception $e) {
-               if($e instanceof ValidationException) {
-                   return response()->json($e->errors(),402);
-               }
-               DB::rollback(); // Retrocedemos la transaccion
-               Log::error('Ha ocurrido un error en '.$this->NAME_CONTROLLER.': '.$e->getMessage().', Linea: '.$e->getLine());
-               return response()->json([
-                   'message' => 'Ha ocurrido un error al tratar de guardar los datos.',
-               ], 500);
-           }
-
-
-        }
 
 
 
@@ -2098,6 +2034,119 @@ if(!Solicitudretiro::where('idUserFk',$request->idUsuarioFk)->where('estatus','s
                                'message' => 'Ha ocurrido un error al tratar de guardar los datos.',
                            ], 500);
                        }
+
+        }
+
+
+        function obtenerMesas(Request $request){
+
+            $accionesLogeado=accionesMGP2021::
+            leftjoin('users','users.id','=','accionsmgp2021.idUsuarioFk')
+            ->select('users.id as idUser','users.*','accionsmgp2021.*')
+            ->where('idUsuarioFk',$request->idUsuario)
+            ->get();
+
+            // return $accionesLogeado;
+
+            return response()->json($accionesLogeado,200);
+
+            // foreach ($accionesLogeado as $key => $value) {
+                
+            // }
+
+        }
+
+        function consultarReferidos(Request $request){
+            $referidos=referidomgp2021::
+            leftjoin('users','users.id','=','referidomgp2021.idUsarioFk')
+            ->select('users.id as idUser','users.*','referidomgp2021.*')
+            ->where('idAccionPerteneceFk',$request->idAccion)->get();
+
+            return response()->json($referidos,200);
+        }
+
+
+        function createManualmgp(Request $request){
+
+            try{
+
+                DB::beginTransaction(); 
+
+               
+
+                if(accionesMGP2021::where('idUsuarioFk',$request->idUsuariodueno)->where('status',1)->where('idFaseFk',4)->exists()){
+                    $accionUsuariopadre=accionesMGP2021::where('idUsuarioFk',$request->idUsuariodueno)->where('status',1)->where('idFaseFk',4)->first();
+                    $userAccion = accionesMGP2021::create([
+                        'referenciaPago'    => 'activacion  por administrador',
+                        'plataforma'    => 'activacion por administrador',
+                        'idUsuarioFk'     => $request->idUsuarioasignado
+                       
+                 
+                    ]);
+
+                    $user22 = referidomgp2021::create([
+                        'idAccionFk'    => $userAccion->id,
+                        'idUsarioFk'    => $request->idUsuarioasignado,
+                        'idUsuarioPerteneceFk'     => $request->idUsuariodueno,
+                        'idAccionPerteneceFk' => $accionUsuariopadre->id
+                       
+                 
+                    ]);
+
+                    self::matrixMPGAUTOMATICA($userAccion->id);
+                }else{
+
+                    
+                $accionUsuariopadre = accionesMGP2021::create([
+                    'referenciaPago'    => 'activacion  por administrador',
+                    'plataforma'    => 'activacion por administrador',
+                    'idUsuarioFk'     => $request->idUsuariodueno,
+                    'status' => 1
+                   
+             
+                ]);
+
+                $userAccion = accionesMGP2021::create([
+                    'referenciaPago'    => 'activacion  por administrador',
+                    'plataforma'    => 'activacion por administrador',
+                    'idUsuarioFk'     => $request->idUsuarioasignado
+                   
+             
+                ]);
+
+                $user22 = referidomgp2021::create([
+                    'idAccionFk'    => $userAccion->id,
+                    'idUsarioFk'    => $request->idUsuarioasignado,
+                    'idUsuarioPerteneceFk'     => $request->idUsuariodueno,
+                    'idAccionPerteneceFk' => $accionUsuariopadre->id
+                   
+             
+                ]);
+
+                self::matrixMPGAUTOMATICA($userAccion->id);
+
+
+                }
+
+            
+    
+                DB::commit(); 
+                
+                return response()->json('correcto',200);
+    
+      
+    
+           }catch (\Exception $e) {
+               if($e instanceof ValidationException) {
+                   return response()->json($e->errors(),402);
+               }
+               DB::rollback(); // Retrocedemos la transaccion
+               Log::error('Ha ocurrido un error en '.$this->NAME_CONTROLLER.': '.$e->getMessage().', Linea: '.$e->getLine());
+               return response()->json([
+                   'message' => 'Ha ocurrido un error al tratar de guardar los datos.',
+               ], 500);
+           }
+
 
         }
             

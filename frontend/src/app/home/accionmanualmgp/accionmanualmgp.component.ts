@@ -18,6 +18,8 @@ export class AccionmanualmgpComponent implements OnInit {
   users$: Observable<any[]>;
   total = 0;
   p;
+  idUsuarioFk
+  usuarioAsignado
   itemsPerPage = '5';
   formBlog: FormGroup;
   page=1;
@@ -53,12 +55,7 @@ export class AccionmanualmgpComponent implements OnInit {
       }
       
     });
-    this.formBlog = this.fb.group({
-      idUsuarioFk: [''],
-    
-
-
-    });
+ 
    }
 
   ngOnInit() {
@@ -69,10 +66,10 @@ export class AccionmanualmgpComponent implements OnInit {
     // let usuario= JSON.parse(localStorage.getItem('user'));
     // this.idUser=usuario.id;
     // this.formBlog.controls['id'].setValue(this.idAccionvacia);
-    if (this.formBlog.valid) {
-      let d = this.formBlog.value;
+   console.log('aqui van los ngmodel',{idUsuariodueno:this.idUsuarioFk,idUsuarioasignado:this.usuarioAsignado})
+   
  
-      this.AccionService.addmanualMGP(this.formBlog.value).subscribe(response => {
+      this.AccionService.addmanualMGP({idUsuariodueno:this.idUsuarioFk,idUsuarioasignado:this.usuarioAsignado}).subscribe(response => {
         if (response) {
           
           this.toast.success(response['message']);
@@ -89,7 +86,7 @@ export class AccionmanualmgpComponent implements OnInit {
           console.log(mensaje[key][0])
          });
       });
-    }
+   
   }
 
   aprobar() {
