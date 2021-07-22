@@ -1,5 +1,6 @@
 <?php
 
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
@@ -7,22 +8,23 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
 
-class Intensityfitness extends Model
+class Solicitudretiro extends Model
 {
     public $timestamps = false;
-    protected $table= "intensityFitness";
+    protected $table= "solicitudretiro";
 
-      /**
+    /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
         'id',
-        'idAccionEnvioFk',
-        'entrada',
-        'salida',
-
+        'idUserFk',
+        'montoSolicitado',
+        'plataforma',
+        'estatus',
+        'cuenta'
     ];
 
     /**

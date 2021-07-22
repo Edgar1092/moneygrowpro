@@ -45,6 +45,7 @@ Route::group([
     Route::get('getMGP','AccionController@getMGP');
     Route::post('getAccion','AccionController@getAccion');
     Route::post('create','AccionController@create');
+    Route::post('create2021','AccionController@create2021');
     Route::post('createMGP','AccionController@createMGP');
     Route::post('aprobar','AccionController@update');
     Route::post('rechazar','AccionController@rechazarAccion');
@@ -86,6 +87,7 @@ Route::group([
 
     Route::resource('users/goals','UserGoalController');
     Route::resource('users','UserController');
+    Route::get('userReferido','UserController@userReferido');
     Route::resource('roles','RoleController');
     Route::resource('permissions','PermissionController');
     Route::resource('clients','ClientController');

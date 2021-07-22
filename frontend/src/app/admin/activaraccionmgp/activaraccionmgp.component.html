@@ -44,14 +44,14 @@
                     <td scope="row">{{ blog.email }}</td>
                     <td>{{ blog.referenciaPago }} </td>
                     <td>{{ blog.plataforma }} </td>
-                    <td>{{ blog.estatus }} </td>
+                    <td>{{ blog.status==0 ? 'solicitando' : 'aprobado' }} </td>
                     
                     <!-- <td>{{ joinData(user.offices) }}</td> -->
                     <!-- <td>{{ user.roles.name }}</td> -->
                     <td>
                       <div class="btn-group">
                         <button
-                        *ngIf="blog.estatus=='solicitando'"
+                        *ngIf="blog.status==0"
                         ngbTooltip="Aprobar pago"
                           type="button"
                           
@@ -62,7 +62,7 @@
                         </button>
 
                         <button
-                        *ngIf="blog.estatus=='solicitando'"
+                        *ngIf="blog.status==0"
                         ngbTooltip="Rechazar pago"
                           type="button"
                           class="btn btn-danger"

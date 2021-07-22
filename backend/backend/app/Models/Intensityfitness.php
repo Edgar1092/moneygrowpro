@@ -7,34 +7,30 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
 
-class Accion extends Model
+class Intensityfitness extends Model
 {
-    use TransformableTrait, SoftDeletes;
+    public $timestamps = false;
+    protected $table= "intensityfitness";
 
-    /**
+      /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
         'id',
-        'referenciaPago',
-        'plataforma',
-        'idUsuarioFk',
-        'idFaseFk',
-        'estatus'
+        'idAccionEnvioFk',
+        'entrada',
+        'salida',
+
     ];
 
     /**
-     * The attributes that should be cast to native types.
+     * The attributes that should be hidden for arrays.
      *
      * @var array
      */
-    protected $casts = [
-
-        'updated_at'        =>  'datetime',
+    protected $hidden = [
+        'update_at', 'create_at','delete_at'
     ];
-
-   
-
 }

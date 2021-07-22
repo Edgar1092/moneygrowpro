@@ -139,6 +139,10 @@ export class AccionService {
   addmatrixMGP(params) {
     return this.http.post(`accion/createMGP`, params);
   }
+
+  addMatrix2021(params){
+    return this.http.post(`accion/create2021`, params);
+  }
   
   addMGP(params) {
     return this.http.post(`accion/actualizarMGP`, params);

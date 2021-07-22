@@ -49,6 +49,7 @@ export class AccionmgpAddComponent implements OnInit {
     this.users$ = this.userService.users$;
     this.users$.subscribe(users => {
       if (users) {
+        console.log('dataaa',users)
         this.dataUsuario=JSON.parse(JSON.stringify(users)).data;
         this.total = users.length;
       }

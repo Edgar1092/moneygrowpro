@@ -4,10 +4,10 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class referidomgp extends Model
+class referidomgp2021 extends Model
 {
     public $timestamps = false;
-    protected $table= "referidomgp";
+    protected $table= "referidomgp2021";
 
     /**
      * The attributes that are mass assignable.
@@ -21,7 +21,8 @@ class referidomgp extends Model
         'idAccionFk',
         'idUsarioFk',
         'idUsuarioPerteneceFk',
-        'idAccionPerteneceFk'
+        'idAccionPerteneceFk',
+        'status'
     ];
 
     /**

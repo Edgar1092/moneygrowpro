@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class RoleCreateRequest extends FormRequest
+class RoleUpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -28,6 +28,7 @@ class RoleCreateRequest extends FormRequest
 
         return [
             'name'                              =>  "required|string|max:200|unique:roles,name,{$id},id",
+            'office_id'                         =>  'required|exists:offices,id',
             'permissions'                       =>  'required|array|exists:permissions,id'
         ];
     }

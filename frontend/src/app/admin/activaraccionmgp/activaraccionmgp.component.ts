@@ -105,7 +105,7 @@ export class ActivaraccionmgpComponent implements OnInit {
   aprobar(infor) {
     this.formBlog.controls['idUsuarioFk'].setValue(infor.idUsuarioFk);
     this.formBlog.controls['id'].setValue(infor.id);
-    this.formBlog.controls['estatus'].setValue('aprobado');
+    this.formBlog.controls['estatus'].setValue(1);
     // console.log(infor)
     if (this.formBlog.valid) {
       let d = this.formBlog.value;
@@ -133,7 +133,7 @@ export class ActivaraccionmgpComponent implements OnInit {
   rechazar(infor) {
     this.formBlog.controls['idUsuarioFk'].setValue(infor.idUsuarioFk);
     this.formBlog.controls['id'].setValue(infor.id);
-    this.formBlog.controls['estatus'].setValue('rechazado');
+    this.formBlog.controls['estatus'].setValue(0);
     if (this.formBlog.valid) {
       let d = this.formBlog.value;
   

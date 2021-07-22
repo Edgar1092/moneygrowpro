@@ -58,6 +58,12 @@ class UserController extends Controller
         DB::beginTransaction();
         $user = [];
         try{
+            if(User::where('email',$request->email)->exists()){
+                        return response()->json([
+            'message'   =>  'este email se encuentra registrado',
+            'data'      => [],
+                        ],400);
+            }
             $user = $this->repository->create(
                 $request->all()
             );
@@ -92,7 +98,7 @@ class UserController extends Controller
     {
         $user = [];
         try{
-            $user = $this->repository->with(['roles'])->find($id);
+            $user = $this->repository->with(['offices','roles'])->find($id);
 
         }catch(\Exception $e){
             $this->responseCode = 404;
@@ -115,6 +121,7 @@ class UserController extends Controller
             $user->fill( $request->all() );
             $user->save();
 
+            $user->offices()->sync($request->offices);
             $user->roles()->sync($request->roles);
 
             $message = 'Registro Actualizado!';
@@ -127,7 +134,7 @@ class UserController extends Controller
         }
 
         return response()->json([
-            'data'      =>  $user->load('roles'),
+            'data'      =>  $user->load('offices','roles'),
             'message'   =>  $message,
         ],$this->responseCode);
     }

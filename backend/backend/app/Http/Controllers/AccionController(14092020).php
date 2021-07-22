@@ -5,13 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Accion;
-use App\Models\accionesMGP;
 use App\Models\Saldo;
 use App\Models\Intensityfitness;
 use App\Models\Corporacion;
 use App\Models\Referido;
-use App\Models\referidomgp;
-use App\Models\corporacionmgp;
 use App\Models\Solicitudretiro;
 use DB;
 use Auth;
@@ -31,7 +28,7 @@ class AccionController extends Controller
     // Obtener todos los usuarios //
     function getAll(Request $request){
         try{
-            $request->validate([
+        	$request->validate([
                 'per_page'      =>  'nullable|integer',
                 'page'          =>  'nullable|integer'
             ]);  
@@ -42,88 +39,9 @@ class AccionController extends Controller
                 ->where('idUsuarioFk',$request->id)->paginate($per_page);
             }else{
             $per_page = (!empty($request->per_page)) ? $request->per_page : Accion::count();
-            $result = Accion::leftjoin('users','users.id','=','accions.idUsuarioFk');
-            $result->select('users.id as idUser','users.*','accions.*');
-
-            if($request->search!=''){
-                $result->where('users.email',$request->search);
-            }
-            $result->where('estatus','solicitando');
-            $resultado=$result->paginate($per_page);
-
-
-            }
-            $response = $resultado;  
-  
-            if($resultado->isEmpty()){
-                return response()->json([
-                    'msj' => 'No se encontraron registros.',
-                    'data'=>[],
-                    'total'=>0
-                ], 200); 
-            }
-            return response()->json($response);
-        }catch (\Exception $e) {
-            Log::error('Ha ocurrido un error en '.$this->NAME_CONTROLLER.': '.$e->getMessage().', Linea: '.$e->getLine());
-            return response()->json([
-                'message' => 'Ha ocurrido un error al tratar de guardar los datos.',
-            ], 500);
-        }
-    }
-
-
-    function getMGP(Request $request){
-        try{
-            $request->validate([
-                'per_page'      =>  'nullable|integer',
-                'page'          =>  'nullable|integer'
-            ]);  
-            if($request->id){
-                $per_page = (!empty($request->per_page)) ? $request->per_page : accionesMGP::count();
-                $result = accionesMGP::leftjoin('users','users.id','=','accionsmgp.idUsuarioFk')
-                ->select('users.id as idUser','users.*','accionsmgp.*')
-                ->where('idUsuarioFk',$request->id)->paginate($per_page);
-            }else{
-            $per_page = (!empty($request->per_page)) ? $request->per_page : accionesMGP::count();
-            $result = accionesMGP::leftjoin('users','users.id','=','accionsmgp.idUsuarioFk');
-            $result->select('users.id as idUser','users.*','accionsmgp.*');
-
-            if($request->search!=''){
-                $result->where('users.email',$request->search);
-            }
-            $result->where('estatus','solicitando');
-            $resultado=$result->paginate($per_page);
-
-
-            }
-            $response = $resultado;  
-  
-            if($resultado->isEmpty()){
-                return response()->json([
-                    'msj' => 'No se encontraron registros.',
-                    'data'=>[],
-                    'total'=>0
-                ], 200); 
-            }
-            return response()->json($response);
-        }catch (\Exception $e) {
-            Log::error('Ha ocurrido un error en '.$this->NAME_CONTROLLER.': '.$e->getMessage().', Linea: '.$e->getLine());
-            return response()->json([
-                'message' => 'Ha ocurrido un error al tratar de guardar los datos.',
-            ], 500);
-        }
-    }
-
-    function getAllReferidos(Request $request){
-        try{
-            $request->validate([
-                'per_page'      =>  'nullable|integer',
-                'page'          =>  'nullable|integer'
-            ]);  
-            if($request->id){
-                $per_page = (!empty($request->per_page)) ? $request->per_page : User::count();
-                $result = User::where('idReferido',$request->id)
-                ->paginate($per_page);
+            $result = Accion::leftjoin('users','users.id','=','accions.idUsuarioFk')
+            ->select('users.id as idUser','users.*','accions.*')
+            ->where('estatus','solicitando')->paginate($per_page);
             }
             $response = $result;  
   
@@ -145,7 +63,7 @@ class AccionController extends Controller
 
     function getHistorico(Request $request){
         try{
-            $request->validate([
+        	$request->validate([
                 'per_page'      =>  'nullable|integer',
                 'page'          =>  'nullable|integer'
             ]);  
@@ -173,7 +91,7 @@ class AccionController extends Controller
     }
     function getSolicitudes(Request $request){
         try{
-            $request->validate([
+        	$request->validate([
                 'per_page'      =>  'nullable|integer',
                 'page'          =>  'nullable|integer'
             ]);  
@@ -460,37 +378,12 @@ function crearAccionCambiodeFase($activarAcciondeFase){
 // return json_decode($request);
             DB::beginTransaction(); 
 
-            if($request->estatus=='rechazado' && $request->monto!=''){
-              
-    
-                // $saldo = Intensityfitness::create([
-                    
-                //     'entrada' =>0,
-                //     'salida'     => $request->montoSolicitado,
-                   
-                // ]); 
-    
-                $actualizar=Solicitudretiro::find($request->id);
-                $actualizar->estatus='rechazado';
-                $actualizar->save();
-                $mesanje='Procesado correctamente';
-            
-    
-                return response()->json([
-                    'msj' => $mesanje,
-                    
-                ], 200); 
-
-            }else{
-
             $arregloEnviarUpdate=array(
                 'id'=>$request->id,
                 'idUsuarioFk'=>$request->idUsuarioFk,
                 'estatus'=>$request->estatus
             );
                 $premio=self::crearAccionCambiodeFase($arregloEnviarUpdate);
-
-            }
 
             DB::commit(); 
             
@@ -509,38 +402,6 @@ function crearAccionCambiodeFase($activarAcciondeFase){
            ], 500);
        }
    }
-
-   function updateMGP(Request $request){
-    try{
-
-
-// return json_decode($request);
-        DB::beginTransaction(); 
-
-        $arregloEnviarUpdate=array(
-            'id'=>$request->id,
-            'idUsuarioFk'=>$request->idUsuarioFk,
-            'estatus'=>$request->estatus
-        );
-            // $premio=self::crearAccionCambiodeFase($arregloEnviarUpdate);
-
-        DB::commit(); 
-        
-        return response()->json($premio,200);
-
-
-
-   }catch (\Exception $e) {
-       if($e instanceof ValidationException) {
-           return response()->json($e->errors(),402);
-       }
-       DB::rollback(); // Retrocedemos la transaccion
-       Log::error('Ha ocurrido un error en '.$this->NAME_CONTROLLER.': '.$e->getMessage().', Linea: '.$e->getLine());
-       return response()->json([
-           'message' => 'Ha ocurrido un error al tratar de guardar los datos.',
-       ], 500);
-   }
-}
 
      // Eliminar usuarios
      function delete(Request $request){
@@ -1085,13 +946,12 @@ function crearAccionCambiodeFase($activarAcciondeFase){
     function obtenerAcciones(Request $request){
         $cantidad=Accion::where('idUsuarioFk',$request->id)->where('estatus','aprobado')->count();
         $acciones=Accion::where('idUsuarioFk',$request->id)->where('estatus','aprobado')->get();
-        $accionesMGP=accionesMGP::where('idUsuarioFk',$request->id)->where('estatus','aprobado')->count();
+
         
-        
+
         return response()->json([
             'cantidad' => $cantidad,
             'acciones' => $acciones,
-            'accionesMGP' => $accionesMGP,
         ], 200); 
     }
     function obtenerNumeroUsuario(Request $request){
@@ -1104,50 +964,23 @@ function crearAccionCambiodeFase($activarAcciondeFase){
     }
     function solicitudRetiro(Request $request){
 
-        $ingreso=DB::table("saldo")->where('idUserFk',$request->idUsuarioFk)->get()->sum("entrada");
-        $salida=DB::table("saldo")->where('idUserFk',$request->idUsuarioFk)->get()->sum("salida");
-
-        $total=$ingreso-$salida;
-if(!Solicitudretiro::where('idUserFk',$request->idUsuarioFk)->where('estatus','solicitando')->exists()){
-        if($total>10){
-            $retiro = Solicitudretiro::create([
-                'idUserFk'    => $request->idUsuarioFk,
-                'montoSolicitado'    => $request->montoSolicitar,
-                'plataforma' =>$request->plataforma,
-                'cuenta' =>$request->cuenta
-            
+       
+        $retiro = Solicitudretiro::create([
+            'idUserFk'    => $request->idUsuarioFk,
+            'montoSolicitado'    => $request->montoSolicitar,
+            'plataforma' =>$request->plataforma
+           
+     
+        ]); 
+       
         
-            ]);
             $mesanje='Solicitud enviada';
         
 
-            return response()->json([
-                'msj' => $mesanje,
-                'respuesta'=>0
-                
-            ], 200); 
-        }else{
-
-            $mesanje='No posee saldo suficiente';
-        
-
-            return response()->json([
-                'msj' => $mesanje,
-                'respuesta'=>1
-                
-            ], 200); 
-
-        } 
-       
-}else{
-    $mesanje='Posee una solicitud en proceso';
-    return response()->json([
-        'msj' => $mesanje,
-        'respuesta'=>1
-        
-    ], 200);   
-}  
-  
+        return response()->json([
+            'msj' => $mesanje,
+            
+        ], 200); 
     }
 
     function aprobarRechazarRetiro(Request $request){
@@ -1164,12 +997,12 @@ if(!Solicitudretiro::where('idUserFk',$request->idUsuarioFk)->where('estatus','s
          
             ]); 
 
-            // $saldo = Intensityfitness::create([
+            $saldo = Intensityfitness::create([
                 
-            //     'entrada' =>0,
-            //     'salida'     => $request->montoSolicitado,
+                'entrada' =>0,
+                'salida'     => $request->montoSolicitado,
                
-            // ]); 
+            ]); 
 
             $actualizar=Solicitudretiro::find($request->id);
             $actualizar->estatus='aprobado';
@@ -1231,503 +1064,4 @@ if(!Solicitudretiro::where('idUserFk',$request->idUsuarioFk)->where('estatus','s
         }
             
         }
-
-        function rechazarAccionMGP(Request $request){
-            
-            try{
-    
-    
-            // return json_decode($request);
-                DB::beginTransaction(); 
-                
-                $rechazar=accionesMGP::find($request->id);
-                $rechazar->estatus='rechazado';
-                $rechazar->save();
-    
-                // $arregloEnviarUpdate=array(
-                //     'id'=>$request->id,
-                //     'idUsuarioFk'=>$request->idUsuarioFk,
-                //     'estatus'=>$request->estatus
-                // );
-                //     $premio=self::crearAccionCambiodeFase($arregloEnviarUpdate);
-    
-                DB::commit(); 
-                
-                return response()->json($rechazar,200);
-    
-    
-    
-            }catch (\Exception $e) {
-                if($e instanceof ValidationException) {
-                    return response()->json($e->errors(),402);
-                }
-                DB::rollback(); // Retrocedemos la transaccion
-                Log::error('Ha ocurrido un error en '.$this->NAME_CONTROLLER.': '.$e->getMessage().', Linea: '.$e->getLine());
-                return response()->json([
-                    'message' => 'Ha ocurrido un error al tratar de guardar los datos.',
-                ], 500);
-            }
-                
-            }
-    
-
-        // function acionesMGP(Request $request){
-            
-        //     try{
-    
-    
-        //     // return json_decode($request);
-        //         DB::beginTransaction(); 
-                
-        //         $rechazar=accionesMGP::where('idUsario',0)->get();
-             
-    
-        //         DB::commit(); 
-                
-        //         return response()->json($rechazar,200);
-    
-    
-    
-        //     }catch (\Exception $e) {
-        //         if($e instanceof ValidationException) {
-        //             return response()->json($e->errors(),402);
-        //         }
-        //         DB::rollback(); // Retrocedemos la transaccion
-        //         Log::error('Ha ocurrido un error en '.$this->NAME_CONTROLLER.': '.$e->getMessage().', Linea: '.$e->getLine());
-        //         return response()->json([
-        //             'message' => 'Ha ocurrido un error al tratar de guardar los datos.',
-        //         ], 500);
-        //     }
-                
-        //     }
-
-
-
-            function acionesMGP(Request $request){
-                try{
-                    $request->validate([
-                        'per_page'      =>  'nullable|integer',
-                        'page'          =>  'nullable|integer'
-                    ]);  
-                    if($request->id){
-                        $per_page = (!empty($request->per_page)) ? $request->per_page : accionesMGP::count();
-                        $result = accionesMGP::where('idUsuarioFk',0)->paginate($per_page);
-                    }else{
-                    $per_page = (!empty($request->per_page)) ? $request->per_page : accionesMGP::count();
-                    $result = accionesMGP::where('idUsuarioFk',0);
-        
-                    // if($request->search!=''){
-                    //     $result->where('users.email',$request->search);
-                    // }
-                    // $result->where('estatus','solicitando');
-                    $resultado=$result->paginate($per_page);
-        
-        
-                    }
-                    $response = $resultado;  
-          
-                    if($resultado->isEmpty()){
-                        return response()->json([
-                            'msj' => 'No se encontraron registros.',
-                            'data'=>[],
-                            'total'=>0
-                        ], 200); 
-                    }
-                    return response()->json($response);
-                }catch (\Exception $e) {
-                    Log::error('Ha ocurrido un error en '.$this->NAME_CONTROLLER.': '.$e->getMessage().', Linea: '.$e->getLine());
-                    return response()->json([
-                        'message' => 'Ha ocurrido un error al tratar de guardar los datos.',
-                    ], 500);
-                }
-            }
-
-            function actualizarMGP(Request $request){
-                try{
-            
-           
-        // return json_decode($request);
-                    DB::beginTransaction(); 
-
-                    $rechazar=accionesMGP::find($request->id);
-                    $rechazar->idUsuarioFk=$request->usuario;
-                    $rechazar->save();
-        
-                    // $arregloEnviarUpdate=array(
-                    //     'id'=>$request->id,
-                    //     'idUsuarioFk'=>$request->idUsuarioFk,
-                    //     'estatus'=>$request->estatus
-                    // );
-                    //     $premio=self::crearAccionCambiodeFase($arregloEnviarUpdate);
-        
-                    DB::commit(); 
-                    
-                    return response()->json($rechazar,200);
-        
-          
-        
-               }catch (\Exception $e) {
-                   if($e instanceof ValidationException) {
-                       return response()->json($e->errors(),402);
-                   }
-                   DB::rollback(); // Retrocedemos la transaccion
-                   Log::error('Ha ocurrido un error en '.$this->NAME_CONTROLLER.': '.$e->getMessage().', Linea: '.$e->getLine());
-                   return response()->json([
-                       'message' => 'Ha ocurrido un error al tratar de guardar los datos.',
-                   ], 500);
-               }
-           }
-
-           function createMGP(Request $request){
-            try{
-    
-                DB::beginTransaction(); // Iniciar transaccion de la base de datos
-    
-              
-                $user = accionesMGP::create([
-                    'referenciaPago'    => $request->referenciaPago,
-                    'plataforma'    => $request->plataforma,
-                    'idUsuarioFk'     => $request->idUsuarioFk
-                   
-             
-                ]);
-                DB::commit(); // Guardamos la transaccion
-                return response()->json($user,201);
-            }catch (\Exception $e) {
-                if($e instanceof ValidationException) {
-                    return response()->json($e->errors(),402);
-                }
-                DB::rollback(); // Retrocedemos la transaccion
-                Log::error('Ha ocurrido un error en '.$this->NAME_CONTROLLER.': '.$e->getMessage().', Linea: '.$e->getLine());
-                return response()->json([
-                    'message' => 'Ha ocurrido un error al tratar de guardar los datos.',
-                ], 500);
-            }
-
-            
-        }
-
-        function matrixMPG(Request $request){
-
-            try{
-
-                            DB::beginTransaction(); 
-                
-                            // $arregloEnviarUpdate=array(
-                            //     'id'=>$request->id,
-                            //     'idUsuarioFk'=>$request->idUsuarioFk,
-                            //     'estatus'=>$request->estatus
-                            // );
-                            //     $premio=self::crearAccionCambiodeFase($arregloEnviarUpdate);
-
-                    $activarAccion=accionesMGP::find($request->id);
-                    $activarAccion->estatus='aprobado';
-                    $activarAccion->save();
-
-                    $accionVacia=accionesMGP::leftjoin('users','users.id','=','accionsmgp.idUsuarioFk')
-                    ->leftjoin('referidomgp','referidomgp.idAccionFk','=','accionsmgp.id')
-                    ->select('users.id as idUser','users.*','accionsmgp.id as idAccions','accionsmgp.*')
-                    ->where('accionsmgp.id','!=',$activarAccion->id)
-                    ->where('contadorReferido','<',4)
-                    ->where('estatus','aprobado')
-                    ->orderBy('referidomgp.id','asc')->first();
-                    
-                    $crearReferido=referidomgp::create([
-                        'idAccionFk'    => $activarAccion->id,
-                        'idUsarioFk'     => $request->idUsuarioFk,
-                        'idUsuarioPerteneceFk'    => $accionVacia->idUsuarioFk,
-                        'idAccionPerteneceFk'     => $accionVacia->idAccions
-                       
-                    ]);
-                    
-                    $contadorReferido=$accionVacia->contadorReferido+1;
-                    $accionVacia->contadorReferido=$contadorReferido;
-                   
-                        if($contadorReferido==4){
-                            $accionVacia->estatus='ListoCobrar';   
-                        }
-
-                        $accionVacia->save();
-
-
-                
-                            DB::commit(); 
-                            
-                            return response()->json($accionVacia,200);
-                
-                  
-                
-                       }catch (\Exception $e) {
-                           if($e instanceof ValidationException) {
-                               return response()->json($e->errors(),402);
-                           }
-                           DB::rollback(); // Retrocedemos la transaccion
-                           Log::error('Ha ocurrido un error en '.$this->NAME_CONTROLLER.': '.$e->getMessage().', Linea: '.$e->getLine());
-                           return response()->json([
-                               'message' => 'Ha ocurrido un error al tratar de guardar los datos.',
-                           ], 500);
-                       }
-
-        }
-        function cobradores(Request $request){
-            $listos=accionesMGP::where('estatus','ListoCobrar')->count();
-            $activosTotal=accionesMGP::where('estatus','ListoCobrar')->orWhere('estatus','aprobado')->get();
-            $contadorFinal=40;
-            foreach($activosTotal as $pagadorestotale){
-                $totales=referidomgp::where('idAccionPerteneceFk',$pagadorestotale->id)->count();
-                $contadorFinal=$contadorFinal+$totales;
-            }
-       
-
-            // return response()->json($listos,200);
-
-            return response()->json([
-                'listos' => $listos,
-                'activosTotal' => $contadorFinal,
-            ], 200);
-
-        }
-
-        function liberarCiclo(Request $request){
-            $usuariospagar= accionesMGP::leftjoin('users','users.id','=','accionsmgp.idUsuarioFk')
-            ->leftjoin('referidomgp','referidomgp.idAccionFk','=','accionsmgp.id')
-            ->select('users.id as idUser','users.*','accionsmgp.id as idAccions','accionsmgp.*')
-           ->where('estatus','ListoCobrar')
-            ->orderBy('referidomgp.id','asc')
-            ->get();
-            foreach($usuariospagar as $pagados){
-
-               echo $pagados->first_name.'<br>';
-
-                // $corporacion = corporacionmgp::create([
-                //     'idAccionEnvioFk'    => $pagados->idAccions,
-                //     'entrada' =>3,
-                //     'salida'     => 0,
-                   
-                // ]);
-
-                // $usuario = Saldo::create([
-                //     'idUserFk'    => $pagados->idUser,
-                //     'idAccionFk'    => $pagados->idAccions,
-                //     'entrada' =>37,
-                //     'salida'     => 0,
-                //     'concepto' => 'Matrix mgp'
-                   
-             
-                // ]);
-
-                // $actualizarAccionmuerta=accionesMGP::find($pagados->id);
-                // $actualizarAccionmuerta->estatus='pagado';
-                // $actualizarAccionmuerta->save();
-
-                //  var_dump($pagados);
-
-            }
-        }
-
-
-        function obtenerSaldoMGP(Request $request){
-            $ingreso=DB::table("corporacionmgp")->get()->sum("entrada");
-            $salida=DB::table("corporacionmgp")->get()->sum("salida");
-    
-            $total=$ingreso-$salida;
-    
-            return response()->json($total,201);
-        }
-
-        function createManualmgp(Request $request){
-
-            try{
-
-                DB::beginTransaction(); 
-
-
-                $user = accionesMGP::create([
-                    'referenciaPago'    => 'Verificado por flavio',
-                    'plataforma'    => 'verificado por flavio',
-                     'estatus'=>'aprobado',
-                    'idUsuarioFk'     => $request->idUsuarioFk
-                   
-             
-                ]);
-    
-
-
-        $accionVacia=accionesMGP::leftjoin('users','users.id','=','accionsmgp.idUsuarioFk')
-        ->leftjoin('referidomgp','referidomgp.idAccionFk','=','accionsmgp.id')
-        ->select('users.id as idUser','users.*','accionsmgp.id as idAccions','accionsmgp.*')
-        ->where('accionsmgp.id','!=',$user->id)
-        ->where('contadorReferido','<',4)
-        ->where('estatus','aprobado')
-        ->orderBy('referidomgp.id','asc')
-        ->first();
-        
-        $crearReferido=referidomgp::create([
-            'idAccionFk'    => $user->id,
-            'idUsarioFk'     => $request->idUsuarioFk,
-            'idUsuarioPerteneceFk'    => $accionVacia->idUsuarioFk,
-            'idAccionPerteneceFk'     => $accionVacia->idAccions
-           
-        ]);
-        
-        $contadorReferido=$accionVacia->contadorReferido+1;
-        $accionVacia->contadorReferido=$contadorReferido;
-       
-            if($contadorReferido==4){
-                $accionVacia->estatus='ListoCobrar';   
-            }
-
-            $accionVacia->save();
-
-
-    
-                DB::commit(); 
-                
-                return response()->json($accionVacia,200);
-    
-      
-    
-           }catch (\Exception $e) {
-               if($e instanceof ValidationException) {
-                   return response()->json($e->errors(),402);
-               }
-               DB::rollback(); // Retrocedemos la transaccion
-               Log::error('Ha ocurrido un error en '.$this->NAME_CONTROLLER.': '.$e->getMessage().', Linea: '.$e->getLine());
-               return response()->json([
-                   'message' => 'Ha ocurrido un error al tratar de guardar los datos.',
-               ], 500);
-           }
-
-
-        }
-
-
-
-        function getCiclo(Request $request){
-            try{
-                // $request->validate([
-                //     'per_page'      =>  'nullable|integer',
-                //     'page'          =>  'nullable|integer'
-                // ]);  referidomgp
-                // if($request->id){
-                //     $per_page = (!empty($request->per_page)) ? $request->per_page : accionesMGP::count();
-                //     $result = accionesMGP::leftjoin('users','users.id','=','accionsmgp.idUsuarioFk')
-                //     ->select('users.id as idUser','users.*','accionsmgp.*')
-                //     ->where('idUsuarioFk',$request->id)->paginate($per_page);
-                // }else{
-                 $per_page = (!empty($request->per_page)) ? $request->per_page : accionesMGP::count();
-                $result = accionesMGP::leftjoin('users','users.id','=','accionsmgp.idUsuarioFk');
-                $result->leftjoin('referidomgp','referidomgp.idAccionFk','=','accionsmgp.id');
-                $result->select('users.id as idUser','users.*','accionsmgp.*');
-    
-                // if($request->search!=''){
-                //     $result->where('users.email',$request->search);
-                // }
-                $result->where('estatus','aprobado');
-                $result->orWhere('estatus','ListoCobrar');
-                $result->orWhere('estatus','pagado');
-                $result->orderBy('referidomgp.id','asc');
-                $resultado=$result->paginate($per_page);
-    
-    
-                // }
-                $response = $resultado;  
-      
-                if($resultado->isEmpty()){
-                    return response()->json([
-                        'msj' => 'No se encontraron registros.',
-                        'data'=>[],
-                        'total'=>0
-                    ], 200); 
-                }
-                return response()->json($response);
-            }catch (\Exception $e) {
-                Log::error('Ha ocurrido un error en '.$this->NAME_CONTROLLER.': '.$e->getMessage().', Linea: '.$e->getLine());
-                return response()->json([
-                    'message' => 'Ha ocurrido un error al tratar de guardar los datos.',
-                ], 500);
-            }
-        }
-
-        function compraconSaldo(Request $request){
-            $ingreso=DB::table("saldo")->where('idUserFk',$request->idUsuarioFk)->get()->sum("entrada");
-            $salida=DB::table("saldo")->where('idUserFk',$request->idUsuarioFk)->get()->sum("salida");
-    
-            $total=$ingreso-$salida;
-
-            if(Solicitudretiro::where('idUserFk',$request->idUsuarioFk)->where('estatus','solicitando')->exists()){
-                return response()->json([
-                    'msj' => 'Posee una solicitud de retiro pendiente',
-                    'retorno'=>0,
-                   
-                ], 200); 
-            }
-
-            if($total>10){
-
-                $usuario = Saldo::create([
-                    'idUserFk'    => $request->idUsuarioFk,
-                    'entrada' =>0,
-                    'salida'     => 10,
-                    'concepto' => 'Compra con saldo de billetera'
-                   
-             
-                ]);
-
-                $user = accionesMGP::create([
-                    'referenciaPago'    => 'Verificado por flavio',
-                    'plataforma'    => 'verificado por flavio',
-                     'estatus'=>'aprobado',
-                    'idUsuarioFk'     => $request->idUsuarioFk
-                   
-             
-                ]);
-                
-
-
-                    $accionVacia=accionesMGP::leftjoin('users','users.id','=','accionsmgp.idUsuarioFk')
-                    ->leftjoin('referidomgp','referidomgp.idAccionFk','=','accionsmgp.id')
-                    ->select('users.id as idUser','users.*','accionsmgp.id as idAccions','accionsmgp.*')
-                    ->where('accionsmgp.id','!=',$user->id)
-                    ->where('contadorReferido','<',4)
-                    ->where('estatus','aprobado')
-                    ->orderBy('referidomgp.id','asc')
-                    ->first();
-                    
-                    $crearReferido=referidomgp::create([
-                        'idAccionFk'    => $user->id,
-                        'idUsarioFk'     => $request->idUsuarioFk,
-                        'idUsuarioPerteneceFk'    => $accionVacia->idUsuarioFk,
-                        'idAccionPerteneceFk'     => $accionVacia->idAccions
-                    
-                    ]);
-                    
-                    $contadorReferido=$accionVacia->contadorReferido+1;
-                    $accionVacia->contadorReferido=$contadorReferido;
-                
-                        if($contadorReferido==4){
-                            $accionVacia->estatus='ListoCobrar';   
-                        }
-
-                        $accionVacia->save();
-
-                        return response()->json([
-                            'msj' => 'Accion Adquirida',
-                            'retorno'=>1,
-                           
-                        ], 200); 
-
-            }else{
-
-                return response()->json([
-                    'msj' => 'No posees saldo suficiente  para esta operacion',
-                    'retorno'=>0,
-                   
-                ], 200); 
-
-            }
-    
-           
-        }
-            
 }
